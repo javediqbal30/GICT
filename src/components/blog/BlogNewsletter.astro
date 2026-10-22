@@ -1,0 +1,150 @@
+---
+import Icon from '../Icon.astro';
+---
+
+<section class="blog-newsletter-section" aria-label="Tax & Legal Newsletter Subscription">
+  <div class="container">
+    <div class="newsletter-card">
+      <div class="newsletter-info">
+        <span class="badge badge--gold">Direct Legal &amp; Tax Intelligence</span>
+        <h2 class="newsletter-title">Subscribe to GICT Regulatory Alerts</h2>
+        <p class="newsletter-desc">
+          Receive urgent notifications when the Federal Budget is presented, active withholding rates change, or the Appellate Tribunal issues landmark tax rulings.
+        </p>
+      </div>
+
+      <form class="newsletter-form-grid" data-newsletter-form>
+        <div class="newsletter-input-group">
+          <input
+            type="email"
+            placeholder="Enter your professional email address"
+            required
+            class="newsletter-email-input"
+            aria-label="Email address for legal and tax alerts"
+          />
+          <button type="submit" class="btn btn-primary newsletter-submit-btn">
+            <span>Subscribe</span>
+            <Icon name="arrow-right" size={16} />
+          </button>
+        </div>
+        <p class="newsletter-privacy-note">
+          <Icon name="check" size={12} />
+          <span>Zero spam. Strict adherence to professional privacy standards. Unsubscribe anytime.</span>
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  .blog-newsletter-section {
+    padding-block: 56px;
+  }
+
+  .newsletter-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    background: linear-gradient(135deg, var(--navy, #001f4e) 0%, #032b69 100%);
+    border-radius: 20px;
+    padding: 44px 48px;
+    color: var(--white, #ffffff);
+    box-shadow: 0 20px 40px -12px rgba(0, 31, 78, 0.25);
+  }
+
+  .newsletter-title {
+    color: var(--white, #ffffff);
+    font-size: 24px;
+    line-height: 1.3;
+    margin: 10px 0 8px 0;
+  }
+
+  .newsletter-desc {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 14.5px;
+    max-width: 520px;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .newsletter-form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 440px;
+    flex-shrink: 0;
+  }
+
+  .newsletter-input-group {
+    display: flex;
+    gap: 10px;
+  }
+
+  .newsletter-email-input {
+    flex: 1;
+    padding: 12px 18px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--white, #ffffff);
+    font-size: 14px;
+    outline: none;
+    transition: all 180ms ease;
+  }
+
+  .newsletter-email-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .newsletter-email-input:focus {
+    border-color: var(--gold, #d39100);
+    background: rgba(255, 255, 255, 0.16);
+  }
+
+  .newsletter-submit-btn {
+    flex-shrink: 0;
+    padding: 12px 20px;
+  }
+
+  .newsletter-privacy-note {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    color: rgba(255, 255, 255, 0.65);
+    margin: 0;
+  }
+
+  @media (max-width: 860px) {
+    .newsletter-card {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 32px 24px;
+    }
+    .newsletter-form-grid {
+      max-width: 100%;
+    }
+    .newsletter-input-group {
+      flex-direction: column;
+    }
+    .newsletter-submit-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  function setupNewsletter() {
+    const form = document.querySelector('[data-newsletter-form]');
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Thank you for subscribing to GICT Regulatory Alerts. You will receive statutory updates.');
+      (form as HTMLFormElement).reset();
+    });
+  }
+  setupNewsletter();
+  document.addEventListener('astro:page-load', setupNewsletter);
+</script>

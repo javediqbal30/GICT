@@ -1,0 +1,60 @@
+---
+import BlogGrid from './BlogGrid.astro';
+import Icon from '../Icon.astro';
+import type { BlogArticle } from '../../lib/blog/types';
+
+export interface Props {
+  articles: BlogArticle[];
+  category?: string;
+}
+
+const { articles } = Astro.props;
+---
+
+{articles.length > 0 && (
+  <section class="section section--soft blog-related-section" aria-label="Related Blog Posts">
+    <div class="container">
+      <div class="blog-related-header">
+        <div>
+          <span class="eyebrow">Continue Reading</span>
+          <h2 class="related-heading">Related Tax &amp; Corporate Insights</h2>
+        </div>
+        <a href="/blog" class="btn btn-outline related-all-link">
+          <span>All Blog Articles</span>
+          <Icon name="arrow-right" size={15} />
+        </a>
+      </div>
+
+      <!-- 1 Row of 3 Columns -->
+      <BlogGrid articles={articles} basePath="/blog" />
+    </div>
+  </section>
+)}
+
+<style>
+  .blog-related-section {
+    padding-block: 64px;
+    background: var(--soft, #f8fafc);
+    border-top: 1px solid var(--line, #e2e8f0);
+  }
+
+  .blog-related-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+
+  .related-heading {
+    margin: 6px 0 0 0;
+    font-size: 26px;
+    color: var(--ink, #0f172a);
+  }
+
+  .related-all-link {
+    font-size: 13.5px;
+    padding: 9px 18px;
+  }
+</style>

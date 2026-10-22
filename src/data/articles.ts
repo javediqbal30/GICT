@@ -1,3 +1,11 @@
+export interface ArticleImage {
+  src: string;
+  alt: string;
+  caption?: string;
+  width?: number;
+  height?: number;
+}
+
 export interface Article {
   slug: string;
   title: string;
@@ -11,6 +19,7 @@ export interface Article {
   metaTitle: string;
   metaDescription: string;
   body: string;
+  coverImage: ArticleImage;
 }
 
 export const articles: Article[] = [
@@ -28,6 +37,11 @@ export const articles: Article[] = [
     metaTitle: 'How Salary Tax Slabs Work in Pakistan | GICT',
     metaDescription:
       'Understand progressive salary tax slabs in Pakistan, how monthly withholding is calculated and why your take-home pay changes.',
+    coverImage: {
+      src: '/assets/images/Tax_Filing_&_IRIS_Compliance.webp',
+      alt: 'How Salary Tax Slabs Work in Pakistan - GICT Tax Guide',
+      caption: 'Practical computation of progressive income tax slabs and monthly withholding under the Income Tax Ordinance 2001.',
+    },
     body: `
       <p class="article-lead">Salary tax is progressive: each slab is taxed at its own rate, and only the income inside that slab attracts that rate. The result is a tax figure that rises in steps, not a single percentage applied to your entire salary.</p>
       <h2>Start with annual taxable salary</h2>
@@ -64,6 +78,11 @@ export const articles: Article[] = [
     metaTitle: 'FBR IRIS Filing Checklist for Taxpayers | GICT',
     metaDescription:
       'A practical FBR IRIS filing checklist covering documents, income heads, wealth reconciliation, withholding and common errors.',
+    coverImage: {
+      src: '/assets/images/hero/hero-tax-filing-iris.webp',
+      alt: 'FBR IRIS Filing Checklist for Taxpayers in Pakistan',
+      caption: 'Step-by-step checklist and reconciliation papers before final submission in FBR IRIS portal.',
+    },
     body: `
       <p class="article-lead">A successful IRIS filing is less about clicking submit and more about the reconciliation behind it. The return should tell one consistent story across income, tax paid, assets and liabilities.</p>
       <h2>Before you open IRIS</h2>
@@ -108,6 +127,11 @@ export const articles: Article[] = [
     metaTitle: 'PRA vs SRB: Provincial Sales Tax Explained',
     metaDescription:
       'Compare PRA and SRB sales tax on services, including jurisdiction, registration, input tax credit and cross-province issues.',
+    coverImage: {
+      src: '/assets/images/Sales_Tax_&_Provincial_VAT_Seminar.webp',
+      alt: 'PRA vs SRB Provincial Sales Tax Breakdown',
+      caption: 'Comparative framework of provincial sales tax authorities, place of supply rules, and input tax adjustments.',
+    },
     body: `
       <p class="article-lead">Provincial sales tax on services is not a single national regime. Punjab, Sindh, Khyber Pakhtunkhwa and Balochistan each have their own law, rate schedule, return and enforcement practice.</p>
       <h2>The basic split</h2>
@@ -142,6 +166,11 @@ export const articles: Article[] = [
     metaTitle: 'Received a Section 122 Notice? Start Here | GICT',
     metaDescription:
       'What to do after a Section 122 income tax notice: check deadlines, assemble records, structure a reply and escalate safely.',
+    coverImage: {
+      src: '/assets/images/Advanced_Income_Tax_Litigation_Desk.webp',
+      alt: 'Received a Section 122 Notice? Step-by-Step Defense Guide',
+      caption: 'Procedural drafting, diary management, and evidentiary record assembly for FBR tax assessment defense.',
+    },
     body: `
       <p class="article-lead">A notice is not a final decision. It is a request for information or an proposed adjustment. The quality of the first response often determines how the rest of the dispute unfolds.</p>
       <h2>1. Read the notice twice</h2>

@@ -1,0 +1,81 @@
+---
+import Icon from '../Icon.astro';
+import type { BlogTocItem } from '../../lib/blog/types';
+
+export interface Props {
+  items: BlogTocItem[];
+}
+
+const { items } = Astro.props;
+---
+
+{items.length > 0 && (
+  <nav class="blog-toc-card" aria-label="Table of Contents">
+    <div class="blog-toc-header">
+      <Icon name="file-check" size={17} />
+      <span>Table of Contents</span>
+    </div>
+    <ul class="blog-toc-list">
+      {items.map((item) => (
+        <li class:list={['blog-toc-item', `depth-${item.depth}`]}>
+          <a href={`#${item.id}`} class="blog-toc-link">
+            {item.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+<style>
+  .blog-toc-card {
+    background: var(--soft, #f8fafc);
+    border: 1px solid var(--line, #e2e8f0);
+    border-radius: 16px;
+    padding: 20px 22px;
+    margin-bottom: 28px;
+  }
+
+  .blog-toc-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy, #001f4e);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line, #e2e8f0);
+  }
+
+  .blog-toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .blog-toc-item {
+    font-size: 13.5px;
+    line-height: 1.4;
+  }
+
+  .blog-toc-item.depth-3 {
+    padding-left: 14px;
+    font-size: 12.5px;
+    opacity: 0.85;
+  }
+
+  .blog-toc-link {
+    color: var(--body, #475569);
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+
+  .blog-toc-link:hover {
+    color: var(--navy-3, #0284c7);
+    text-decoration: underline;
+  }
+</style>

@@ -5,6 +5,8 @@ export interface NavItem {
 }
 
 export const primaryNav: NavItem[] = [
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about' },
   {
     label: 'Courses',
     href: '/courses',
@@ -17,6 +19,8 @@ export const primaryNav: NavItem[] = [
       { label: 'Accounting & QuickBooks', href: '/courses/computerized-accounting-quickbooks', description: 'Practical bookkeeping' },
     ],
   },
+  { label: 'Faculty', href: '/faculty' },
+  { label: 'Knowledge Hub', href: '/knowledge-hub' },
   {
     label: 'Calculators',
     href: '/calculators',
@@ -28,10 +32,8 @@ export const primaryNav: NavItem[] = [
       { label: 'All calculators', href: '/calculators' },
     ],
   },
-  { label: 'Faculty', href: '/faculty' },
-  { label: 'About', href: '/about' },
-  { label: 'Knowledge Hub', href: '/knowledge-hub' },
   { label: 'Contact', href: '/contact' },
+  { label: 'Blog', href: '/blog' },
 ];
 
 export const footerLinks = {
@@ -43,12 +45,15 @@ export const footerLinks = {
     { label: 'All programmes', href: '/courses' },
   ],
   explore: [
-    { label: 'Calculators', href: '/calculators' },
-    { label: 'Faculty', href: '/faculty' },
+    { label: 'Home', href: '/' },
     { label: 'About GICT', href: '/about' },
+    { label: 'Courses', href: '/courses' },
+    { label: 'Faculty', href: '/faculty' },
     { label: 'Knowledge Hub', href: '/knowledge-hub' },
-    { label: 'Corporate training', href: '/corporate-training' },
+    { label: 'Calculators', href: '/calculators' },
     { label: 'Contact', href: '/contact' },
+    { label: 'Blog & Articles', href: '/blog' },
+    { label: 'Corporate training', href: '/corporate-training' },
   ],
   legal: [
     { label: 'Privacy Policy', href: '/privacy' },

@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CTASection from '../../components/CTASection.astro';
+import BlogFilterBar from '../../components/blog/BlogFilterBar.astro';
+import BlogGrid from '../../components/blog/BlogGrid.astro';
+import BlogNewsletter from '../../components/blog/BlogNewsletter.astro';
+import { getAllArticles, getCategoryCounts } from '../../lib/blog/service';
+
+const articles = getAllArticles();
+const categoryCounts = getCategoryCounts();
+const categories = categoryCounts.map((c) => c.name);
+---
+
+<BaseLayout
+  title="Tax & Corporate Law Blog | GICT Rawalpindi"
+  description="Practical notes, legal analysis, FBR IRIS guides, and tax compliance articles written by practicing advocates and chartered accountants at GICT."
+>
+  <PageHero
+    eyebrow="GICT Blog & Insights"
+    title="Practical intelligence for tax, corporate law & finance."
+    description="Clear, actionable explanations for filing, salary tax, sales tax, corporate compliance and litigation defence — written by practicing advocates and chartered accountants."
+  >
+    <Breadcrumbs
+      slot="breadcrumbs"
+      items={[{ label: 'Home', href: '/' }, { label: 'Blog' }]}
+    />
+  </PageHero>
+
+  <section class="section section--white">
+    <div class="container">
+      <!-- Modular Search & Category Filtering Bar -->
+      <BlogFilterBar categories={categories} totalCount={articles.length} />
+
+      <!-- Modular 3-Column Responsive Grid -->
+      <BlogGrid articles={articles} basePath="/blog" />
+    </div>
+  </section>
+
+  <!-- Modular Newsletter Subscription -->
+  <BlogNewsletter />
+
+  <CTASection
+    title="Need the full working method?"
+    text="Our blog explains the issues. Our professional programmes show you step-by-step how to prepare, review, and defend the file in practice."
+    primary={{ label: 'Explore programmes', href: '/courses' }}
+    secondary={{ label: 'Explore tax calculators', href: '/calculators' }}
+  />
+</BaseLayout>

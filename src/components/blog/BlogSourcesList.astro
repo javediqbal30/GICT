@@ -1,0 +1,130 @@
+---
+import Icon from '../Icon.astro';
+import { getStatutorySources } from '../../lib/blog/service';
+
+const sources = getStatutorySources();
+---
+
+<div class="blog-sources-card">
+  <div class="blog-sources-header">
+    <Icon name="scale" size={18} />
+    <h3>Primary Statutory Authorities & Verification Checklists</h3>
+  </div>
+  <p class="blog-sources-desc">
+    In line with GICT’s strict regulatory verification policy, students and practitioners are advised to verify statutory amendments directly against gazetted notifications:
+  </p>
+  <ul class="blog-sources-grid">
+    {sources.map((src) => (
+      <li class="blog-source-item">
+        <a href={src.url} target="_blank" rel="noopener noreferrer" class="blog-source-link">
+          <span class="source-authority-badge">{src.authority}</span>
+          <span class="source-info">
+            <strong>{src.title}</strong>
+            <small>{src.description}</small>
+          </span>
+          <Icon name="arrow-up-right" size={15} class="ext-icon" />
+        </a>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .blog-sources-card {
+    background: #fdfdfd;
+    border: 1px solid var(--line, #e2e8f0);
+    border-radius: 16px;
+    padding: 26px;
+    margin-top: 36px;
+  }
+
+  .blog-sources-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--navy, #001f4e);
+    margin-bottom: 8px;
+  }
+
+  .blog-sources-header h3 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+  }
+
+  .blog-sources-desc {
+    font-size: 13.5px;
+    color: var(--body, #475569);
+    margin: 0 0 18px 0;
+    line-height: 1.5;
+  }
+
+  .blog-sources-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .blog-source-item {
+    border: 1px solid var(--line, #f1f5f9);
+    border-radius: 10px;
+    background: var(--white, #ffffff);
+    transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  }
+
+  .blog-source-item:hover {
+    border-color: var(--navy-3, #0284c7);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 31, 78, 0.06);
+  }
+
+  .blog-source-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .source-authority-badge {
+    background: var(--soft, #e2e8f0);
+    color: var(--navy, #001f4e);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+
+  .source-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex-grow: 1;
+  }
+
+  .source-info strong {
+    font-size: 13.5px;
+    color: var(--ink, #0f172a);
+  }
+
+  .source-info small {
+    font-size: 12px;
+    color: var(--muted, #64748b);
+  }
+
+  .blog-source-link :global(.ext-icon) {
+    color: var(--muted, #94a3b8);
+    transition: transform 180ms ease, color 180ms ease;
+    flex-shrink: 0;
+  }
+
+  .blog-source-item:hover :global(.ext-icon) {
+    color: var(--navy-3, #0284c7);
+    transform: translate(2px, -2px);
+  }
+</style>

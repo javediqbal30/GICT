@@ -4,8 +4,12 @@ import Icon from './Icon.astro';
 import { primaryNav } from '../data/navigation';
 import { site } from '../data/site';
 
-const pathname = Astro.url.pathname;
-const isActive = (href: string) => pathname === href || (href !== '/' && pathname.startsWith(`${href}/`));
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => {
+  const cleanHref = href.replace(/\/$/, '') || '/';
+  return pathname === cleanHref || (cleanHref !== '/' && pathname.startsWith(`${cleanHref}/`));
+};
+const getNavHref = (href: string) => (href === '/blog' && (pathname === '/' || pathname === '') ? '#blog' : href);
 ---
 <header class="site-header" data-site-header>
   <div class="container header-inner">
@@ -48,7 +52,7 @@ const isActive = (href: string) => pathname === href || (href !== '/' && pathnam
             </div>
           </div>
         ) : (
-          <a href={item.href} class:list={['nav-link', { 'is-active': isActive(item.href) }]}>
+          <a href={getNavHref(item.href)} class:list={['nav-link', { 'is-active': isActive(item.href) }]}>
             {item.label}
           </a>
         )
@@ -82,7 +86,7 @@ const isActive = (href: string) => pathname === href || (href !== '/' && pathnam
       <nav aria-label="Mobile navigation">
         {primaryNav.map((item) => (
           <div class="mobile-nav-group">
-            <a href={item.href} class:list={['mobile-nav-link', { 'is-active': isActive(item.href) }]} data-mobile-link>
+            <a href={getNavHref(item.href)} class:list={['mobile-nav-link', { 'is-active': isActive(item.href) }]} data-mobile-link>
               {item.label}
               <Icon name="chevron-right" size={18} />
             </a>

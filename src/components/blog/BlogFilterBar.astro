@@ -1,0 +1,228 @@
+---
+import Icon from '../Icon.astro';
+
+export interface Props {
+  categories: string[];
+  totalCount: number;
+}
+
+const { categories, totalCount } = Astro.props;
+---
+
+<div class="blog-filter-bar">
+  <div class="blog-filter-controls">
+    <div class="blog-chips-scroll" role="group" aria-label="Filter articles by legal & tax category">
+      <button
+        type="button"
+        class="blog-chip is-active"
+        data-filter="All"
+        aria-pressed="true"
+      >
+        All Updates
+      </button>
+      {categories.map((category) => (
+        <button
+          type="button"
+          class="blog-chip"
+          data-filter={category}
+          aria-pressed="false"
+        >
+          {category}
+        </button>
+      ))}
+    </div>
+
+    <div class="blog-search-box">
+      <Icon name="target" size={16} class="search-icon" />
+      <input
+        type="search"
+        placeholder="Filter by keyword (e.g. salary, IRIS, notice)..."
+        class="blog-search-input"
+        data-blog-search
+        aria-label="Search articles by title or keyword"
+      />
+    </div>
+  </div>
+
+  <div class="blog-filter-status">
+    <span class="blog-count" data-blog-count>{totalCount} published articles</span>
+    <button type="button" class="blog-reset-btn" data-blog-reset hidden>
+      Reset filter
+    </button>
+  </div>
+</div>
+
+<style>
+  .blog-filter-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 36px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line, #e2e8f0);
+  }
+
+  .blog-filter-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .blog-chips-scroll {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .blog-chip {
+    appearance: none;
+    background: var(--soft, #f1f5f9);
+    border: 1px solid var(--line, #e2e8f0);
+    border-radius: 999px;
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--body, #475569);
+    cursor: pointer;
+    transition: all 180ms ease;
+  }
+
+  .blog-chip:hover {
+    background: #e2e8f0;
+    color: var(--ink, #0f172a);
+  }
+
+  .blog-chip.is-active {
+    background: var(--navy, #001f4e);
+    border-color: var(--navy, #001f4e);
+    color: var(--white, #ffffff);
+  }
+
+  .blog-search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-width: 280px;
+  }
+
+  .blog-search-box :global(.search-icon) {
+    position: absolute;
+    left: 14px;
+    color: var(--muted, #94a3b8);
+    pointer-events: none;
+  }
+
+  .blog-search-input {
+    width: 100%;
+    padding: 9px 14px 9px 38px;
+    font-size: 13.5px;
+    border: 1px solid var(--line, #cbd5e1);
+    border-radius: 999px;
+    background: var(--white, #ffffff);
+    color: var(--ink, #0f172a);
+    outline: none;
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+  }
+
+  .blog-search-input:focus {
+    border-color: var(--navy-3, #0284c7);
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+  }
+
+  .blog-filter-status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12.5px;
+    color: var(--muted, #64748b);
+  }
+
+  .blog-reset-btn {
+    background: none;
+    border: none;
+    color: var(--navy-3, #0284c7);
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .blog-search-box {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  function setupBlogFilter() {
+    const chips = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+    const searchInput = document.querySelector<HTMLInputElement>('[data-blog-search]');
+    const countLabel = document.querySelector<HTMLElement>('[data-blog-count]');
+    const resetBtn = document.querySelector<HTMLButtonElement>('[data-blog-reset]');
+    const cards = document.querySelectorAll<HTMLElement>('[data-blog-grid] .blog-card');
+
+    let activeFilter = 'All';
+    let searchQuery = '';
+
+    function filterCards() {
+      let visibleCount = 0;
+      cards.forEach((card) => {
+        const category = card.dataset.category || '';
+        const title = card.querySelector('.blog-card-title')?.textContent?.toLowerCase() || '';
+        const excerpt = card.querySelector('.blog-card-excerpt')?.textContent?.toLowerCase() || '';
+
+        const matchesCategory = activeFilter === 'All' || category === activeFilter;
+        const matchesSearch =
+          !searchQuery || title.includes(searchQuery) || excerpt.includes(searchQuery);
+
+        const isVisible = matchesCategory && matchesSearch;
+        card.style.display = isVisible ? '' : 'none';
+        if (isVisible) visibleCount++;
+      });
+
+      if (countLabel) {
+        countLabel.textContent = `${visibleCount} ${visibleCount === 1 ? 'article' : 'published articles'}`;
+      }
+
+      if (resetBtn) {
+        resetBtn.hidden = activeFilter === 'All' && !searchQuery;
+      }
+    }
+
+    chips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        chips.forEach((c) => {
+          c.classList.remove('is-active');
+          c.setAttribute('aria-pressed', 'false');
+        });
+        chip.classList.add('is-active');
+        chip.setAttribute('aria-pressed', 'true');
+        activeFilter = chip.dataset.filter || 'All';
+        filterCards();
+      });
+    });
+
+    searchInput?.addEventListener('input', (e) => {
+      searchQuery = (e.target as HTMLInputElement).value.trim().toLowerCase();
+      filterCards();
+    });
+
+    resetBtn?.addEventListener('click', () => {
+      activeFilter = 'All';
+      searchQuery = '';
+      if (searchInput) searchInput.value = '';
+      chips.forEach((c) => {
+        c.classList.toggle('is-active', c.dataset.filter === 'All');
+        c.setAttribute('aria-pressed', String(c.dataset.filter === 'All'));
+      });
+      filterCards();
+    });
+  }
+
+  // Support initial mount and dynamic view transitions
+  setupBlogFilter();
+  document.addEventListener('astro:page-load', setupBlogFilter);
+</script>

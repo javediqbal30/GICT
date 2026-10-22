@@ -1,0 +1,58 @@
+---
+import BlogCard from './BlogCard.astro';
+import type { BlogArticle } from '../../lib/blog/types';
+
+export interface Props {
+  articles: BlogArticle[];
+  basePath?: string;
+  columns?: 3;
+  id?: string;
+}
+
+const { articles, basePath = '/blog', id } = Astro.props;
+---
+
+<div class="blog-grid" id={id} data-blog-grid role="feed" aria-busy="false">
+  {articles.length > 0 ? (
+    articles.map((article) => (
+      <BlogCard article={article} basePath={basePath} />
+    ))
+  ) : (
+    <div class="blog-empty-state">
+      <p>No articles found matching your criteria.</p>
+    </div>
+  )}
+</div>
+
+<style>
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px;
+    align-items: stretch;
+  }
+
+  .blog-empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 64px 20px;
+    background: var(--soft, #f8fafc);
+    border-radius: 16px;
+    border: 1px dashed var(--line, #cbd5e1);
+    color: var(--muted, #64748b);
+  }
+
+  @media (max-width: 1024px) {
+    .blog-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .blog-grid {
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+  }
+</style>

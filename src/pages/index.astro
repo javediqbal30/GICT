@@ -6,17 +6,16 @@ import CourseCard from '../components/CourseCard.astro';
 import FacultyCard from '../components/FacultyCard.astro';
 import CalculatorCard from '../components/CalculatorCard.astro';
 import CTASection from '../components/CTASection.astro';
+import BlogGrid from '../components/blog/BlogGrid.astro';
 import HeroInteractiveBackground from '../components/HeroInteractiveBackground.astro';
 import HeroSlider from '../components/HeroSlider.astro';
 import { courses } from '../data/courses';
 import { faculty } from '../data/faculty';
 import { calculators } from '../data/calculators';
-import { articles } from '../data/articles';
+import { getRecentArticles } from '../lib/blog/service';
 
 const featuredCalculators = calculators.filter((calculator) => calculator.featured);
-const recentArticles = articles.slice(0, 3);
-const formatDate = (value: string) =>
-  new Date(value).toLocaleDateString('en-PK', { day: 'numeric', month: 'short', year: 'numeric' });
+const recentArticles = getRecentArticles(3);
 ---
 
 <BaseLayout
@@ -182,30 +181,19 @@ const formatDate = (value: string) =>
     </div>
   </section>
 
-  <section class="section section--soft section--knowledge" id="knowledge-hub">
+  <section class="section section--soft section--blog" id="blog">
     <div class="container">
       <SectionHeading
-        eyebrow="Knowledge Hub"
-        title="Clear explanations for current problems."
-        description="Short, practical notes on filing, salary tax, sales tax and dispute response &mdash; written for people who need to act."
+        eyebrow="GICT Blog & Insights"
+        title="Clear explanations for current taxation & legal problems."
+        description="Practitioner notes on salary tax, FBR IRIS, sales tax and dispute response — written by senior faculty and advocates for professionals who need to act."
         align="center"
       />
-      <div class="article-grid">
-        {recentArticles.map((article) => (
-          <article class="article-card">
-            <span class="badge">{article.category}</span>
-            <h3><a href={`/knowledge-hub/${article.slug}`}>{article.title}</a></h3>
-            <p>{article.excerpt}</p>
-            <div class="article-card-meta">
-              <span>{formatDate(article.updated)} · {article.readingTime}</span>
-              <a class="text-link" href={`/knowledge-hub/${article.slug}`}>Read <Icon name="arrow-right" size={14} /></a>
-            </div>
-          </article>
-        ))}
-      </div>
-      <div class="knowledge-footer-cta">
-        <a class="btn btn-outline" href="/knowledge-hub">
-          Read all Knowledge Hub guides &amp; articles
+      <!-- Exactly 1 row with 3 columns on desktop -->
+      <BlogGrid articles={recentArticles} basePath="/blog" />
+      <div class="blog-footer-cta">
+        <a class="btn btn-outline" href="/blog">
+          Explore all blog guides &amp; articles
           <Icon name="arrow-right" size={17} />
         </a>
       </div>

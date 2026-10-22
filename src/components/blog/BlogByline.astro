@@ -1,0 +1,116 @@
+---
+import Icon from '../Icon.astro';
+import type { BlogArticle } from '../../lib/blog/types';
+
+export interface Props {
+  article: BlogArticle;
+}
+
+const { article } = Astro.props;
+
+const formatDate = (value: string) =>
+  new Date(value).toLocaleDateString('en-PK', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+---
+
+<div class="blog-byline-container">
+  <div class="blog-byline-grid">
+    <div class="byline-item">
+      <span class="byline-label">Author</span>
+      <span class="byline-value">
+        <Icon name="users" size={14} />
+        <strong>{article.author}</strong>
+      </span>
+    </div>
+
+    <div class="byline-item byline-item--verified">
+      <span class="byline-label">Legal & Tax Reviewer</span>
+      <span class="byline-value">
+        <Icon name="shield" size={14} class="reviewer-icon" />
+        <strong>{article.reviewer}</strong>
+        <span class="verified-pill">Verified</span>
+      </span>
+    </div>
+
+    <div class="byline-item">
+      <span class="byline-label">Last Updated</span>
+      <span class="byline-value">
+        <Icon name="calendar" size={14} />
+        <time datetime={article.updated}>{formatDate(article.updated)}</time>
+      </span>
+    </div>
+
+    <div class="byline-item">
+      <span class="byline-label">Reading Duration</span>
+      <span class="byline-value">
+        <Icon name="clock" size={14} />
+        <span>{article.readingTime}</span>
+      </span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .blog-byline-container {
+    margin-top: 24px;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 14px;
+  }
+
+  .blog-byline-grid {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+
+  .byline-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .byline-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.65);
+    font-weight: 500;
+  }
+
+  .byline-value {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13.5px;
+    color: var(--white, #ffffff);
+  }
+
+  .byline-item--verified :global(.reviewer-icon) {
+    color: #38bdf8;
+  }
+
+  .verified-pill {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: rgba(56, 189, 248, 0.2);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    padding: 2px 7px;
+    border-radius: 999px;
+    margin-left: 4px;
+  }
+
+  @media (max-width: 768px) {
+    .blog-byline-grid {
+      gap: 16px;
+    }
+  }
+</style>

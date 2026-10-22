@@ -1,0 +1,101 @@
+---
+import Icon from '../Icon.astro';
+import { getLeadCourseForCategory } from '../../lib/blog/service';
+
+export interface Props {
+  category: string;
+}
+
+const { category } = Astro.props;
+const course = getLeadCourseForCategory(category);
+---
+
+<aside class="blog-lead-box" aria-label="Related Professional Training Course">
+  <div class="lead-pill">
+    <Icon name="graduation-cap" size={14} />
+    <span>Practitioner Course</span>
+  </div>
+
+  <h3 class="lead-title">{course.title}</h3>
+  <p class="lead-desc">{course.tagline}</p>
+
+  <div class="lead-actions">
+    <a href={`/courses/${course.slug}`} class="btn btn-gold btn-block">
+      <span>View Syllabus &amp; Enrol</span>
+      <Icon name="arrow-right" size={16} />
+    </a>
+    <a href="/contact" class="btn btn-outline-white btn-block">
+      <span>Speak to Admissions</span>
+    </a>
+  </div>
+</aside>
+
+<style>
+  .blog-lead-box {
+    background: linear-gradient(145deg, var(--navy, #001f4e) 0%, #032b69 100%);
+    border-radius: 18px;
+    padding: 28px 24px;
+    color: var(--white, #ffffff);
+    box-shadow: 0 16px 36px -10px rgba(0, 31, 78, 0.3);
+  }
+
+  .lead-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(211, 145, 0, 0.2);
+    border: 1px solid rgba(211, 145, 0, 0.4);
+    color: #ffd166;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+  }
+
+  .lead-title {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--white, #ffffff);
+    margin: 0 0 8px 0;
+    line-height: 1.3;
+  }
+
+  .lead-desc {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.82);
+    margin: 0 0 20px 0;
+  }
+
+  .lead-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn-block {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    padding: 11px 18px;
+    font-size: 13.5px;
+  }
+
+  .btn-outline-white {
+    background: transparent;
+    color: var(--white, #ffffff);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 180ms ease, border-color 180ms ease;
+  }
+
+  .btn-outline-white:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--white, #ffffff);
+  }
+</style>

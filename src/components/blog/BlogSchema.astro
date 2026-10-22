@@ -1,0 +1,17 @@
+---
+import type { BlogArticle } from '../../lib/blog/types';
+import { generateBlogPostingSchema, generateBlogBreadcrumbSchema } from '../../lib/blog/seo';
+
+export interface Props {
+  article: BlogArticle;
+  currentUrl: string;
+  breadcrumbItems: { label: string; href?: string }[];
+}
+
+const { article, currentUrl, breadcrumbItems } = Astro.props;
+const articleJsonLd = generateBlogPostingSchema(article, currentUrl);
+const breadcrumbsJsonLd = generateBlogBreadcrumbSchema(breadcrumbItems);
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbsJsonLd)} />

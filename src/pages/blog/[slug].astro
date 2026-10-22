@@ -1,0 +1,159 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Icon from '../../components/Icon.astro';
+import CTASection from '../../components/CTASection.astro';
+import BlogSchema from '../../components/blog/BlogSchema.astro';
+import BlogByline from '../../components/blog/BlogByline.astro';
+import BlogTableOfContents from '../../components/blog/BlogTableOfContents.astro';
+import BlogSourcesList from '../../components/blog/BlogSourcesList.astro';
+import BlogLeadCapture from '../../components/blog/BlogLeadCapture.astro';
+import BlogRelatedPosts from '../../components/blog/BlogRelatedPosts.astro';
+import {
+  getAllArticles,
+  getRelatedArticles,
+  extractTableOfContents,
+} from '../../lib/blog/service';
+import { site } from '../../data/site';
+import type { BlogArticle } from '../../lib/blog/types';
+
+export function getStaticPaths() {
+  const allArticles = getAllArticles();
+  return allArticles.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+
+interface Props {
+  article: BlogArticle;
+}
+
+const { article } = Astro.props;
+const currentUrl = new URL(`/blog/${article.slug}`, site.url).toString();
+const relatedArticles = getRelatedArticles(article.slug, article.category, 3);
+const tocItems = extractTableOfContents(article.body);
+
+const breadcrumbItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Blog', href: '/blog' },
+  { label: article.title },
+];
+---
+
+<BaseLayout title={article.metaTitle} description={article.metaDescription} type="article">
+  <!-- Modular Structured Data Injection (Schema.org BlogPosting & Breadcrumbs) -->
+  <BlogSchema
+    article={article}
+    currentUrl={currentUrl}
+    breadcrumbItems={breadcrumbItems}
+  />
+
+  <PageHero eyebrow={article.category} title={article.title} description={article.excerpt}>
+    <Breadcrumbs slot="breadcrumbs" items={breadcrumbItems} />
+    <!-- Modular E-E-A-T Byline -->
+    <BlogByline article={article} />
+  </PageHero>
+
+  <section class="section section--white">
+    <div class="container article-layout">
+      <!-- Main Content Column -->
+      <article class="article-content-wrapper">
+        <!-- Featured Article Hero Cover Image -->
+        {article.coverImage && (
+          <figure class="article-featured-image">
+            <img
+              src={article.coverImage.src}
+              alt={article.coverImage.alt}
+              loading="eager"
+              decoding="async"
+              class="featured-img"
+            />
+            {article.coverImage.caption && (
+              <figcaption class="featured-img-caption">
+                <Icon name="info" size={13} />
+                <span>{article.coverImage.caption}</span>
+              </figcaption>
+            )}
+          </figure>
+        )}
+
+        <div class="article-body" set:html={article.body} />
+
+        <!-- Modular Primary Statutory Sources -->
+        <BlogSourcesList />
+
+        <!-- Regulatory Notice & Disclaimer -->
+        <div class="disclaimer-box" style="margin-top: 32px;">
+          <Icon name="shield" size={18} />
+          <p>
+            <strong>Regulatory notice:</strong> This article is published for educational guidance and practitioner reference under the Income Tax Ordinance 2001 and provincial sales tax statutes. It does not constitute formal legal opinion or client-adviser privilege. Verify specific matters with gazetted notifications or qualified counsel.
+          </p>
+        </div>
+      </article>
+
+      <!-- Contextual Sidebar Column -->
+      <aside class="article-sidebar">
+        <!-- Author Profile Box -->
+        <div class="author-box">
+          <span class="author-avatar" aria-hidden="true">G</span>
+          <div>
+            <strong>{article.author}</strong>
+            <p>Practical intelligence published by GICT faculty. Verified by {article.reviewer}.</p>
+          </div>
+        </div>
+
+        <!-- Modular Dynamic Table of Contents -->
+        <BlogTableOfContents items={tocItems} />
+
+        <!-- Modular Contextual Course Lead Capture -->
+        <BlogLeadCapture category={article.category} />
+      </aside>
+    </div>
+  </section>
+
+  <!-- Modular Related Posts (Exact 1 Row of 3 Columns) -->
+  <BlogRelatedPosts articles={relatedArticles} category={article.category} />
+
+  <CTASection
+    title="Ready to master practical tax and corporate compliance?"
+    text="Join the next weekend or online cohort at GICT Rawalpindi. Learn directly from practicing advocates and chartered accountants."
+    primary={{ label: 'Apply for admission', href: '/contact' }}
+    secondary={{ label: 'Browse tax calculators', href: '/calculators' }}
+  />
+</BaseLayout>
+
+<style>
+  .article-featured-image {
+    margin: 0 0 36px 0;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid var(--line, #e2e8f0);
+    box-shadow: 0 12px 28px -8px rgba(0, 31, 78, 0.08);
+    background: var(--soft, #f8fafc);
+  }
+
+  .featured-img {
+    width: 100%;
+    max-height: 440px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .featured-img-caption {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px;
+    font-size: 12.5px;
+    color: var(--muted, #64748b);
+    background: var(--soft, #f8fafc);
+    border-top: 1px solid var(--line, #e2e8f0);
+  }
+
+  .featured-img-caption svg {
+    color: var(--navy-3, #0284c7);
+    flex-shrink: 0;
+  }
+</style>
