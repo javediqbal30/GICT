@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Icon from '../../components/Icon.astro';
+import CTASection from '../../components/CTASection.astro';
+import { faculty, type FacultyMember } from '../../data/faculty';
+import { getCourse } from '../../data/courses';
+import { site } from '../../data/site';
+
+export function getStaticPaths() {
+  return faculty.map((member) => ({ params: { slug: member.slug }, props: { member } }));
+}
+
+interface Props {
+  member: FacultyMember;
+}
+
+const { member } = Astro.props;
+const displayName = member.prefix ? `${member.prefix} ${member.name}` : member.name;
+const taughtCourses = member.courses.map((slug) => getCourse(slug)).filter(Boolean);
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: displayName,
+  jobTitle: member.designation,
+  worksFor: { '@type': 'EducationalOrganization', name: site.legalName, url: site.url },
+  knowsAbout: member.focus,
+  ...(member.image ? { image: new URL(member.image, site.url).toString() } : {}),
+};
+---
+<BaseLayout title={member.metaTitle} description={member.metaDescription} jsonLd={personSchema}>
+  <PageHero
+    eyebrow="Faculty profile"
+    title={displayName}
+    description={member.designation}
+  >
+    <Breadcrumbs
+      slot="breadcrumbs"
+      items={[
+        { label: 'Home', href: '/' },
+        { label: 'Faculty', href: '/faculty' },
+        { label: member.name },
+      ]}
+    />
+  </PageHero>
+
+  <section class="section section--white">
+    <div class="container profile-layout">
+      <aside class="profile-aside">
+        <div class="profile-photo">
+          {member.image ? (
+            <img src={member.image} alt={displayName} width="480" height="600" loading="eager" />
+          ) : (
+            <span class="faculty-placeholder">
+              <span>{member.initials}</span>
+              <small>GICT Faculty</small>
+            </span>
+          )}
+        </div>
+        <div class="profile-card">
+          <h2>Areas of focus</h2>
+          <ul>
+            {member.focus.map((item) => <li><Icon name="check" size={14} /> {item}</li>)}
+          </ul>
+        </div>
+        <div class="profile-card">
+          <h2>Qualifications</h2>
+          <ul>
+            {member.qualifications.map((item) => <li><Icon name="award" size={14} /> {item}</li>)}
+          </ul>
+        </div>
+      </aside>
+
+      <div>
+        <div class="profile-intro">
+          <p class="profile-role">{member.designation}</p>
+          <p class="profile-bio">{member.bio}</p>
+          <div class="profile-focus">
+            {member.focus.map((item) => <span>{item}</span>)}
+          </div>
+        </div>
+
+        <div class="profile-section">
+          <h2>Teaches on</h2>
+          <div class="profile-course-list">
+            {taughtCourses.map((course) => course && (
+              <a href={`/courses/${course.slug}`}>
+                <span>{course.title} · {course.duration}</span>
+                <Icon name="arrow-right" size={16} />
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div class="profile-section">
+          <h2>Teaching approach</h2>
+          <p>
+            Sessions are built around working documents: the return, the computation, the notice, the
+            grounds of appeal or the client file. The aim is to leave with a repeatable method, not a
+            memorised summary.
+          </p>
+        </div>
+
+        <div class="profile-section">
+          <h2>Profile verification</h2>
+          <p>
+            This profile is published with consent. Credentials are checked before publication. Contact
+            admissions if you need the faculty member's availability for a specific cohort or corporate
+            programme.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CTASection
+    title="Study with practitioners."
+    text="Explore the programmes taught by GICT faculty and choose the track that matches your work."
+    primary={{ label: 'View programmes', href: '/courses' }}
+    secondary={{ label: 'Meet the faculty', href: '/faculty' }}
+  />
+</BaseLayout>

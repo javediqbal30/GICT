@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PageHero from '../../components/PageHero.astro';
+import CourseCard from '../../components/CourseCard.astro';
+import FAQ from '../../components/FAQ.astro';
+import CTASection from '../../components/CTASection.astro';
+import { courses, courseCategories } from '../../data/courses';
+
+const faqs = [
+  {
+    question: 'How do I choose between the taxation programmes?',
+    answer:
+      'Start with the work you need to do. Tax Filing & IRIS is for return preparation and compliance. Corporate Taxation is for computations and advisory. Sales Tax & Provincial VAT is for indirect tax. Advanced Litigation is for dispute work.',
+  },
+  {
+    question: 'Are classes on-campus or online?',
+    answer:
+      'Most programmes are offered on-campus in Rawalpindi and live online. The course page shows the format for each programme. Online participants join the same live sessions and can ask questions.',
+  },
+  {
+    question: 'Do I need a tax or law background?',
+    answer:
+      'It depends on the programme. Tax Filing & IRIS and Sales Tax & Provincial VAT start from the fundamentals. Corporate Taxation expects basic accounting knowledge. Advanced Litigation expects some tax or legal experience.',
+  },
+  {
+    question: 'Is a certificate included?',
+    answer:
+      'Yes, subject to the attendance and assessment requirements stated on the course page. The certificate records completion of the programme, not a professional licence or accreditation.',
+  },
+  {
+    question: 'Can my company arrange a private cohort?',
+    answer:
+      'Yes. Corporate training can be delivered on-site or online for a team, with a needs assessment and a customised scope. Use the corporate training page to request a proposal.',
+  },
+];
+---
+<BaseLayout
+  title="Tax, Corporate & Finance Courses | GICT Rawalpindi"
+  description="Explore six practitioner-led courses in taxation, FBR IRIS, corporate law, sales tax and finance. Weekend on-campus and live online in Rawalpindi."
+>
+  <PageHero
+    eyebrow="Programmes"
+    title="Six focused programmes. One practical standard."
+    description="Choose the track that matches the work you need to do — filing, corporate advisory, indirect tax, litigation, financial modelling or accounting software."
+  >
+    <Breadcrumbs slot="breadcrumbs" items={[{ label: 'Home', href: '/' }, { label: 'Courses' }]} />
+  </PageHero>
+
+  <section class="section section--white">
+    <div class="container">
+      <div class="filter-bar">
+        <div class="filter-chips" role="group" aria-label="Filter programmes by category">
+          {courseCategories.map((category) => (
+            <button
+              type="button"
+              class="chip"
+              data-course-filter={category}
+              aria-pressed={category === 'All' ? 'true' : 'false'}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+        <p class="filter-count" data-course-count>{courses.length} programmes</p>
+      </div>
+
+      <div class="course-grid" data-course-grid>
+        {courses.map((course) => <CourseCard course={course} />)}
+      </div>
+    </div>
+  </section>
+
+  <FAQ
+    eyebrow="Choosing a programme"
+    title="A few practical questions."
+    description="If your situation is more specific, send a short enquiry and admissions will point you to the right track."
+    items={faqs}
+  />
+
+  <CTASection
+    title="Compare the tracks with an adviser."
+    text="Share your background and the work you want to handle. We will help you choose between the programmes and the next available schedule."
+    primary={{ label: 'Talk to admissions', href: '/contact' }}
+    secondary={{ label: 'View calculators', href: '/calculators' }}
+  />
+</BaseLayout>
+
+<script>
+  const filterButtons = document.querySelectorAll<HTMLButtonElement>('[data-course-filter]');
+  const courseCards = document.querySelectorAll<HTMLElement>('[data-course-grid] .course-card');
+  const count = document.querySelector<HTMLElement>('[data-course-count]');
+
+  filterButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const filter = button.dataset.courseFilter ?? 'All';
+      let visible = 0;
+
+      filterButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+      courseCards.forEach((card) => {
+        const match = filter === 'All' || card.dataset.category === filter;
+        card.hidden = !match;
+        if (match) visible += 1;
+      });
+
+      if (count) count.textContent = `${visible} ${visible === 1 ? 'programme' : 'programmes'}`;
+    });
+  });
+</script>

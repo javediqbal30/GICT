@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Icon from '../components/Icon.astro';
+import LeadForm from '../components/LeadForm.astro';
+import FAQ from '../components/FAQ.astro';
+import { site } from '../data/site';
+
+const faqs = [
+  {
+    question: 'Where is the campus?',
+    answer: 'The campus is at Office-11, First Floor, Alfalah Askaria Plaza, Committee Chowk, Murree Road, Rawalpindi.',
+  },
+  {
+    question: 'Can I visit before enrolling?',
+    answer: 'Yes, subject to availability. Contact admissions first so someone can meet you and show you the campus.',
+  },
+  {
+    question: 'What is the fastest way to reach admissions?',
+    answer: 'WhatsApp or call 0339 0006854 during office hours. You can also send the form on this page or email admissions@gict.edu.pk.',
+  },
+  {
+    question: 'Do you offer online classes?',
+    answer: 'Most programmes are available live online as well as on-campus. The course page shows the format for each programme.',
+  },
+];
+---
+<BaseLayout
+  title="Contact GICT | Rawalpindi Campus & Admissions"
+  description="Contact GICT for admissions, campus visits and corporate training in Rawalpindi. Call, WhatsApp or send an enquiry to the admissions team."
+>
+  <PageHero
+    eyebrow="Contact"
+    title="Talk to admissions."
+    description="Ask about a programme, the next schedule, fees or a campus visit. We usually respond within one working day."
+  >
+    <Breadcrumbs slot="breadcrumbs" items={[{ label: 'Home', href: '/' }, { label: 'Contact' }]} />
+  </PageHero>
+
+  <section class="section section--white">
+    <div class="container contact-grid">
+      <div>
+        <div class="contact-cards">
+          <div class="contact-card">
+            <span class="contact-card-icon"><Icon name="phone" size={19} /></span>
+            <div>
+              <strong>Call admissions</strong>
+              <a href={site.phoneHref}>{site.phoneDisplay}</a>
+              <p>During office hours</p>
+            </div>
+          </div>
+          <div class="contact-card">
+            <span class="contact-card-icon"><Icon name="whatsapp" size={20} /></span>
+            <div>
+              <strong>WhatsApp</strong>
+              <a href={`https://wa.me/${site.whatsappNumber}`} target="_blank" rel="noopener">{site.whatsappDisplay}</a>
+              <p>Send your name, programme and question</p>
+            </div>
+          </div>
+          <div class="contact-card">
+            <span class="contact-card-icon"><Icon name="mail" size={19} /></span>
+            <div>
+              <strong>Email</strong>
+              <a href={`mailto:${site.email}`}>{site.email}</a>
+              <p>Admissions and programme enquiries</p>
+            </div>
+          </div>
+          <div class="contact-card">
+            <span class="contact-card-icon"><Icon name="map-pin" size={19} /></span>
+            <div>
+              <strong>Campus</strong>
+              <a href={site.mapUrl} target="_blank" rel="noopener">{site.address.line1}, {site.address.line2}</a>
+              <p>{site.address.city}, Pakistan</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="map-card">
+          <iframe
+            src={site.mapEmbedUrl}
+            title="Map showing GICT at Alfalah Askaria Plaza, Committee Chowk, Rawalpindi"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+          <div class="map-card-footer">
+            <span>Alfalah Askaria Plaza · Committee Chowk</span>
+            <a href={site.mapUrl} target="_blank" rel="noopener">Open in Maps</a>
+          </div>
+        </div>
+
+        <div class="hours-table" aria-label="Office hours">
+          <div><span>Monday – Friday</span><strong>9:00 – 18:00</strong></div>
+          <div><span>Saturday</span><strong>10:00 – 16:00</strong></div>
+          <div><span>Sunday</span><strong>Closed</strong></div>
+        </div>
+      </div>
+
+      <div>
+        <p class="eyebrow">Send an enquiry</p>
+        <h2 style="font-size:32px;margin-bottom:8px;">Tell us what you need.</h2>
+        <p style="color:var(--body);font-size:13.5px;line-height:1.65;margin-bottom:20px;">
+          Share your background, the programme you are considering and your preferred schedule. The form
+          opens WhatsApp with your details so admissions can reply directly.
+        </p>
+        <LeadForm variant="contact" />
+      </div>
+    </div>
+  </section>
+
+  <FAQ
+    eyebrow="Visiting"
+    title="Before you come to campus."
+    description="A few practical answers about the location, visits and online options."
+    items={faqs}
+  />
+</BaseLayout>

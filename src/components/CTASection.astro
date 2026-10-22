@@ -1,0 +1,31 @@
+---
+import Icon from './Icon.astro';
+export interface Props {
+  title?: string;
+  text?: string;
+  primary?: { label: string; href: string };
+  secondary?: { label: string; href: string };
+}
+const {
+  title = 'Not sure which programme fits?',
+  text = 'Talk to admissions about your background, schedule and the outcome you want. We will point you to the right track.',
+  primary = { label: 'Apply for admission', href: '/contact' },
+  secondary = { label: 'Explore calculators', href: '/calculators' },
+} = Astro.props;
+---
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-card reveal">
+      <div class="cta-card-copy">
+        <p class="eyebrow eyebrow--light">Admissions</p>
+        <h2>{title}</h2>
+        <p>{text}</p>
+      </div>
+      <div class="cta-card-actions">
+        <a class="btn btn-gold" href={primary.href}>{primary.label} <Icon name="arrow-right" size={16} /></a>
+        <a class="btn btn-ghost-light" href={secondary.href}>{secondary.label}</a>
+      </div>
+      <div class="cta-card-decoration" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>

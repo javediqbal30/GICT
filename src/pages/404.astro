@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+---
+<BaseLayout
+  title="Page not found | GICT"
+  description="The page you requested could not be found. Use the links below to find programmes, calculators or contact GICT."
+  noindex={true}
+>
+  <section class="centered-page">
+    <div class="container centered-inner">
+      <p class="error-code">404 · Page not found</p>
+      <h1>That page is not here.</h1>
+      <p>The link may be old, or the page may have moved. Start with one of these.</p>
+      <div class="centered-actions">
+        <a class="btn btn-primary" href="/courses">Browse programmes <Icon name="arrow-right" size={16} /></a>
+        <a class="btn btn-outline" href="/calculators">Use a calculator</a>
+        <a class="btn btn-outline" href="/contact">Contact GICT</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

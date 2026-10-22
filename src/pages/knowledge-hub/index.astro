@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import CTASection from '../../components/CTASection.astro';
+import { articles } from '../../data/articles';
+
+const categories = ['All', ...Array.from(new Set(articles.map((article) => article.category)))];
+---
+<BaseLayout
+  title="Tax & Corporate Knowledge Hub | GICT Rawalpindi"
+  description="Practical notes on salary tax, FBR IRIS, sales tax, tax notices and corporate compliance from GICT in Rawalpindi, with sources and review dates."
+>
+  <PageHero
+    eyebrow="Knowledge Hub"
+    title="Clear explanations for current problems."
+    description="Practical notes on filing, salary tax, sales tax and dispute response. Written for people who need to act, with sources and review dates."
+  >
+    <Breadcrumbs slot="breadcrumbs" items={[{ label: 'Home', href: '/' }, { label: 'Knowledge Hub' }]} />
+  </PageHero>
+
+  <section class="section section--white">
+    <div class="container">
+      <div class="filter-bar">
+        <div class="filter-chips" role="group" aria-label="Filter articles by category">
+          {categories.map((category) => (
+            <button
+              type="button"
+              class="chip"
+              data-article-filter={category}
+              aria-pressed={category === 'All' ? 'true' : 'false'}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+        <p class="filter-count" data-article-count>{articles.length} articles</p>
+      </div>
+
+      <div class="article-grid" data-article-grid>
+        {articles.map((article) => <ArticleCard article={article} />)}
+      </div>
+    </div>
+  </section>
+
+  <CTASection
+    title="Need the full working method?"
+    text="The Knowledge Hub explains the issue. The programmes show you how to prepare, review and defend the file."
+    primary={{ label: 'Explore programmes', href: '/courses' }}
+    secondary={{ label: 'Use a calculator', href: '/calculators' }}
+  />
+</BaseLayout>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-article-filter]');
+  const cards = document.querySelectorAll<HTMLElement>('[data-article-grid] .article-card');
+  const count = document.querySelector<HTMLElement>('[data-article-count]');
+
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const filter = button.dataset.articleFilter ?? 'All';
+      let visible = 0;
+
+      buttons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+      cards.forEach((card) => {
+        const match = filter === 'All' || card.dataset.category === filter;
+        card.hidden = !match;
+        if (match) visible += 1;
+      });
+
+      if (count) count.textContent = `${visible} ${visible === 1 ? 'article' : 'articles'}`;
+    });
+  });
+</script>

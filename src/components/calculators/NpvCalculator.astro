@@ -1,0 +1,104 @@
+---
+import Icon from '../Icon.astro';
+---
+<div class="calc" data-calculator="npv">
+  <form class="calc-form" data-calc-form>
+    <div class="calc-fields">
+      <div class="calc-field">
+        <label for="npv-initial">Initial investment</label>
+        <div class="input-wrap"><span class="input-prefix">PKR</span><input id="npv-initial" name="initial" type="number" min="0" step="100000" value="10000000" inputmode="decimal" /></div>
+      </div>
+      <div class="calc-field">
+        <label for="npv-cashflow">Annual net cash flow</label>
+        <div class="input-wrap"><span class="input-prefix">PKR</span><input id="npv-cashflow" name="cashflow" type="number" min="0" step="100000" value="3000000" inputmode="decimal" /></div>
+        <p class="field-hint">Assumes the same cash flow each year.</p>
+      </div>
+      <div class="calc-field">
+        <label for="npv-years">Project life</label>
+        <div class="input-wrap"><input id="npv-years" name="years" type="number" min="1" max="40" step="1" value="5" inputmode="numeric" /><span class="input-suffix">years</span></div>
+      </div>
+      <div class="calc-field">
+        <label for="npv-rate">Discount rate</label>
+        <div class="input-wrap"><input id="npv-rate" name="rate" type="number" min="0" max="100" step="0.01" value="12" inputmode="decimal" /><span class="input-suffix">%</span></div>
+      </div>
+    </div>
+  </form>
+
+  <div class="calc-result" aria-live="polite" aria-atomic="true">
+    <div class="result-hero">
+      <span class="result-label">Net present value</span>
+      <strong data-result="npv">PKR 0</strong>
+      <span class="result-sub" data-result="decision">Decision</span>
+    </div>
+    <div class="result-rows">
+      <div><span>Internal rate of return</span><strong data-result="irr">0%</strong></div>
+      <div><span>Simple payback</span><strong data-result="payback">0 years</strong></div>
+      <div><span>Profitability index</span><strong data-result="pi">0.00x</strong></div>
+      <div><span>Present value of inflows</span><strong data-result="pv">PKR 0</strong></div>
+    </div>
+    <p class="result-note">Assumes equal annual cash flows and no terminal value. A positive NPV at your required return supports the project; confirm the assumptions and risk before deciding.</p>
+    <button type="button" class="btn btn-outline btn-sm" data-calc-reset><Icon name="x" size={14} /> Reset</button>
+  </div>
+</div>
+
+<script>
+  import { money, inputNumber } from '../../lib/format';
+
+  const root = document.querySelector<HTMLElement>('[data-calculator="npv"]');
+  if (root) {
+    const form = root.querySelector<HTMLFormElement>('[data-calc-form]')!;
+    const result = (name: string) => root.querySelector<HTMLElement>(`[data-result="${name}"]`)!;
+
+    const npvAt = (rate: number, initial: number, cashflow: number, years: number) => {
+      if (Math.abs(rate) < 1e-10) return -initial + cashflow * years;
+      return -initial + (cashflow * (1 - Math.pow(1 + rate, -years))) / rate;
+    };
+
+    const findIrr = (initial: number, cashflow: number, years: number) => {
+      let low = -0.9999;
+      let high = 10;
+      let lowValue = npvAt(low, initial, cashflow, years);
+      const highValue = npvAt(high, initial, cashflow, years);
+      if (lowValue * highValue > 0) return null;
+      for (let i = 0; i < 200; i += 1) {
+        const mid = (low + high) / 2;
+        const midValue = npvAt(mid, initial, cashflow, years);
+        if (Math.abs(midValue) < 1e-8) return mid;
+        if (lowValue * midValue <= 0) {
+          high = mid;
+        } else {
+          low = mid;
+          lowValue = midValue;
+        }
+      }
+      return (low + high) / 2;
+    };
+
+    const calculate = () => {
+      const data = new FormData(form);
+      const initial = Math.max(0, inputNumber(data, 'initial'));
+      const cashflow = Math.max(0, inputNumber(data, 'cashflow'));
+      const years = Math.max(1, inputNumber(data, 'years', 1));
+      const rate = Math.max(0, inputNumber(data, 'rate')) / 100;
+      const npv = npvAt(rate, initial, cashflow, years);
+      const pv = npv + initial;
+      const pi = initial > 0 ? pv / initial : 0;
+      const irr = findIrr(initial, cashflow, years);
+      const payback = cashflow > 0 ? initial / cashflow : Infinity;
+
+      result('npv').textContent = money(npv);
+      result('decision').textContent = npv >= 0 ? 'Positive NPV — accept on financial grounds' : 'Negative NPV — review assumptions';
+      result('irr').textContent = irr === null ? 'Not available' : `${(irr * 100).toFixed(2)}%`;
+      result('payback').textContent = Number.isFinite(payback) ? `${payback.toFixed(2)} years` : 'Not recoverable';
+      result('pi').textContent = `${pi.toFixed(2)}x`;
+      result('pv').textContent = money(pv);
+    };
+
+    form.addEventListener('input', calculate);
+    root.querySelector('[data-calc-reset]')?.addEventListener('click', () => {
+      form.reset();
+      calculate();
+    });
+    calculate();
+  }
+</script>

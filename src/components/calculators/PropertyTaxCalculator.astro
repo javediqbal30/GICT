@@ -1,0 +1,88 @@
+---
+import Icon from '../Icon.astro';
+---
+<div class="calc" data-calculator="property">
+  <form class="calc-form" data-calc-form>
+    <div class="calc-fields">
+      <div class="calc-field">
+        <label for="property-value">Sale consideration</label>
+        <div class="input-wrap"><span class="input-prefix">PKR</span><input id="property-value" name="value" type="number" min="0" step="100000" value="10000000" inputmode="decimal" /></div>
+      </div>
+      <div class="calc-field">
+        <label for="property-dc">DC value</label>
+        <div class="input-wrap"><span class="input-prefix">PKR</span><input id="property-dc" name="dc" type="number" min="0" step="100000" value="8000000" inputmode="decimal" /></div>
+      </div>
+      <div class="calc-field">
+        <label for="property-fbr">FBR value</label>
+        <div class="input-wrap"><span class="input-prefix">PKR</span><input id="property-fbr" name="fbr" type="number" min="0" step="100000" value="9000000" inputmode="decimal" /></div>
+      </div>
+      <div class="calc-field">
+        <label for="property-buyer">Buyer tax status</label>
+        <select id="property-buyer" name="buyer">
+          <option value="3">Filer — 3% (illustrative)</option>
+          <option value="6">Non-filer — 6% (illustrative)</option>
+        </select>
+      </div>
+      <div class="calc-field">
+        <label for="property-seller">Seller tax status</label>
+        <select id="property-seller" name="seller">
+          <option value="3">Filer — 3% (illustrative)</option>
+          <option value="6">Non-filer — 6% (illustrative)</option>
+        </select>
+      </div>
+    </div>
+  </form>
+
+  <div class="calc-result" aria-live="polite" aria-atomic="true">
+    <div class="result-hero">
+      <span class="result-label">Estimated total advance tax</span>
+      <strong data-result="total">PKR 0</strong>
+      <span class="result-sub" data-result="base">Tax base PKR 0</span>
+    </div>
+    <div class="result-rows">
+      <div><span>Buyer — Section 236K</span><strong data-result="buyer">PKR 0</strong></div>
+      <div><span>Seller — Section 236C</span><strong data-result="seller">PKR 0</strong></div>
+      <div><span>Effective rate on tax base</span><strong data-result="effective">0%</strong></div>
+    </div>
+    <p class="result-note">Illustrative 2024-25 rates and simplified assumptions. The tax base is the highest of consideration, DC value and FBR value. Confirm current rates and exemptions with FBR or your adviser.</p>
+    <button type="button" class="btn btn-outline btn-sm" data-calc-reset><Icon name="x" size={14} /> Reset</button>
+  </div>
+</div>
+
+<script>
+  import { money, inputNumber } from '../../lib/format';
+
+  const root = document.querySelector<HTMLElement>('[data-calculator="property"]');
+  if (root) {
+    const form = root.querySelector<HTMLFormElement>('[data-calc-form]')!;
+    const result = (name: string) => root.querySelector<HTMLElement>(`[data-result="${name}"]`)!;
+
+    const calculate = () => {
+      const data = new FormData(form);
+      const value = Math.max(0, inputNumber(data, 'value'));
+      const dc = Math.max(0, inputNumber(data, 'dc'));
+      const fbr = Math.max(0, inputNumber(data, 'fbr'));
+      const buyerRate = inputNumber(data, 'buyer', 3);
+      const sellerRate = inputNumber(data, 'seller', 3);
+      const base = Math.max(value, dc, fbr);
+      const buyer = (base * buyerRate) / 100;
+      const seller = (base * sellerRate) / 100;
+      const total = buyer + seller;
+      const effective = base > 0 ? (total / base) * 100 : 0;
+
+      result('total').textContent = money(total);
+      result('base').textContent = `Tax base ${money(base)}`;
+      result('buyer').textContent = money(buyer);
+      result('seller').textContent = money(seller);
+      result('effective').textContent = `${effective.toFixed(2)}%`;
+    };
+
+    form.addEventListener('input', calculate);
+    form.addEventListener('change', calculate);
+    root.querySelector('[data-calc-reset]')?.addEventListener('click', () => {
+      form.reset();
+      calculate();
+    });
+    calculate();
+  }
+</script>

@@ -1,0 +1,81 @@
+---
+import Icon from './Icon.astro';
+import { calculators, getCalculator, type Calculator } from '../data/calculators';
+import { getCourse } from '../data/courses';
+
+export interface Props {
+  calculator: Calculator;
+  courseSlug?: string;
+  related?: string[];
+}
+
+const { calculator, courseSlug = 'tax-filing-iris-compliance', related = [] } = Astro.props;
+const course = getCourse(courseSlug);
+const relatedCalculators = (related.length ? related : calculators.filter((item) => item.slug !== calculator.slug).slice(0, 3).map((item) => item.slug))
+  .map((slug) => getCalculator(slug))
+  .filter((item): item is Calculator => Boolean(item));
+---
+<section class="section section--white calculator-page-section">
+  <div class="container calculator-layout">
+    <div class="calculator-main">
+      <div class="calculator-panel">
+        <div class="calculator-panel-head">
+          <span class="badge">{calculator.category}</span>
+          <span class="calculator-panel-meta">
+            <span><Icon name="file-check" size={14} /> {calculator.taxYear}</span>
+            <span><Icon name="clock" size={14} /> Updated Oct 2026</span>
+          </span>
+        </div>
+        <slot />
+        <p class="calculator-disclaimer-inline">
+          <Icon name="info" size={15} />
+          Estimate only. Rates and eligibility can change. Verify with FBR or a qualified adviser before filing.
+        </p>
+      </div>
+
+      <div class="calculator-explainer">
+        <slot name="explainer" />
+      </div>
+    </div>
+
+    <aside class="calculator-aside">
+      {course && (
+        <div class="aside-card aside-card--navy">
+          <p class="eyebrow eyebrow--light">Go deeper</p>
+          <h2>{course.title}</h2>
+          <p>Learn the filing workflow, computations and documentation behind this calculator.</p>
+          <a class="btn btn-gold btn-block" href={`/courses/${course.slug}`}>
+            View programme
+            <Icon name="arrow-right" size={16} />
+          </a>
+          <button type="button" class="aside-link" data-open-admission data-programme={course.slug}>
+            Ask about the next cohort
+            <Icon name="arrow-up-right" size={14} />
+          </button>
+        </div>
+      )}
+
+      <div class="aside-card">
+        <h2 class="aside-title">Related calculators</h2>
+        <ul class="aside-links">
+          {relatedCalculators.map((item) => (
+            <li>
+              <a href={`/calculators/${item.slug}`}>
+                <span>{item.shortTitle}</span>
+                <Icon name="arrow-right" size={15} />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="aside-note">
+        <Icon name="shield" size={19} />
+        <div>
+          <strong>No data leaves your browser</strong>
+          <p>All calculations run locally. We do not store the figures you enter.</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>

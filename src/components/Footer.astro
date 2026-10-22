@@ -1,0 +1,67 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { footerLinks } from '../data/navigation';
+import { site } from '../data/site';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="footer-gold-line" aria-hidden="true"></div>
+  <div class="container footer-main">
+    <div class="footer-brand">
+      <a href="/" class="footer-logo" aria-label="GICT home">
+        <Logo size={54} />
+      </a>
+      <p class="footer-tagline">
+        Practitioner-led taxation, corporate law and finance training in Rawalpindi. On-campus and live online.
+      </p>
+      <div class="footer-contact">
+        <a href={site.phoneHref}><Icon name="phone" size={17} /> {site.phoneDisplay}</a>
+        <a href={`https://wa.me/${site.whatsappNumber}`} target="_blank" rel="noopener">
+          <Icon name="whatsapp" size={18} /> {site.whatsappDisplay}
+        </a>
+        <a href={`mailto:${site.email}`}><Icon name="mail" size={17} /> {site.email}</a>
+        <a href={site.mapUrl} target="_blank" rel="noopener">
+          <Icon name="map-pin" size={17} /> Committee Chowk, Rawalpindi
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-column">
+      <h2 class="footer-heading">Programmes</h2>
+      <ul>
+        {footerLinks.programmes.map((link) => (
+          <li><a href={link.href}>{link.label}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h2 class="footer-heading">Explore</h2>
+      <ul>
+        {footerLinks.explore.map((link) => (
+          <li><a href={link.href}>{link.label}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="footer-column footer-visit">
+      <h2 class="footer-heading">Visit the campus</h2>
+      <p>{site.address.line1}<br />{site.address.line2}<br />{site.address.city}, Pakistan</p>
+      <p class="footer-hours"><Icon name="clock" size={16} /> {site.hours}</p>
+      <a class="footer-cta" href="/contact">
+        Book a campus visit
+        <Icon name="arrow-up-right" size={16} />
+      </a>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <p>© {year} {site.legalName}. All rights reserved.</p>
+    <nav aria-label="Legal">
+      {footerLinks.legal.map((link) => (
+        <a href={link.href}>{link.label}</a>
+      ))}
+    </nav>
+  </div>
+</footer>

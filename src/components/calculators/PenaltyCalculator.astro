@@ -1,0 +1,85 @@
+---
+import Icon from '../Icon.astro';
+---
+<div class="calc" data-calculator="penalty">
+  <form class="calc-form" data-calc-form>
+    <div class="calc-fields">
+      <div class="calc-field">
+        <label for="penalty-tax">Tax payable</label>
+        <div class="input-wrap"><span class="input-prefix">PKR</span><input id="penalty-tax" name="tax" type="number" min="0" step="1000" value="500000" inputmode="decimal" /></div>
+      </div>
+      <div class="calc-field">
+        <label for="penalty-days">Days late</label>
+        <div class="input-wrap"><input id="penalty-days" name="days" type="number" min="0" step="1" value="30" inputmode="numeric" /><span class="input-suffix">days</span></div>
+      </div>
+      <div class="calc-field">
+        <label for="penalty-rate">Penalty rate per day</label>
+        <div class="input-wrap"><input id="penalty-rate" name="rate" type="number" min="0" max="100" step="0.01" value="0.1" inputmode="decimal" /><span class="input-suffix">%</span></div>
+      </div>
+      <div class="calc-field">
+        <label for="penalty-surcharge">Default surcharge rate (annual)</label>
+        <div class="input-wrap"><input id="penalty-surcharge" name="surcharge" type="number" min="0" max="100" step="0.01" value="25.5" inputmode="decimal" /><span class="input-suffix">%</span></div>
+      </div>
+      <div class="calc-field">
+        <label for="penalty-min">Minimum penalty</label>
+        <div class="input-wrap"><span class="input-prefix">PKR</span><input id="penalty-min" name="min" type="number" min="0" step="100" value="1000" inputmode="decimal" /></div>
+      </div>
+      <div class="calc-field">
+        <label for="penalty-max">Maximum penalty</label>
+        <div class="input-wrap"><span class="input-prefix">PKR</span><input id="penalty-max" name="max" type="number" min="0" step="1000" value="200000" inputmode="decimal" /></div>
+      </div>
+    </div>
+  </form>
+
+  <div class="calc-result" aria-live="polite" aria-atomic="true">
+    <div class="result-hero">
+      <span class="result-label">Estimated total payable</span>
+      <strong data-result="total">PKR 0</strong>
+      <span class="result-sub" data-result="days">30 days late</span>
+    </div>
+    <div class="result-rows">
+      <div><span>Late filing penalty</span><strong data-result="penalty">PKR 0</strong></div>
+      <div><span>Default surcharge</span><strong data-result="surcharge">PKR 0</strong></div>
+      <div><span>Tax plus surcharge</span><strong data-result="base">PKR 0</strong></div>
+    </div>
+    <p class="result-note">The statutory penalty and surcharge depend on the provision, tax year and facts. This tool uses the rates you enter. Verify the applicable limits before paying or filing.</p>
+    <button type="button" class="btn btn-outline btn-sm" data-calc-reset><Icon name="x" size={14} /> Reset</button>
+  </div>
+</div>
+
+<script>
+  import { money, inputNumber } from '../../lib/format';
+
+  const root = document.querySelector<HTMLElement>('[data-calculator="penalty"]');
+  if (root) {
+    const form = root.querySelector<HTMLFormElement>('[data-calc-form]')!;
+    const result = (name: string) => root.querySelector<HTMLElement>(`[data-result="${name}"]`)!;
+
+    const calculate = () => {
+      const data = new FormData(form);
+      const tax = Math.max(0, inputNumber(data, 'tax'));
+      const days = Math.max(0, inputNumber(data, 'days'));
+      const rate = Math.max(0, inputNumber(data, 'rate'));
+      const annualSurcharge = Math.max(0, inputNumber(data, 'surcharge'));
+      const min = Math.max(0, inputNumber(data, 'min'));
+      const max = Math.max(0, inputNumber(data, 'max'));
+      const rawPenalty = (tax * rate * days) / 100;
+      const penalty = Math.min(Math.max(rawPenalty, min), max);
+      const surcharge = (tax * annualSurcharge * days) / 365 / 100;
+      const total = tax + penalty + surcharge;
+
+      result('total').textContent = money(total);
+      result('days').textContent = `${days} ${days === 1 ? 'day' : 'days'} late`;
+      result('penalty').textContent = money(penalty);
+      result('surcharge').textContent = money(surcharge);
+      result('base').textContent = money(tax + surcharge);
+    };
+
+    form.addEventListener('input', calculate);
+    root.querySelector('[data-calc-reset]')?.addEventListener('click', () => {
+      form.reset();
+      calculate();
+    });
+    calculate();
+  }
+</script>

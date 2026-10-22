@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+---
+<BaseLayout
+  title="Thank you | GICT Admissions"
+  description="Your GICT admissions enquiry has been prepared. Here are the next steps."
+  noindex={true}
+>
+  <section class="centered-page">
+    <div class="container centered-inner">
+      <span class="success-icon"><Icon name="check" size={26} /></span>
+      <p class="error-code" style="margin-top:18px;">Enquiry prepared</p>
+      <h1>Thank you — your next step is ready.</h1>
+      <p>
+        If WhatsApp opened, send the message and admissions will reply from the official GICT number. If it
+        did not open, use the button below or contact us directly.
+      </p>
+      <div class="centered-actions">
+        <a class="btn btn-primary" href={`https://wa.me/${site.whatsappNumber}`} target="_blank" rel="noopener">
+          Open WhatsApp
+          <Icon name="whatsapp" size={18} />
+        </a>
+        <a class="btn btn-outline" href={site.phoneHref}>
+          Call {site.phoneDisplay}
+          <Icon name="phone" size={16} />
+        </a>
+      </div>
+      <p style="margin-top:22px;font-size:11.5px;">
+        You can return to <a href="/courses" style="color:var(--navy);text-decoration:underline;">programmes</a>,
+        explore <a href="/calculators" style="color:var(--navy);text-decoration:underline;">calculators</a>, or
+        read the <a href="/knowledge-hub" style="color:var(--navy);text-decoration:underline;">Knowledge Hub</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

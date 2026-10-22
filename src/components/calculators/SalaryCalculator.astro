@@ -1,0 +1,92 @@
+---
+import Icon from '../Icon.astro';
+---
+<div class="calc" data-calculator="salary">
+  <form class="calc-form" data-calc-form>
+    <div class="calc-fields">
+      <div class="calc-field">
+        <label for="salary-monthly">Monthly gross salary</label>
+        <div class="input-wrap"><span class="input-prefix">PKR</span><input id="salary-monthly" name="monthly" type="number" min="0" step="1000" value="150000" inputmode="decimal" /></div>
+      </div>
+      <div class="calc-field">
+        <label for="salary-other">Other annual taxable income <span>Optional</span></label>
+        <div class="input-wrap"><span class="input-prefix">PKR</span><input id="salary-other" name="other" type="number" min="0" step="1000" value="0" inputmode="decimal" /></div>
+      </div>
+      <div class="calc-field">
+        <label for="salary-credits">Annual tax credits <span>Optional</span></label>
+        <div class="input-wrap"><span class="input-prefix">PKR</span><input id="salary-credits" name="credits" type="number" min="0" step="1000" value="0" inputmode="decimal" /></div>
+        <p class="field-hint">Enter the credit amount, not the investment amount.</p>
+      </div>
+    </div>
+  </form>
+
+  <div class="calc-result" aria-live="polite" aria-atomic="true">
+    <div class="result-hero">
+      <span class="result-label">Estimated annual tax</span>
+      <strong data-result="tax">PKR 0</strong>
+      <span class="result-sub" data-result="effective">Effective rate 0%</span>
+    </div>
+    <div class="result-rows">
+      <div><span>Monthly withholding</span><strong data-result="monthly">PKR 0</strong></div>
+      <div><span>Monthly take-home</span><strong data-result="takehome">PKR 0</strong></div>
+      <div><span>Annual taxable salary</span><strong data-result="taxable">PKR 0</strong></div>
+      <div><span>Marginal rate</span><strong data-result="marginal">0%</strong></div>
+    </div>
+    <p class="result-note">Illustrative Tax Year 2024-25 salary slabs. Confirm the current Finance Act before filing.</p>
+    <button type="button" class="btn btn-outline btn-sm" data-calc-reset><Icon name="x" size={14} /> Reset</button>
+  </div>
+</div>
+
+<script>
+  import { money, inputNumber } from '../../lib/format';
+
+  const root = document.querySelector<HTMLElement>('[data-calculator="salary"]');
+  if (root) {
+    const form = root.querySelector<HTMLFormElement>('[data-calc-form]')!;
+    const result = (name: string) => root.querySelector<HTMLElement>(`[data-result="${name}"]`)!;
+    const slabs = [
+      { upTo: 600000, rate: 0, fixed: 0 },
+      { upTo: 1200000, rate: 0.05, fixed: 0 },
+      { upTo: 2200000, rate: 0.15, fixed: 30000 },
+      { upTo: 3200000, rate: 0.25, fixed: 180000 },
+      { upTo: 4100000, rate: 0.3, fixed: 430000 },
+      { upTo: Infinity, rate: 0.35, fixed: 700000 },
+    ];
+
+    const calculate = () => {
+      const data = new FormData(form);
+      const monthly = Math.max(0, inputNumber(data, 'monthly'));
+      const other = Math.max(0, inputNumber(data, 'other'));
+      const credits = Math.max(0, inputNumber(data, 'credits'));
+      const taxable = monthly * 12 + other;
+      let annualTax = 0;
+      let marginal = 0;
+
+      for (const slab of slabs) {
+        if (taxable <= slab.upTo) {
+          annualTax = slab.fixed + Math.max(0, taxable - (slabs[slabs.indexOf(slab) - 1]?.upTo ?? 0)) * slab.rate;
+          marginal = slab.rate;
+          break;
+        }
+      }
+
+      annualTax = Math.max(0, annualTax - credits);
+      const monthlyTax = annualTax / 12;
+      const effective = taxable > 0 ? (annualTax / taxable) * 100 : 0;
+
+      result('tax').textContent = money(annualTax);
+      result('monthly').textContent = money(monthlyTax);
+      result('takehome').textContent = money(Math.max(0, monthly - monthlyTax));
+      result('taxable').textContent = money(taxable);
+      result('marginal').textContent = `${Math.round(marginal * 100)}%`;
+      result('effective').textContent = `Effective rate ${effective.toFixed(2)}%`;
+    };
+
+    form.addEventListener('input', calculate);
+    root.querySelector('[data-calc-reset]')?.addEventListener('click', () => {
+      form.reset();
+      calculate();
+    });
+    calculate();
+  }
+</script>

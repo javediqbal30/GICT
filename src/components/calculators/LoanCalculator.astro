@@ -1,0 +1,105 @@
+---
+import Icon from '../Icon.astro';
+---
+<div class="calc" data-calculator="loan">
+  <form class="calc-form" data-calc-form>
+    <div class="calc-fields">
+      <div class="calc-field">
+        <label for="loan-principal">Loan principal</label>
+        <div class="input-wrap"><span class="input-prefix">PKR</span><input id="loan-principal" name="principal" type="number" min="0" step="100000" value="20000000" inputmode="decimal" /></div>
+      </div>
+      <div class="calc-field">
+        <label for="loan-rate">Annual interest rate</label>
+        <div class="input-wrap"><input id="loan-rate" name="rate" type="number" min="0" max="100" step="0.01" value="14" inputmode="decimal" /><span class="input-suffix">%</span></div>
+      </div>
+      <div class="calc-field">
+        <label for="loan-years">Tenor</label>
+        <div class="input-wrap"><input id="loan-years" name="years" type="number" min="1" max="40" step="1" value="5" inputmode="numeric" /><span class="input-suffix">years</span></div>
+      </div>
+      <div class="calc-field">
+        <label for="loan-frequency">Payments per year</label>
+        <select id="loan-frequency" name="frequency">
+          <option value="12">Monthly (12)</option>
+          <option value="4">Quarterly (4)</option>
+          <option value="2">Half-yearly (2)</option>
+          <option value="1">Annual (1)</option>
+        </select>
+      </div>
+      <div class="calc-field">
+        <label for="loan-ebitda">Annual EBITDA</label>
+        <div class="input-wrap"><span class="input-prefix">PKR</span><input id="loan-ebitda" name="ebitda" type="number" min="0" step="100000" value="12000000" inputmode="decimal" /></div>
+      </div>
+      <div class="calc-field">
+        <label for="loan-existing">Existing annual debt service</label>
+        <div class="input-wrap"><span class="input-prefix">PKR</span><input id="loan-existing" name="existing" type="number" min="0" step="100000" value="3000000" inputmode="decimal" /></div>
+      </div>
+    </div>
+  </form>
+
+  <div class="calc-result" aria-live="polite" aria-atomic="true">
+    <div class="result-hero">
+      <span class="result-label">Periodic instalment</span>
+      <strong data-result="payment">PKR 0</strong>
+      <span class="result-sub" data-result="frequency">Monthly payment</span>
+    </div>
+    <div class="result-rows">
+      <div><span>Total interest</span><strong data-result="interest">PKR 0</strong></div>
+      <div><span>Total repayment</span><strong data-result="total">PKR 0</strong></div>
+      <div><span>Annual debt service</span><strong data-result="annual">PKR 0</strong></div>
+      <div><span>DSCR</span><strong data-result="dscr">0.00x</strong></div>
+    </div>
+    <p class="result-note" data-result="note">A DSCR above 1.25x is often treated as comfortable, but covenants depend on the lender and facility.</p>
+    <button type="button" class="btn btn-outline btn-sm" data-calc-reset><Icon name="x" size={14} /> Reset</button>
+  </div>
+</div>
+
+<script>
+  import { money, inputNumber } from '../../lib/format';
+
+  const root = document.querySelector<HTMLElement>('[data-calculator="loan"]');
+  if (root) {
+    const form = root.querySelector<HTMLFormElement>('[data-calc-form]')!;
+    const result = (name: string) => root.querySelector<HTMLElement>(`[data-result="${name}"]`)!;
+
+    const calculate = () => {
+      const data = new FormData(form);
+      const principal = Math.max(0, inputNumber(data, 'principal'));
+      const annualRate = Math.max(0, inputNumber(data, 'rate')) / 100;
+      const years = Math.max(1, inputNumber(data, 'years', 1));
+      const frequency = Math.max(1, inputNumber(data, 'frequency', 12));
+      const ebitda = Math.max(0, inputNumber(data, 'ebitda'));
+      const existing = Math.max(0, inputNumber(data, 'existing'));
+      const periodicRate = annualRate / frequency;
+      const periods = Math.round(years * frequency);
+      const payment =
+        periodicRate === 0
+          ? principal / periods
+          : (principal * periodicRate * Math.pow(1 + periodicRate, periods)) /
+            (Math.pow(1 + periodicRate, periods) - 1);
+      const total = payment * periods;
+      const interest = total - principal;
+      const annual = payment * frequency;
+      const dscr = annual + existing > 0 ? ebitda / (annual + existing) : 0;
+
+      result('payment').textContent = money(payment);
+      result('frequency').textContent =
+        frequency === 12 ? 'Monthly payment' : frequency === 4 ? 'Quarterly payment' : frequency === 2 ? 'Half-yearly payment' : 'Annual payment';
+      result('interest').textContent = money(interest);
+      result('total').textContent = money(total);
+      result('annual').textContent = money(annual);
+      result('dscr').textContent = `${dscr.toFixed(2)}x`;
+      result('note').textContent =
+        dscr >= 1.25
+          ? 'DSCR is above 1.25x. Confirm the actual covenant and debt-service definition with the lender.'
+          : 'DSCR is below 1.25x. Review cash flow, tenor and existing obligations before proceeding.';
+    };
+
+    form.addEventListener('input', calculate);
+    form.addEventListener('change', calculate);
+    root.querySelector('[data-calc-reset]')?.addEventListener('click', () => {
+      form.reset();
+      calculate();
+    });
+    calculate();
+  }
+</script>

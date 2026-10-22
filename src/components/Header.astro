@@ -1,0 +1,188 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { primaryNav } from '../data/navigation';
+import { site } from '../data/site';
+
+const pathname = Astro.url.pathname;
+const isActive = (href: string) => pathname === href || (href !== '/' && pathname.startsWith(`${href}/`));
+---
+<header class="site-header" data-site-header>
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label="GICT — Global Institute of Corporate Training home">
+      <Logo size={50} />
+    </a>
+
+    <nav class="primary-nav" aria-label="Primary navigation">
+      {primaryNav.map((item) =>
+        item.children ? (
+          <div class="nav-group" data-nav-group>
+            <button
+              type="button"
+              class:list={['nav-link', 'nav-trigger', { 'is-active': isActive(item.href) }]}
+              aria-expanded="false"
+              aria-controls={`nav-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
+              data-nav-trigger
+            >
+              {item.label}
+              <Icon name="chevron-down" size={14} />
+            </button>
+            <div
+              class="nav-dropdown"
+              id={`nav-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
+              data-nav-panel
+              hidden
+            >
+              <div class="nav-dropdown-inner">
+                <p class="nav-dropdown-label">{item.label}</p>
+                {item.children.map((child) => (
+                  <a href={child.href} class="nav-dropdown-link">
+                    <span>
+                      <strong>{child.label}</strong>
+                      {child.description && <small>{child.description}</small>}
+                    </span>
+                    <Icon name="arrow-up-right" size={15} />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <a href={item.href} class:list={['nav-link', { 'is-active': isActive(item.href) }]}>
+            {item.label}
+          </a>
+        )
+      )}
+    </nav>
+
+    <div class="header-actions">
+      <a class="header-phone" href={site.phoneHref} aria-label={`Call GICT on ${site.phoneDisplay}`}>
+        <Icon name="phone" size={16} />
+        <span>{site.phoneDisplay}</span>
+      </a>
+      <button type="button" class="btn btn-gold header-cta" data-open-admission>
+        Apply now
+        <Icon name="arrow-right" size={16} />
+      </button>
+      <button
+        type="button"
+        class="menu-toggle"
+        aria-label="Open menu"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        data-menu-toggle
+      >
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu" data-mobile-menu hidden>
+    <div class="mobile-menu-inner">
+      <nav aria-label="Mobile navigation">
+        {primaryNav.map((item) => (
+          <div class="mobile-nav-group">
+            <a href={item.href} class:list={['mobile-nav-link', { 'is-active': isActive(item.href) }]} data-mobile-link>
+              {item.label}
+              <Icon name="chevron-right" size={18} />
+            </a>
+            {item.children && (
+              <div class="mobile-subnav">
+                {item.children.map((child) => (
+                  <a href={child.href} data-mobile-link>{child.label}</a>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </nav>
+      <div class="mobile-menu-contact">
+        <a href={site.phoneHref}><Icon name="phone" size={17} /> {site.phoneDisplay}</a>
+        <a href={`https://wa.me/${site.whatsappNumber}`} target="_blank" rel="noopener">
+          <Icon name="whatsapp" size={18} /> WhatsApp admissions
+        </a>
+        <span class="header-whatsapp-display">
+          <Icon name="whatsapp" size={16} /> {site.whatsappDisplay}
+        </span>
+        <a href={`mailto:${site.email}`}><Icon name="mail" size={17} /> {site.email}</a>
+      </div>
+      <button type="button" class="btn btn-gold btn-block" data-open-admission>
+        Apply for admission
+        <Icon name="arrow-right" size={16} />
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  const menuToggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const mobileMenu = document.querySelector<HTMLElement>('[data-mobile-menu]');
+
+  const closeMenu = () => {
+    if (!menuToggle || !mobileMenu) return;
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.setAttribute('aria-label', 'Open menu');
+    mobileMenu.hidden = true;
+    document.body.classList.remove('menu-open');
+  };
+
+  menuToggle?.addEventListener('click', () => {
+    if (!mobileMenu) return;
+    const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
+    menuToggle.setAttribute('aria-expanded', String(!isOpen));
+    menuToggle.setAttribute('aria-label', isOpen ? 'Open menu' : 'Close menu');
+    mobileMenu.hidden = isOpen;
+    document.body.classList.toggle('menu-open', !isOpen);
+  });
+
+  mobileMenu?.querySelectorAll('[data-mobile-link]').forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeMenu();
+      closeDropdowns();
+    }
+  });
+
+  const dropdownGroups = Array.from(document.querySelectorAll<HTMLElement>('[data-nav-group]'));
+
+  function closeDropdowns(except?: HTMLElement) {
+    dropdownGroups.forEach((group) => {
+      if (group === except) return;
+      const trigger = group.querySelector<HTMLButtonElement>('[data-nav-trigger]');
+      const panel = group.querySelector<HTMLElement>('[data-nav-panel]');
+      trigger?.setAttribute('aria-expanded', 'false');
+      if (panel) panel.hidden = true;
+    });
+  }
+
+  dropdownGroups.forEach((group) => {
+    const trigger = group.querySelector<HTMLButtonElement>('[data-nav-trigger]');
+    const panel = group.querySelector<HTMLElement>('[data-nav-panel]');
+    if (!trigger || !panel) return;
+
+    trigger.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+      closeDropdowns(group);
+      trigger.setAttribute('aria-expanded', String(!isOpen));
+      panel.hidden = isOpen;
+    });
+
+    group.addEventListener('focusout', (event) => {
+      const next = event.relatedTarget as Node | null;
+      if (next && !group.contains(next)) {
+        trigger.setAttribute('aria-expanded', 'false');
+        panel.hidden = true;
+      }
+    });
+  });
+
+  document.addEventListener('click', () => closeDropdowns());
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 960) closeMenu();
+  });
+</script>

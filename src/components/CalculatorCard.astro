@@ -1,0 +1,24 @@
+---
+import Icon from './Icon.astro';
+import type { Calculator } from '../data/calculators';
+
+export interface Props {
+  calculator: Calculator;
+}
+
+const { calculator } = Astro.props;
+---
+<a class="calculator-card" href={`/calculators/${calculator.slug}`} data-category={calculator.category} data-search={`${calculator.title} ${calculator.shortTitle} ${calculator.description} ${calculator.law}`.toLowerCase()}>
+  <span class="calculator-card-icon">
+    <Icon name={calculator.icon} size={22} />
+  </span>
+  <span class="calculator-card-copy">
+    <span class="calculator-card-category">{calculator.category}</span>
+    <strong>{calculator.title}</strong>
+    <span class="calculator-card-description">{calculator.description}</span>
+    <span class="calculator-card-meta">
+      <span>{calculator.taxYear}</span>
+      <span class="calculator-card-arrow"><Icon name="arrow-up-right" size={16} /></span>
+    </span>
+  </span>
+</a>

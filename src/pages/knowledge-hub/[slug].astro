@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Icon from '../../components/Icon.astro';
+import CTASection from '../../components/CTASection.astro';
+import { articles, type Article } from '../../data/articles';
+import { site } from '../../data/site';
+
+export function getStaticPaths() {
+  return articles.map((article) => ({ params: { slug: article.slug }, props: { article } }));
+}
+
+interface Props {
+  article: Article;
+}
+
+const { article } = Astro.props;
+const related = articles.filter((item) => item.slug !== article.slug).slice(0, 3);
+const formatDate = (value: string) =>
+  new Date(value).toLocaleDateString('en-PK', { day: 'numeric', month: 'long', year: 'numeric' });
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: article.title,
+  description: article.excerpt,
+  datePublished: article.published,
+  dateModified: article.updated,
+  author: { '@type': 'Organization', name: article.author, url: site.url },
+  reviewedBy: { '@type': 'Person', name: article.reviewer },
+  publisher: { '@type': 'EducationalOrganization', name: site.legalName, url: site.url },
+  mainEntityOfPage: new URL(`/knowledge-hub/${article.slug}`, site.url).toString(),
+};
+---
+<BaseLayout title={article.metaTitle} description={article.metaDescription} type="article" jsonLd={articleSchema}>
+  <PageHero eyebrow={article.category} title={article.title} description={article.excerpt}>
+    <Breadcrumbs
+      slot="breadcrumbs"
+      items={[
+        { label: 'Home', href: '/' },
+        { label: 'Knowledge Hub', href: '/knowledge-hub' },
+        { label: article.title },
+      ]}
+    />
+    <div class="article-byline">
+      <span>By <strong>{article.author}</strong></span>
+      <span>Reviewed by <strong>{article.reviewer}</strong></span>
+      <span>Updated {formatDate(article.updated)}</span>
+      <span>{article.readingTime}</span>
+    </div>
+  </PageHero>
+
+  <section class="section section--white">
+    <div class="container article-layout">
+      <article>
+        <div class="article-body" set:html={article.body} />
+
+        <div class="article-sources">
+          <h2>Primary sources to check</h2>
+          <ul>
+            <li><a href="https://www.fbr.gov.pk/" target="_blank" rel="noopener">Federal Board of Revenue — laws, circulars and notices</a></li>
+            <li><a href="https://pra.punjab.gov.pk/" target="_blank" rel="noopener">Punjab Revenue Authority — sales tax on services</a></li>
+            <li><a href="https://www.srb.gop.pk/" target="_blank" rel="noopener">Sindh Revenue Board — sales tax on services</a></li>
+            <li><a href="https://www.secp.gov.pk/" target="_blank" rel="noopener">Securities and Exchange Commission of Pakistan — company compliance</a></li>
+          </ul>
+        </div>
+
+        <div class="disclaimer-box" style="margin-top:28px;">
+          <Icon name="info" size={18} />
+          <p>
+            This article is general information, not tax or legal advice. It does not create an adviser-client
+            relationship. Laws and procedures change; verify the current position for your facts.
+          </p>
+        </div>
+      </article>
+
+      <aside class="article-sidebar">
+        <div class="author-box">
+          <span class="author-avatar">G</span>
+          <div>
+            <strong>{article.author}</strong>
+            <p>Practical notes from the GICT tax and legal desk. Reviewed by {article.reviewer}.</p>
+          </div>
+        </div>
+
+        <div class="aside-card aside-card--navy">
+          <p class="eyebrow eyebrow--light">Learn the method</p>
+          <h2>Turn the note into a working file.</h2>
+          <p>Our programmes connect the law to the computation, the notice and the review.</p>
+          <a class="btn btn-gold btn-block" href="/courses">
+            Explore programmes
+            <Icon name="arrow-right" size={16} />
+          </a>
+        </div>
+
+        <div class="aside-card">
+          <h2 class="aside-title">Continue reading</h2>
+          <ul class="aside-links">
+            {related.map((item) => (
+              <li>
+                <a href={`/knowledge-hub/${item.slug}`}>
+                  <span>{item.title}</span>
+                  <Icon name="arrow-right" size={15} />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <CTASection
+    title="Need to apply this to a real file?"
+    text="Explore the programme that matches your work, or talk to admissions about the right track."
+    primary={{ label: 'View programmes', href: '/courses' }}
+    secondary={{ label: 'Talk to admissions', href: '/contact' }}
+  />
+</BaseLayout>

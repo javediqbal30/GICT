@@ -1,0 +1,228 @@
+---
+import Icon from './Icon.astro';
+import { courses } from '../data/courses';
+import { site } from '../data/site';
+---
+<dialog class="admission-dialog" data-admission-dialog aria-labelledby="admission-title">
+  <div class="admission-card">
+    <button type="button" class="dialog-close" aria-label="Close admission form" data-close-admission>
+      <Icon name="x" size={20} />
+    </button>
+
+    <div class="admission-intro">
+      <p class="eyebrow eyebrow--gold">Admissions</p>
+      <h2 id="admission-title">Take the next step.</h2>
+      <p>
+        Tell us a little about yourself. We will confirm the programme, schedule and fee details
+        directly with you.
+      </p>
+      <div class="admission-assurance">
+        <span><Icon name="shield" size={15} /> No spam</span>
+        <span><Icon name="clock" size={15} /> One working day response</span>
+      </div>
+    </div>
+
+    <div class="admission-form-wrap" data-admission-form-wrap>
+      <form class="form" data-admission-form novalidate>
+        <div class="form-error-summary" data-error-summary role="alert" hidden></div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="admission-name">Full name</label>
+            <input id="admission-name" name="name" type="text" autocomplete="name" placeholder="Your full name" required />
+          </div>
+          <div class="field">
+            <label for="admission-phone">WhatsApp number</label>
+            <input id="admission-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="03xx xxxxxxx" required />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="admission-email">Email address</label>
+          <input id="admission-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+        </div>
+
+        <div class="field">
+          <label for="admission-programme">Programme of interest</label>
+          <select id="admission-programme" name="programme" required>
+            {courses.map((course) => (
+              <option value={course.slug}>{course.title}</option>
+            ))}
+          </select>
+        </div>
+
+        <fieldset class="field">
+          <legend>Preferred learning mode</legend>
+          <div class="radio-row">
+            <label class="radio-card">
+              <input type="radio" name="mode" value="On-campus" checked />
+              <span><Icon name="building" size={17} /> On-campus</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="mode" value="Live online" />
+              <span><Icon name="monitor" size={17} /> Live online</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="admission-message">Anything we should know? <span class="optional">Optional</span></label>
+          <textarea id="admission-message" name="message" rows="3" placeholder="Your background, preferred timing or a question"></textarea>
+        </div>
+
+        <label class="consent">
+          <input type="checkbox" name="consent" required />
+          <span>I agree to be contacted about this enquiry. See the <a href="/privacy">Privacy Policy</a>.</span>
+        </label>
+
+        <button type="submit" class="btn btn-primary btn-block">
+          Send enquiry via WhatsApp
+          <Icon name="whatsapp" size={18} />
+        </button>
+        <p class="form-note">
+          Your details are only used to respond to this enquiry. You can also call
+          <a href={site.phoneHref}>{site.phoneDisplay}</a>.
+        </p>
+      </form>
+    </div>
+
+    <div class="admission-success" data-admission-success hidden>
+      <span class="success-icon"><Icon name="check" size={26} /></span>
+      <h3 tabindex="-1">Your enquiry is ready.</h3>
+      <p>
+        WhatsApp should open in a new tab with your details. If it did not open, use the button below
+        or call admissions directly.
+      </p>
+      <a class="btn btn-gold btn-block" data-whatsapp-fallback href={`https://wa.me/${site.whatsappNumber}`} target="_blank" rel="noopener">
+        Open WhatsApp
+        <Icon name="whatsapp" size={18} />
+      </a>
+      <button type="button" class="btn btn-outline btn-block" data-reset-admission>Send another enquiry</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('[data-admission-dialog]');
+  const form = document.querySelector<HTMLFormElement>('[data-admission-form]');
+  const formWrap = document.querySelector<HTMLElement>('[data-admission-form-wrap]');
+  const success = document.querySelector<HTMLElement>('[data-admission-success]');
+  const errorSummary = document.querySelector<HTMLElement>('[data-error-summary]');
+  const programmeSelect = document.querySelector<HTMLSelectElement>('#admission-programme');
+  const fallback = document.querySelector<HTMLAnchorElement>('[data-whatsapp-fallback]');
+  let lastTrigger: HTMLElement | null = null;
+
+  const whatsappBase = 'https://wa.me/923390006854';
+
+  const openDialog = (trigger: HTMLElement) => {
+    if (!dialog) return;
+    lastTrigger = trigger;
+    form?.reset();
+    if (formWrap) formWrap.hidden = false;
+    if (success) success.hidden = true;
+    if (errorSummary) errorSummary.hidden = true;
+    const programme = trigger.dataset.programme;
+    if (programme && programmeSelect) programmeSelect.value = programme;
+    dialog.showModal();
+    document.body.classList.add('modal-open');
+  };
+
+  const closeDialog = () => {
+    if (!dialog) return;
+    dialog.close();
+    document.body.classList.remove('modal-open');
+    lastTrigger?.focus();
+  };
+
+  document.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement;
+    const trigger = target.closest<HTMLElement>('[data-open-admission]');
+    if (trigger) {
+      event.preventDefault();
+      openDialog(trigger);
+    }
+  });
+
+  document.querySelector('[data-close-admission]')?.addEventListener('click', closeDialog);
+  dialog?.addEventListener('click', (event) => {
+    if (event.target === dialog) closeDialog();
+  });
+  dialog?.addEventListener('cancel', () => {
+    document.body.classList.remove('modal-open');
+  });
+
+  const setError = (message: string) => {
+    if (!errorSummary) return;
+    errorSummary.textContent = message;
+    errorSummary.hidden = false;
+  };
+
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!form || !errorSummary) return;
+    errorSummary.hidden = true;
+
+    const data = new FormData(form);
+    const name = String(data.get('name') ?? '').trim();
+    const phone = String(data.get('phone') ?? '').trim();
+    const email = String(data.get('email') ?? '').trim();
+    const programmeSlug = String(data.get('programme') ?? '');
+    const mode = String(data.get('mode') ?? 'On-campus');
+    const message = String(data.get('message') ?? '').trim();
+    const consent = data.get('consent');
+
+    if (name.length < 2) {
+      setError('Please enter your full name.');
+      form.querySelector<HTMLInputElement>('#admission-name')?.focus();
+      return;
+    }
+    if (!/^[0-9+\-\s()]{7,20}$/.test(phone)) {
+      setError('Please enter a valid phone or WhatsApp number.');
+      form.querySelector<HTMLInputElement>('#admission-phone')?.focus();
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError('Please enter a valid email address.');
+      form.querySelector<HTMLInputElement>('#admission-email')?.focus();
+      return;
+    }
+    if (!programmeSlug) {
+      setError('Please choose a programme.');
+      programmeSelect?.focus();
+      return;
+    }
+    if (!consent) {
+      setError('Please confirm that we may contact you about this enquiry.');
+      form.querySelector<HTMLInputElement>('input[name="consent"]')?.focus();
+      return;
+    }
+
+    const programme = programmeSelect?.selectedOptions[0]?.text ?? programmeSlug;
+    const lines = [
+      'New admission enquiry — GICT',
+      `Name: ${name}`,
+      `Phone: ${phone}`,
+      `Email: ${email}`,
+      `Programme: ${programme}`,
+      `Mode: ${mode}`,
+    ];
+    if (message) lines.push(`Message: ${message}`);
+
+    const url = `${whatsappBase}?text=${encodeURIComponent(lines.join('\n'))}`;
+    if (fallback) fallback.href = url;
+    window.open(url, '_blank', 'noopener,noreferrer');
+
+    if (formWrap) formWrap.hidden = true;
+    if (success) {
+      success.hidden = false;
+      success.querySelector<HTMLElement>('h3')?.focus?.();
+    }
+  });
+
+  document.querySelector('[data-reset-admission]')?.addEventListener('click', () => {
+    form?.reset();
+    if (formWrap) formWrap.hidden = false;
+    if (success) success.hidden = true;
+    if (errorSummary) errorSummary.hidden = true;
+  });
+</script>

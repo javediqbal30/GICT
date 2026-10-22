@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CalculatorShell from '../../components/CalculatorShell.astro';
+import Icon from '../../components/Icon.astro';
+import { calculators, type Calculator } from '../../data/calculators';
+import { calculatorContent } from '../../data/calculatorContent';
+import { site } from '../../data/site';
+import SalaryCalculator from '../../components/calculators/SalaryCalculator.astro';
+import PropertyTaxCalculator from '../../components/calculators/PropertyTaxCalculator.astro';
+import SalesTaxCalculator from '../../components/calculators/SalesTaxCalculator.astro';
+import CorporateTaxCalculator from '../../components/calculators/CorporateTaxCalculator.astro';
+import GratuityCalculator from '../../components/calculators/GratuityCalculator.astro';
+import PenaltyCalculator from '../../components/calculators/PenaltyCalculator.astro';
+import LoanCalculator from '../../components/calculators/LoanCalculator.astro';
+import NpvCalculator from '../../components/calculators/NpvCalculator.astro';
+
+export function getStaticPaths() {
+  return calculators.map((calculator) => ({ params: { slug: calculator.slug }, props: { calculator } }));
+}
+
+interface Props {
+  calculator: Calculator;
+}
+
+const { calculator } = Astro.props;
+const content = calculatorContent[calculator.slug];
+const components = {
+  'salary-tax-calculator': SalaryCalculator,
+  'property-advance-tax-calculator': PropertyTaxCalculator,
+  'sales-tax-calculator': SalesTaxCalculator,
+  'corporate-tax-calculator': CorporateTaxCalculator,
+  'gratuity-calculator': GratuityCalculator,
+  'fbr-penalty-calculator': PenaltyCalculator,
+  'loan-dscr-calculator': LoanCalculator,
+  'npv-irr-calculator': NpvCalculator,
+};
+const Calc = components[calculator.slug as keyof typeof components];
+
+const calculatorSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: calculator.title,
+  description: calculator.description,
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  isAccessibleForFree: true,
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'PKR' },
+  provider: { '@type': 'EducationalOrganization', name: site.legalName, url: site.url },
+};
+---
+<BaseLayout title={calculator.metaTitle} description={calculator.metaDescription} jsonLd={calculatorSchema}>
+  <PageHero eyebrow={calculator.category} title={calculator.title} description={calculator.description}>
+    <Breadcrumbs
+      slot="breadcrumbs"
+      items={[
+        { label: 'Home', href: '/' },
+        { label: 'Calculators', href: '/calculators' },
+        { label: calculator.shortTitle },
+      ]}
+    />
+    <div class="course-detail-meta">
+      <span><Icon name="file-check" size={15} /> {calculator.law}</span>
+      <span><Icon name="clock" size={15} /> {calculator.taxYear}</span>
+    </div>
+  </PageHero>
+
+  <CalculatorShell calculator={calculator} courseSlug={content.courseSlug} related={content.related}>
+    <Calc />
+    <div slot="explainer">
+      <h2>{content.heading}</h2>
+      <p>{content.intro}</p>
+      <h3>The calculation</h3>
+      <ul>
+        {content.steps.map((step) => <li>{step}</li>)}
+      </ul>
+      <h3>Keep in mind</h3>
+      <ul>
+        {content.notes.map((note) => <li>{note}</li>)}
+      </ul>
+      <div class="disclaimer-box">
+        <Icon name="info" size={18} />
+        <p>
+          This calculator is provided for general information and estimation. It is not tax, legal or
+          financial advice. Rates, thresholds and eligibility can change. Confirm the current law and your
+          facts with FBR, the relevant authority or a qualified professional.
+        </p>
+      </div>
+    </div>
+  </CalculatorShell>
+</BaseLayout>

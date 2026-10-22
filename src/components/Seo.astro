@@ -1,0 +1,49 @@
+---
+import { canonicalUrl, metaDescription, metaTitle } from '../lib/seo';
+
+export interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  title,
+  description,
+  image = '/assets/images/gict-logo.png',
+  type = 'website',
+  noindex = false,
+  jsonLd,
+} = Astro.props;
+
+const pageTitle = metaTitle(title);
+const pageDescription = metaDescription(description);
+const canonical = canonicalUrl(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site ?? Astro.url).toString();
+const schemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+---
+<title>{pageTitle}</title>
+<meta name="description" content={pageDescription} />
+<link rel="canonical" href={canonical} />
+<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content="GICT" />
+<meta property="og:locale" content="en_PK" />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={pageDescription} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:alt" content="GICT — Global Institute of Corporate Training" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={pageDescription} />
+<meta name="twitter:image" content={ogImage} />
+
+{schemas.map((schema) => (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+))}

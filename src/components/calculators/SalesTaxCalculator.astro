@@ -1,0 +1,78 @@
+---
+import Icon from '../Icon.astro';
+---
+<div class="calc" data-calculator="sales-tax">
+  <form class="calc-form" data-calc-form>
+    <div class="calc-fields">
+      <div class="calc-field">
+        <label for="sales-value">Taxable value of supply</label>
+        <div class="input-wrap"><span class="input-prefix">PKR</span><input id="sales-value" name="value" type="number" min="0" step="1000" value="1000000" inputmode="decimal" /></div>
+      </div>
+      <div class="calc-field">
+        <label for="sales-rate">Sales tax rate</label>
+        <div class="input-wrap"><input id="sales-rate" name="rate" type="number" min="0" max="100" step="0.01" value="18" inputmode="decimal" /><span class="input-suffix">%</span></div>
+      </div>
+      <div class="calc-field">
+        <label for="sales-input">Eligible input tax</label>
+        <div class="input-wrap"><span class="input-prefix">PKR</span><input id="sales-input" name="inputTax" type="number" min="0" step="1000" value="120000" inputmode="decimal" /></div>
+      </div>
+      <label class="check-card">
+        <input type="checkbox" name="cap" checked />
+        <span>Apply the 90% input tax limitation (where applicable)</span>
+      </label>
+    </div>
+  </form>
+
+  <div class="calc-result" aria-live="polite" aria-atomic="true">
+    <div class="result-hero">
+      <span class="result-label">Estimated net sales tax</span>
+      <strong data-result="net">PKR 0</strong>
+      <span class="result-sub" data-result="status">Payable</span>
+    </div>
+    <div class="result-rows">
+      <div><span>Output tax</span><strong data-result="output">PKR 0</strong></div>
+      <div><span>Input tax allowed</span><strong data-result="credit">PKR 0</strong></div>
+      <div><span>Invoice value including tax</span><strong data-result="invoice">PKR 0</strong></div>
+      <div><span>Effective tax on value</span><strong data-result="effective">0%</strong></div>
+    </div>
+    <p class="result-note">Enter the rate that applies to your supply. The 90% limitation is optional because it does not apply to every taxpayer or supply. This is an estimate, not a return.</p>
+    <button type="button" class="btn btn-outline btn-sm" data-calc-reset><Icon name="x" size={14} /> Reset</button>
+  </div>
+</div>
+
+<script>
+  import { money, inputNumber } from '../../lib/format';
+
+  const root = document.querySelector<HTMLElement>('[data-calculator="sales-tax"]');
+  if (root) {
+    const form = root.querySelector<HTMLFormElement>('[data-calc-form]')!;
+    const result = (name: string) => root.querySelector<HTMLElement>(`[data-result="${name}"]`)!;
+
+    const calculate = () => {
+      const data = new FormData(form);
+      const value = Math.max(0, inputNumber(data, 'value'));
+      const rate = Math.min(100, Math.max(0, inputNumber(data, 'rate')));
+      const inputTax = Math.max(0, inputNumber(data, 'inputTax'));
+      const cap = data.get('cap') === 'on';
+      const output = (value * rate) / 100;
+      const credit = cap ? Math.min(inputTax, output * 0.9) : inputTax;
+      const net = output - credit;
+      const effective = value > 0 ? (Math.max(0, net) / value) * 100 : 0;
+
+      result('net').textContent = money(Math.abs(net));
+      result('status').textContent = net >= 0 ? 'Net tax payable' : 'Input tax excess / refund position';
+      result('output').textContent = money(output);
+      result('credit').textContent = money(credit);
+      result('invoice').textContent = money(value + output);
+      result('effective').textContent = `${effective.toFixed(2)}%`;
+    };
+
+    form.addEventListener('input', calculate);
+    form.addEventListener('change', calculate);
+    root.querySelector('[data-calc-reset]')?.addEventListener('click', () => {
+      form.reset();
+      calculate();
+    });
+    calculate();
+  }
+</script>

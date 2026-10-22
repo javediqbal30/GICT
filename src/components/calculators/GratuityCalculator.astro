@@ -1,0 +1,72 @@
+---
+import Icon from '../Icon.astro';
+---
+<div class="calc" data-calculator="gratuity">
+  <form class="calc-form" data-calc-form>
+    <div class="calc-fields">
+      <div class="calc-field">
+        <label for="gratuity-amount">Gratuity / handshake received</label>
+        <div class="input-wrap"><span class="input-prefix">PKR</span><input id="gratuity-amount" name="amount" type="number" min="0" step="10000" value="3000000" inputmode="decimal" /></div>
+      </div>
+      <div class="calc-field">
+        <label for="gratuity-limit">Applicable exemption limit</label>
+        <div class="input-wrap"><span class="input-prefix">PKR</span><input id="gratuity-limit" name="limit" type="number" min="0" step="10000" value="2000000" inputmode="decimal" /></div>
+        <p class="field-hint">Enter the limit that applies to your fund and facts; do not assume it.</p>
+      </div>
+      <div class="calc-field">
+        <label for="gratuity-rate">Average tax rate</label>
+        <div class="input-wrap"><input id="gratuity-rate" name="rate" type="number" min="0" max="100" step="0.01" value="15" inputmode="decimal" /><span class="input-suffix">%</span></div>
+        <p class="field-hint">Use the average rate relevant to the spread-over treatment.</p>
+      </div>
+    </div>
+  </form>
+
+  <div class="calc-result" aria-live="polite" aria-atomic="true">
+    <div class="result-hero">
+      <span class="result-label">Estimated tax on gratuity</span>
+      <strong data-result="tax">PKR 0</strong>
+      <span class="result-sub" data-result="net">Net received PKR 0</span>
+    </div>
+    <div class="result-rows">
+      <div><span>Exempt portion</span><strong data-result="exempt">PKR 0</strong></div>
+      <div><span>Taxable portion</span><strong data-result="taxable">PKR 0</strong></div>
+      <div><span>Effective rate on amount</span><strong data-result="effective">0%</strong></div>
+    </div>
+    <p class="result-note">Simplified estimate. Approved-fund conditions, service length and the spread-over-three-years treatment can change the result. Confirm the Sixth Schedule treatment for your case.</p>
+    <button type="button" class="btn btn-outline btn-sm" data-calc-reset><Icon name="x" size={14} /> Reset</button>
+  </div>
+</div>
+
+<script>
+  import { money, inputNumber } from '../../lib/format';
+
+  const root = document.querySelector<HTMLElement>('[data-calculator="gratuity"]');
+  if (root) {
+    const form = root.querySelector<HTMLFormElement>('[data-calc-form]')!;
+    const result = (name: string) => root.querySelector<HTMLElement>(`[data-result="${name}"]`)!;
+
+    const calculate = () => {
+      const data = new FormData(form);
+      const amount = Math.max(0, inputNumber(data, 'amount'));
+      const limit = Math.max(0, inputNumber(data, 'limit'));
+      const rate = Math.min(100, Math.max(0, inputNumber(data, 'rate')));
+      const exempt = Math.min(amount, limit);
+      const taxable = Math.max(0, amount - exempt);
+      const tax = (taxable * rate) / 100;
+      const effective = amount > 0 ? (tax / amount) * 100 : 0;
+
+      result('tax').textContent = money(tax);
+      result('net').textContent = `Net received ${money(amount - tax)}`;
+      result('exempt').textContent = money(exempt);
+      result('taxable').textContent = money(taxable);
+      result('effective').textContent = `${effective.toFixed(2)}%`;
+    };
+
+    form.addEventListener('input', calculate);
+    root.querySelector('[data-calc-reset]')?.addEventListener('click', () => {
+      form.reset();
+      calculate();
+    });
+    calculate();
+  }
+</script>

@@ -1,0 +1,14 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+---
+<a
+  class="whatsapp-float"
+  href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent('Hello GICT, I would like to ask about admissions.')}`}
+  target="_blank"
+  rel="noopener"
+  aria-label="Chat with GICT admissions on WhatsApp"
+>
+  <Icon name="whatsapp" size={25} />
+  <span class="whatsapp-tooltip">Ask admissions</span>
+</a>

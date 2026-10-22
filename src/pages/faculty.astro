@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import FacultyCard from '../components/FacultyCard.astro';
+import Icon from '../components/Icon.astro';
+import CTASection from '../components/CTASection.astro';
+import { faculty } from '../data/faculty';
+---
+<BaseLayout
+  title="Faculty & Practitioner Mentors | GICT Rawalpindi"
+  description="Meet the advocates, chartered accountants and tax specialists who teach at GICT in Rawalpindi. See practice areas, programmes and verified profiles."
+>
+  <PageHero
+    eyebrow="Faculty"
+    title="Practitioners who teach the work they do."
+    description="Our faculty bring together tax law, corporate advisory, compliance and litigation practice. Profiles are published with consent and credentials are verified before publication."
+  >
+    <Breadcrumbs slot="breadcrumbs" items={[{ label: 'Home', href: '/' }, { label: 'Faculty' }]} />
+  </PageHero>
+
+  <section class="section section--white">
+    <div class="container">
+      <div class="faculty-grid">
+        {faculty.map((member) => <FacultyCard member={member} />)}
+      </div>
+      <div class="disclaimer-box" style="margin-top:30px;">
+        <Icon name="shield" size={18} />
+        <p>
+          Faculty profiles are published with consent. Designations and credentials are verified before
+          publication. If you need a specific faculty member for a corporate cohort, ask admissions about
+          availability.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <CTASection
+    title="Learn directly from practice."
+    text="Explore the programmes taught by our faculty and choose the track that matches your work."
+    primary={{ label: 'View programmes', href: '/courses' }}
+    secondary={{ label: 'Talk to admissions', href: '/contact' }}
+  />
+</BaseLayout>

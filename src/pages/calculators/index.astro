@@ -1,0 +1,144 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CalculatorCard from '../../components/CalculatorCard.astro';
+import Icon from '../../components/Icon.astro';
+import FAQ from '../../components/FAQ.astro';
+import CTASection from '../../components/CTASection.astro';
+import { calculators, calculatorCategories } from '../../data/calculators';
+
+const faqs = [
+  {
+    question: 'Are the calculators free?',
+    answer: 'Yes. The calculators are free to use and run in your browser. We do not store the figures you enter.',
+  },
+  {
+    question: 'Which tax year do the calculators use?',
+    answer:
+      'Each calculator shows its tax year or rate basis. Where rates change, confirm the current Finance Act and the applicable tax year before filing.',
+  },
+  {
+    question: 'Are the results final tax liabilities?',
+    answer:
+      'No. They are estimates based on the inputs and assumptions shown. They do not account for every exemption, credit, surcharge or fact pattern.',
+  },
+  {
+    question: 'Can I use these for a client file?',
+    answer:
+      'Use them as a checking tool, not as a substitute for the statute, the return or professional review. Keep the assumptions with your working paper.',
+  },
+  {
+    question: 'Why do some tools ask me to enter a rate?',
+    answer:
+      'Rates can change and may depend on your registration, entity, province or transaction. Entering the applicable rate makes the assumption explicit rather than hiding it in the tool.',
+  },
+];
+---
+<BaseLayout
+  title="Free Pakistan Tax & Finance Calculators | GICT"
+  description="Use free Pakistan tax and finance calculators for salary, property, sales tax, corporate tax, gratuity, loans and NPV. Estimates only."
+>
+  <PageHero
+    eyebrow="Calculators"
+    title="Practical numbers, with the assumptions shown."
+    description="Free tools for tax, property, sales tax, corporate finance and project appraisal. Every calculator is transparent about the tax year, inputs and limits."
+  >
+    <Breadcrumbs slot="breadcrumbs" items={[{ label: 'Home', href: '/' }, { label: 'Calculators' }]} />
+  </PageHero>
+
+  <section class="section section--white">
+    <div class="container">
+      <div class="filter-bar">
+        <div class="filter-chips" role="group" aria-label="Filter calculators by category">
+          {calculatorCategories.map((category) => (
+            <button
+              type="button"
+              class="chip"
+              data-calculator-filter={category}
+              aria-pressed={category === 'All' ? 'true' : 'false'}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+        <label class="search-field">
+          <Icon name="search" size={17} />
+          <span class="sr-only">Search calculators</span>
+          <input type="search" placeholder="Search calculators" data-calculator-search />
+        </label>
+      </div>
+
+      <div class="filter-bar" style="margin-top:-8px;">
+        <p class="filter-count" data-calculator-count>{calculators.length} calculators</p>
+      </div>
+
+      <div class="calculator-hub-grid" data-calculator-grid>
+        {calculators.map((calculator) => <CalculatorCard calculator={calculator} />)}
+      </div>
+
+      <div class="empty-state" data-calculator-empty hidden>
+        <h3>No calculator matches that search.</h3>
+        <p>Try a broader term, or clear the filters to see all tools.</p>
+      </div>
+
+      <div class="disclaimer-box" style="margin-top:30px;">
+        <Icon name="info" size={18} />
+        <p>
+          These calculators provide estimates for general information. They are not tax, legal or financial
+          advice, and they do not create an adviser-client relationship. Verify the current law and your
+          specific facts before filing or making a decision.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <FAQ
+    eyebrow="Using the tools"
+    title="What the numbers can and cannot tell you."
+    description="A calculator is a checking tool. The statute, the facts and the working paper still matter."
+    items={faqs}
+  />
+
+  <CTASection
+    title="Want to understand the calculation behind the tool?"
+    text="Our programmes cover the law, the computation and the filing workflow in practice."
+    primary={{ label: 'Explore programmes', href: '/courses' }}
+    secondary={{ label: 'Read the Knowledge Hub', href: '/knowledge-hub' }}
+  />
+</BaseLayout>
+
+<script>
+  const filterButtons = document.querySelectorAll<HTMLButtonElement>('[data-calculator-filter]');
+  const cards = document.querySelectorAll<HTMLElement>('[data-calculator-grid] .calculator-card');
+  const search = document.querySelector<HTMLInputElement>('[data-calculator-search]');
+  const count = document.querySelector<HTMLElement>('[data-calculator-count]');
+  const empty = document.querySelector<HTMLElement>('[data-calculator-empty]');
+  let activeCategory = 'All';
+
+  const applyFilters = () => {
+    const query = (search?.value ?? '').trim().toLowerCase();
+    let visible = 0;
+
+    cards.forEach((card) => {
+      const categoryMatch = activeCategory === 'All' || card.dataset.category === activeCategory;
+      const searchMatch = !query || (card.dataset.search ?? '').includes(query);
+      const match = categoryMatch && searchMatch;
+      card.hidden = !match;
+      if (match) visible += 1;
+    });
+
+    if (count) count.textContent = `${visible} ${visible === 1 ? 'calculator' : 'calculators'}`;
+    if (empty) empty.hidden = visible !== 0;
+  };
+
+  filterButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      activeCategory = button.dataset.calculatorFilter ?? 'All';
+      filterButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+      applyFilters();
+    });
+  });
+
+  search?.addEventListener('input', applyFilters);
+</script>

@@ -1,0 +1,155 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Icon from '../components/Icon.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import CTASection from '../components/CTASection.astro';
+import { site } from '../data/site';
+---
+<BaseLayout
+  title="About GICT | Practitioner-Led Training in Rawalpindi"
+  description="GICT is a practitioner-led taxation, corporate law and finance training institute in Rawalpindi, with weekend on-campus and live online programmes."
+>
+  <PageHero
+    eyebrow="About GICT"
+    title="Training built for the work, not the certificate."
+    description="Global Institute of Corporate Training is a practitioner-led institute in Rawalpindi. We teach the documents, decisions and disputes that tax, corporate and finance professionals handle every week."
+  >
+    <Breadcrumbs slot="breadcrumbs" items={[{ label: 'Home', href: '/' }, { label: 'About' }]} />
+  </PageHero>
+
+  <section class="section section--white">
+    <div class="container about-intro">
+      <div>
+        <p class="eyebrow">The institute</p>
+        <h2>A practical standard for professional training.</h2>
+        <p>
+          GICT was built around a simple observation: many courses explain the law, but few show how the
+          file is actually prepared, reviewed and defended. Our programmes start with the working document
+          — the return, the computation, the invoice, the notice, the model — and work backwards to the
+          provision.
+        </p>
+        <p>
+          Classes are led by advocates, chartered accountants and tax practitioners. The format is
+          deliberately practical: short explanations, live demonstrations, exercises and feedback. Weekend
+          schedules and live online access are designed for people who are already working.
+        </p>
+        <p>
+          We publish faculty credentials with consent, show programme outcomes and assessment criteria, and
+          keep our calculators transparent about assumptions. Where a claim cannot be verified, we do not
+          make it.
+        </p>
+      </div>
+      <div class="about-visual">
+        <span class="brand-mark">
+          <img src="/assets/images/gict-logo.png" alt="" width="529" height="472" loading="lazy" />
+        </span>
+        <h3>Practitioner-led. Practice-first.</h3>
+        <p>Rawalpindi campus · live online · weekend cohorts</p>
+        <div class="about-visual-facts">
+          <div><strong>6</strong><span>Programmes</span></div>
+          <div><strong>3</strong><span>Faculty profiles</span></div>
+          <div><strong>2</strong><span>Delivery modes</span></div>
+          <div><strong>1</strong><span>Campus</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <SectionHeading
+        eyebrow="How we teach"
+        title="Three principles behind every programme."
+        description="The method is consistent across taxation, law and finance tracks."
+      />
+      <div class="principle-grid">
+        <article class="principle">
+          <span>01</span>
+          <h3>Start with the document</h3>
+          <p>Read the return, notice, invoice or model before the theory. The provision makes more sense when you can see where it lands.</p>
+        </article>
+        <article class="principle">
+          <span>02</span>
+          <h3>Build a working method</h3>
+          <p>Each session ends with a repeatable checklist, computation or drafting structure that you can use on the next file.</p>
+        </article>
+        <article class="principle">
+          <span>03</span>
+          <h3>Review and defend</h3>
+          <p>Practise explaining the position. A technically correct answer is not enough if the file cannot support it.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--white">
+    <div class="container">
+      <div class="campus-panel">
+        <div>
+          <p class="eyebrow">Campus</p>
+          <h2>Committee Chowk, Rawalpindi.</h2>
+          <p>
+            The campus is located at Alfalah Askaria Plaza on Murree Road, with access from Committee Chowk.
+            It is used for weekend cohorts, faculty sessions and corporate workshops.
+          </p>
+          <div class="campus-details">
+            <div><Icon name="map-pin" size={17} /> {site.address.full}</div>
+            <div><Icon name="clock" size={17} /> {site.hours}</div>
+            <div><Icon name="phone" size={17} /> {site.phoneDisplay}</div>
+            <div><Icon name="mail" size={17} /> {site.email}</div>
+          </div>
+        </div>
+        <div class="campus-map-link">
+          <Icon name="globe" size={24} />
+          <h3>Plan your visit.</h3>
+          <p>Open the location in Google Maps for directions, or contact admissions before travelling.</p>
+          <a class="btn btn-gold" href={site.mapUrl} target="_blank" rel="noopener">
+            Open in Maps
+            <Icon name="external-link" size={15} />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Quality"
+        title="What we will and will not claim."
+        description="Trust is built on specifics. We publish what can be verified and remove what cannot."
+      />
+      <div class="feature-grid">
+        <article class="feature-card">
+          <span class="feature-icon"><Icon name="users" size={22} /></span>
+          <h3>Named faculty</h3>
+          <p>Every programme has named instructors with verified designations and relevant practice areas.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-icon"><Icon name="book-open" size={22} /></span>
+          <h3>Published curriculum</h3>
+          <p>Modules, outcomes, assessment and certificate criteria are stated before you enrol.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-icon"><Icon name="shield" size={22} /></span>
+          <h3>Transparent tools</h3>
+          <p>Calculators show the tax year, assumptions and sources, and clearly state that they are estimates.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-icon"><Icon name="alert-circle" size={22} /></span>
+          <h3>No invented proof</h3>
+          <p>We do not publish fake alumni counts, ratings or placement guarantees. If a claim needs evidence, it waits.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <CTASection
+    title="Come see how the classroom works."
+    text="Talk to admissions about the next cohort, visit the campus or ask for a programme outline."
+    primary={{ label: 'Contact admissions', href: '/contact' }}
+    secondary={{ label: 'Explore programmes', href: '/courses' }}
+  />
+</BaseLayout>

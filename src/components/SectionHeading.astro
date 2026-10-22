@@ -1,0 +1,25 @@
+---
+export interface Props {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  align?: 'left' | 'center';
+  link?: { label: string; href: string };
+  class?: string;
+}
+
+const { eyebrow, title, description, align = 'left', link, class: className = '' } = Astro.props;
+---
+<div class:list={['section-heading', `section-heading--${align}`, className]}>
+  <div class="section-heading-copy">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h2>{title}</h2>
+    {description && <p class="section-lede">{description}</p>}
+  </div>
+  {link && (
+    <a class="text-link section-heading-link" href={link.href}>
+      {link.label}
+      <span aria-hidden="true">→</span>
+    </a>
+  )}
+</div>

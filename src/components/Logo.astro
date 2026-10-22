@@ -1,0 +1,31 @@
+---
+export interface Props {
+  size?: number;
+  showText?: boolean;
+  class?: string;
+}
+
+const { size = 48, showText = true, class: className = '' } = Astro.props;
+---
+<span class:list={['brand-lockup', className]}>
+  <span class="brand-mark" style={`--brand-mark-size:${size}px`}>
+    <img
+      src="/assets/images/gict-logo.png"
+      alt=""
+      width="529"
+      height="472"
+      loading="eager"
+      decoding="async"
+      aria-hidden="true"
+    />
+  </span>
+  {showText && (
+    <span class="brand-copy">
+      <strong>GICT</strong>
+      <span class="brand-sub">
+        <span class="brand-sub-line">Global Institute of</span>
+        <span class="brand-sub-line">Corporate Training</span>
+      </span>
+    </span>
+  )}
+</span>

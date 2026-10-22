@@ -1,0 +1,189 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+
+export interface Props {
+  variant?: 'contact' | 'corporate';
+  compact?: boolean;
+}
+
+const { variant = 'contact', compact = false } = Astro.props;
+const isCorporate = variant === 'corporate';
+const id = (name: string) => `${variant}-${name}`;
+---
+<div class:list={['lead-form-wrap', { 'lead-form-wrap--compact': compact }]}>
+  <form class="form" data-lead-form data-variant={variant} novalidate>
+    <div class="form-error-summary" data-error-summary role="alert" hidden></div>
+
+    {isCorporate && (
+      <div class="form-row">
+        <div class="field">
+          <label for={id('company')}>Company / organisation</label>
+          <input id={id('company')} name="company" type="text" autocomplete="organization" placeholder="Company name" required />
+        </div>
+        <div class="field">
+          <label for={id('team-size')}>Team size</label>
+          <select id={id('team-size')} name="teamSize">
+            <option value="">Select team size</option>
+            <option>1–5</option>
+            <option>6–15</option>
+            <option>16–50</option>
+            <option>51+</option>
+          </select>
+        </div>
+      </div>
+    )}
+
+    <div class="form-row">
+      <div class="field">
+        <label for={id('name')}>Full name</label>
+        <input id={id('name')} name="name" type="text" autocomplete="name" placeholder="Your full name" required />
+      </div>
+      <div class="field">
+        <label for={id('phone')}>Phone / WhatsApp</label>
+        <input id={id('phone')} name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="03xx xxxxxxx" required />
+      </div>
+    </div>
+
+    <div class="field">
+      <label for={id('email')}>Email address</label>
+      <input id={id('email')} name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+    </div>
+
+    {isCorporate ? (
+      <div class="form-row">
+        <div class="field">
+          <label for={id('topic')}>Training focus</label>
+          <select id={id('topic')} name="topic" required>
+            <option value="">Select a focus</option>
+            <option>Corporate tax</option>
+            <option>Sales tax & provincial VAT</option>
+            <option>Withholding & compliance</option>
+            <option>Tax litigation awareness</option>
+            <option>Financial modelling</option>
+            <option>Custom programme</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for={id('format')}>Preferred format</label>
+          <select id={id('format')} name="format">
+            <option>On-site</option>
+            <option>Live online</option>
+            <option>Blended</option>
+          </select>
+        </div>
+      </div>
+    ) : (
+      <div class="field">
+        <label for={id('topic')}>What can we help with?</label>
+        <select id={id('topic')} name="topic" required>
+          <option value="">Select a topic</option>
+          <option>Admissions and fees</option>
+          <option>Course content</option>
+          <option>Campus visit</option>
+          <option>Corporate training</option>
+          <option>Something else</option>
+        </select>
+      </div>
+    )}
+
+    <div class="field">
+      <label for={id('message')}>Your message</label>
+      <textarea id={id('message')} name="message" rows={compact ? 3 : 4} placeholder="Tell us what you need" required></textarea>
+    </div>
+
+    <label class="consent">
+      <input type="checkbox" name="consent" required />
+      <span>I agree to be contacted about this enquiry. See the <a href="/privacy">Privacy Policy</a>.</span>
+    </label>
+
+    <button type="submit" class="btn btn-primary btn-block">
+      Send enquiry via WhatsApp
+      <Icon name="whatsapp" size={18} />
+    </button>
+    <p class="form-note">
+      This form opens WhatsApp with your details so admissions can reply directly. Prefer email?
+      Write to <a href={`mailto:${site.email}`}>{site.email}</a>.
+    </p>
+  </form>
+
+  <div class="lead-form-success" data-lead-success hidden>
+    <span class="success-icon"><Icon name="check" size={26} /></span>
+    <h3>Your message is ready.</h3>
+    <p>WhatsApp should open in a new tab. If it did not, use the button below or email us directly.</p>
+    <a class="btn btn-primary btn-block" data-lead-fallback href={`https://wa.me/${site.whatsappNumber}`} target="_blank" rel="noopener">
+      Open WhatsApp
+      <Icon name="whatsapp" size={18} />
+    </a>
+    <button type="button" class="btn btn-outline btn-block" data-lead-reset>Send another message</button>
+  </div>
+</div>
+
+<script>
+  const forms = document.querySelectorAll<HTMLFormElement>('[data-lead-form]');
+
+  forms.forEach((form) => {
+    const wrapper = form.closest<HTMLElement>('.lead-form-wrap');
+    const success = wrapper?.querySelector<HTMLElement>('[data-lead-success]');
+    const errorSummary = form.querySelector<HTMLElement>('[data-error-summary]');
+    const fallback = wrapper?.querySelector<HTMLAnchorElement>('[data-lead-fallback]');
+    const resetButton = wrapper?.querySelector<HTMLButtonElement>('[data-lead-reset]');
+    const variant = form.dataset.variant ?? 'contact';
+
+    const showError = (message: string) => {
+      if (!errorSummary) return;
+      errorSummary.textContent = message;
+      errorSummary.hidden = false;
+      errorSummary.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (errorSummary) errorSummary.hidden = true;
+
+      const data = new FormData(form);
+      const value = (name: string) => String(data.get(name) ?? '').trim();
+      const name = value('name');
+      const phone = value('phone');
+      const email = value('email');
+      const message = value('message');
+      const consent = data.get('consent');
+
+      if (name.length < 2) return showError('Please enter your full name.');
+      if (!/^[0-9+\-\s()]{7,20}$/.test(phone)) return showError('Please enter a valid phone or WhatsApp number.');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showError('Please enter a valid email address.');
+      if (!value('topic')) return showError('Please select a topic.');
+      if (!message) return showError('Please add a short message.');
+      if (!consent) return showError('Please confirm that we may contact you about this enquiry.');
+
+      const lines = [
+        variant === 'corporate' ? 'New corporate training enquiry — GICT' : 'New website enquiry — GICT',
+        `Name: ${name}`,
+        `Phone: ${phone}`,
+        `Email: ${email}`,
+      ];
+
+      if (variant === 'corporate') {
+        if (value('company')) lines.push(`Company: ${value('company')}`);
+        if (value('teamSize')) lines.push(`Team size: ${value('teamSize')}`);
+      }
+
+      lines.push(`Topic: ${value('topic')}`);
+      if (value('format')) lines.push(`Format: ${value('format')}`);
+      lines.push(`Message: ${message}`);
+
+      const url = `https://wa.me/923390006854?text=${encodeURIComponent(lines.join('\n'))}`;
+      if (fallback) fallback.href = url;
+      window.open(url, '_blank', 'noopener,noreferrer');
+      form.hidden = true;
+      if (success) success.hidden = false;
+    });
+
+    resetButton?.addEventListener('click', () => {
+      form.reset();
+      form.hidden = false;
+      if (success) success.hidden = true;
+      if (errorSummary) errorSummary.hidden = true;
+    });
+  });
+</script>

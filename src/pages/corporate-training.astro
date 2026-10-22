@@ -1,0 +1,154 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Icon from '../components/Icon.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import LeadForm from '../components/LeadForm.astro';
+import CTASection from '../components/CTASection.astro';
+---
+<BaseLayout
+  title="Corporate Tax & Compliance Training | GICT"
+  description="Private corporate training in taxation, sales tax, withholding and tax litigation awareness for finance, legal and audit teams in Pakistan."
+>
+  <PageHero
+    eyebrow="Corporate training"
+    title="Build tax capability inside your team."
+    description="Private programmes for finance, tax, legal and audit teams. We assess the gap, build the scope and deliver practical sessions on your systems, documents and cases."
+  >
+    <Breadcrumbs slot="breadcrumbs" items={[{ label: 'Home', href: '/' }, { label: 'Corporate training' }]} />
+  </PageHero>
+
+  <section class="section section--white">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Where teams need depth"
+        title="Training that starts with your work."
+        description="Choose a focused module or combine topics into a multi-day programme. Every scope is agreed after a short needs assessment."
+      />
+      <div class="corporate-grid">
+        <article class="corporate-card">
+          <span class="feature-icon"><Icon name="building" size={22} /></span>
+          <h3>Corporate tax</h3>
+          <p>From accounting profit to taxable profit, with the adjustments and documentation that survive review.</p>
+          <ul>
+            <li>Minimum tax and ACT</li>
+            <li>Super tax and advance tax</li>
+            <li>Withholding statements</li>
+            <li>Audit readiness</li>
+          </ul>
+        </article>
+        <article class="corporate-card">
+          <span class="feature-icon"><Icon name="receipt" size={22} /></span>
+          <h3>Sales tax &amp; VAT</h3>
+          <p>Federal and provincial indirect tax for teams handling invoices, input tax and multi-province compliance.</p>
+          <ul>
+            <li>Input tax reconciliation</li>
+            <li>PRA, SRB, KPRA and BRA</li>
+            <li>Withholding and returns</li>
+            <li>Cross-province risk</li>
+          </ul>
+        </article>
+        <article class="corporate-card">
+          <span class="feature-icon"><Icon name="scale" size={22} /></span>
+          <h3>Tax litigation awareness</h3>
+          <p>Help finance and legal teams recognise a dispute early and prepare a response that supports the adviser.</p>
+          <ul>
+            <li>Notices and deadlines</li>
+            <li>Evidence and documentation</li>
+            <li>Appeal and stay overview</li>
+            <li>Case-file discipline</li>
+          </ul>
+        </article>
+        <article class="corporate-card">
+          <span class="feature-icon"><Icon name="chart" size={22} /></span>
+          <h3>Financial modelling</h3>
+          <p>Practical modelling for finance teams that need a reviewable forecast, valuation or project appraisal.</p>
+          <ul>
+            <li>Three-statement models</li>
+            <li>DCF and WACC</li>
+            <li>Sensitivity analysis</li>
+            <li>Board communication</li>
+          </ul>
+        </article>
+        <article class="corporate-card">
+          <span class="feature-icon"><Icon name="shield" size={22} /></span>
+          <h3>Compliance essentials</h3>
+          <p>A focused refresher for teams that need to understand the compliance calendar and internal controls.</p>
+          <ul>
+            <li>FBR and SECP deadlines</li>
+            <li>Record-keeping</li>
+            <li>Reconciliation controls</li>
+            <li>Escalation triggers</li>
+          </ul>
+        </article>
+        <article class="corporate-card">
+          <span class="feature-icon"><Icon name="target" size={22} /></span>
+          <h3>Custom programme</h3>
+          <p>Combine topics, use your own anonymised documents and build a programme around the team's actual gaps.</p>
+          <ul>
+            <li>Needs assessment</li>
+            <li>Custom case studies</li>
+            <li>Knowledge check</li>
+            <li>Follow-up session</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <SectionHeading
+        eyebrow="How it works"
+        title="A short, practical engagement."
+        description="The sequence is designed to avoid a generic seminar that does not change how the team works."
+      />
+      <div class="process-grid">
+        <article class="process-step">
+          <h3>Needs assessment</h3>
+          <p>A short call to understand the team, the systems, the jurisdictions and the gaps.</p>
+        </article>
+        <article class="process-step">
+          <h3>Scope and proposal</h3>
+          <p>We agree the topics, format, duration, case studies and commercial terms.</p>
+        </article>
+        <article class="process-step">
+          <h3>Delivery</h3>
+          <p>On-site or live online, with exercises based on the team's documents where possible.</p>
+        </article>
+        <article class="process-step">
+          <h3>Follow-up</h3>
+          <p>A knowledge check, workbook and optional follow-up session to reinforce the method.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--white">
+    <div class="container corporate-form-layout">
+      <div class="corporate-form-intro">
+        <p class="eyebrow">Request a proposal</p>
+        <h2>Tell us about the team.</h2>
+        <p>
+          Share the focus, team size and preferred format. We will respond with a proposed scope and the
+          next step. There is no obligation to proceed.
+        </p>
+        <ul>
+          <li><Icon name="check" size={15} /> On-site, live online or blended</li>
+          <li><Icon name="check" size={15} /> Half-day, full-day or multi-week</li>
+          <li><Icon name="check" size={15} /> Cases can use your anonymised documents</li>
+          <li><Icon name="check" size={15} /> Knowledge check and certificate of attendance</li>
+        </ul>
+      </div>
+      <LeadForm variant="corporate" />
+    </div>
+  </section>
+
+  <CTASection
+    title="Prefer to discuss the scope first?"
+    text="Call admissions or send a short message. We will arrange a needs-assessment call with the relevant faculty."
+    primary={{ label: 'Contact GICT', href: '/contact' }}
+    secondary={{ label: 'Meet the faculty', href: '/faculty' }}
+  />
+</BaseLayout>

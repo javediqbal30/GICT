@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from './PageHero.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import { footerLinks } from '../data/navigation';
+
+export interface Props {
+  title: string;
+  description: string;
+  active: string;
+}
+
+const { title, description, active } = Astro.props;
+---
+<BaseLayout title={`${title} | GICT`} description={description}>
+  <PageHero eyebrow="Legal & policies" title={title} description={description}>
+    <Breadcrumbs slot="breadcrumbs" items={[{ label: 'Home', href: '/' }, { label: title }]} />
+  </PageHero>
+
+  <section class="section section--white">
+    <div class="container legal-layout">
+      <aside class="legal-nav" aria-label="Legal pages">
+        <p>Policies</p>
+        <ul>
+          {footerLinks.legal.map((link) => (
+            <li>
+              <a href={link.href} aria-current={link.href === active ? 'page' : undefined} style={link.href === active ? 'background:var(--white);font-weight:650;' : ''}>
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </aside>
+      <div class="prose">
+        <slot />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,43 @@
+---
+import Icon from './Icon.astro';
+import type { FacultyMember } from '../data/faculty';
+
+export interface Props {
+  member: FacultyMember;
+}
+
+const { member } = Astro.props;
+const displayName = member.prefix ? `${member.prefix} ${member.name}` : member.name;
+---
+<article class="faculty-card">
+  <a class="faculty-media" href={`/faculty/${member.slug}`} tabindex="-1" aria-hidden="true">
+    {member.image ? (
+      <img
+        src={member.image}
+        alt={displayName}
+        width="480"
+        height="600"
+        loading="lazy"
+        decoding="async"
+      />
+    ) : (
+      <span class="faculty-placeholder">
+        <span>{member.initials}</span>
+        <small>GICT Faculty</small>
+      </span>
+    )}
+  </a>
+  <div class="faculty-body">
+    <p class="faculty-role">{member.designation}</p>
+    <h3><a href={`/faculty/${member.slug}`}>{displayName}</a></h3>
+    <ul class="faculty-focus">
+      {member.focus.map((item) => (
+        <li>{item}</li>
+      ))}
+    </ul>
+    <a class="text-link" href={`/faculty/${member.slug}`}>
+      View profile
+      <Icon name="arrow-right" size={15} />
+    </a>
+  </div>
+</article>

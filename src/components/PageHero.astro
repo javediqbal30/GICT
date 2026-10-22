@@ -1,0 +1,23 @@
+---
+export interface Props {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  children?: unknown;
+  align?: 'left' | 'center';
+  tone?: 'sky' | 'white';
+}
+const { eyebrow, title, description, align = 'left', tone = 'sky' } = Astro.props;
+---
+<section class:list={['page-hero', `page-hero--${tone}`]}>
+  <div class="page-hero-pattern" aria-hidden="true"></div>
+  <div class="container">
+    <div class:list={['page-hero-inner', `page-hero-inner--${align}`]}>
+      <slot name="breadcrumbs" />
+      {eyebrow && <p class="eyebrow"><span class="eyebrow-dot"></span>{eyebrow}</p>}
+      <h1>{title}</h1>
+      {description && <p class="page-hero-lede">{description}</p>}
+      <slot />
+    </div>
+  </div>
+</section>

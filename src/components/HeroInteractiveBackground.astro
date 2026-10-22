@@ -1,0 +1,427 @@
+---
+// HeroInteractiveBackground.astro
+// Premium Enterprise Grid-Beam & Magnetic Bottom-Edge interactive background for GICT
+---
+
+<div class="hero-interactive-wrap" aria-hidden="true">
+  <canvas id="hero-grid-canvas" class="hero-grid-canvas"></canvas>
+  <div class="hero-bottom-beam-line"></div>
+</div>
+
+<style>
+  .hero-interactive-wrap {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero-grid-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    pointer-events: none;
+  }
+
+  .hero-bottom-beam-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(0, 31, 78, 0.08) 15%,
+      rgba(14, 165, 233, 0.35) 50%,
+      rgba(211, 145, 0, 0.3) 65%,
+      rgba(0, 31, 78, 0.08) 85%,
+      transparent 100%
+    );
+    opacity: 0.8;
+  }
+</style>
+
+<script>
+  (() => {
+    const canvas = document.getElementById('hero-grid-canvas') as HTMLCanvasElement | null;
+    if (!canvas) return;
+
+    const hero = canvas.closest('.hero') as HTMLElement | null;
+    if (!hero) return;
+
+    const ctx = canvas.getContext('2d', { alpha: true });
+    if (!ctx) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let width = 0;
+    let height = 0;
+    let dpr = 1;
+    let animationFrameId: number | null = null;
+    let isVisible = true;
+
+    // Grid sizing aligned with corporate blueprint theme
+    const GRID_SIZE = 42;
+
+    // Mouse tracking state
+    const mouse = {
+      x: -9999,
+      y: -9999,
+      targetX: -9999,
+      targetY: -9999,
+      isHovering: false,
+      hoverStrength: 0, // 0 to 1 smooth fade
+    };
+
+    // Upward traveling light pulses along grid lines ("nechy sy edge aye")
+    interface BeamPulse {
+      col: number; // grid column index
+      x: number;   // exact X
+      y: number;   // current traveling Y
+      speed: number;
+      length: number;
+      alpha: number;
+      color: string;
+      targetY: number; // Y where it connects/terminates
+    }
+
+    let activeBeams: BeamPulse[] = [];
+    let lastSpawnTime = 0;
+
+    function resize() {
+      const rect = hero.getBoundingClientRect();
+      width = Math.floor(rect.width);
+      height = Math.floor(rect.height);
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(dpr, dpr);
+    }
+
+    // Event listeners on parent hero
+    hero.addEventListener('mouseenter', (e) => {
+      const rect = hero.getBoundingClientRect();
+      mouse.targetX = e.clientX - rect.left;
+      mouse.targetY = e.clientY - rect.top;
+      mouse.x = mouse.targetX;
+      mouse.y = mouse.targetY;
+      mouse.isHovering = true;
+    });
+
+    hero.addEventListener('mousemove', (e) => {
+      const rect = hero.getBoundingClientRect();
+      mouse.targetX = e.clientX - rect.left;
+      mouse.targetY = e.clientY - rect.top;
+      mouse.isHovering = true;
+    });
+
+    hero.addEventListener('mouseleave', () => {
+      mouse.isHovering = false;
+    });
+
+    // Touch events
+    hero.addEventListener('touchstart', (e) => {
+      if (e.touches.length > 0) {
+        const rect = hero.getBoundingClientRect();
+        mouse.targetX = e.touches[0].clientX - rect.left;
+        mouse.targetY = e.touches[0].clientY - rect.top;
+        mouse.x = mouse.targetX;
+        mouse.y = mouse.targetY;
+        mouse.isHovering = true;
+      }
+    }, { passive: true });
+
+    hero.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        const rect = hero.getBoundingClientRect();
+        mouse.targetX = e.touches[0].clientX - rect.left;
+        mouse.targetY = e.touches[0].clientY - rect.top;
+      }
+    }, { passive: true });
+
+    hero.addEventListener('touchend', () => {
+      mouse.isHovering = false;
+    });
+
+    // Spawn upward traveling light edge pulses from bottom
+    function maybeSpawnBeam(time: number) {
+      if (!mouse.isHovering && activeBeams.length > 1) return;
+      if (time - lastSpawnTime < 180) return; // limit frequency
+
+      lastSpawnTime = time;
+
+      // Find grid column nearest to cursor or nearby columns
+      const totalCols = Math.floor(width / GRID_SIZE);
+      const cursorCol = Math.round(mouse.x / GRID_SIZE);
+
+      // Pick a column near the cursor (-3 to +3 offset)
+      const offset = Math.floor((Math.random() - 0.5) * 7);
+      const col = Math.max(1, Math.min(totalCols - 1, cursorCol + offset));
+      const colX = col * GRID_SIZE;
+
+      // Target Y is near cursor Y or a grid intersection
+      const targetGridRow = Math.round(mouse.y / GRID_SIZE);
+      const targetY = Math.max(40, targetGridRow * GRID_SIZE + (Math.random() - 0.5) * 20);
+
+      const colors = [
+        'rgba(14, 165, 233,',  // Cyan/sky
+        'rgba(2, 132, 199,',   // Deep sky
+        'rgba(211, 145, 0,',   // Gold accent
+      ];
+      const color = colors[Math.floor(Math.random() * colors.length)];
+
+      activeBeams.push({
+        col,
+        x: colX,
+        y: height,
+        speed: 4.5 + Math.random() * 3.5,
+        length: 60 + Math.random() * 80,
+        alpha: 0.6 + Math.random() * 0.35,
+        color,
+        targetY,
+      });
+
+      // Keep max 8 active beams
+      if (activeBeams.length > 8) {
+        activeBeams.shift();
+      }
+    }
+
+    function draw(time: number) {
+      if (!isVisible) {
+        animationFrameId = requestAnimationFrame(draw);
+        return;
+      }
+
+      ctx.clearRect(0, 0, width, height);
+
+      // Smooth mouse lerp
+      if (mouse.isHovering) {
+        mouse.x += (mouse.targetX - mouse.x) * 0.12;
+        mouse.y += (mouse.targetY - mouse.y) * 0.12;
+        mouse.hoverStrength = Math.min(1, mouse.hoverStrength + 0.06);
+      } else {
+        mouse.hoverStrength = Math.max(0, mouse.hoverStrength - 0.04);
+      }
+
+      const cols = Math.ceil(width / GRID_SIZE);
+      const rows = Math.ceil(height / GRID_SIZE);
+
+      // 1. Subtle radial ambient illumination around cursor (Stripe / Linear spotlight)
+      if (mouse.hoverStrength > 0.01) {
+        const glowRadius = 240;
+        const radialGlow = ctx.createRadialGradient(
+          mouse.x, mouse.y, 0,
+          mouse.x, mouse.y, glowRadius
+        );
+        radialGlow.addColorStop(0, `rgba(56, 189, 248, ${0.11 * mouse.hoverStrength})`);
+        radialGlow.addColorStop(0.5, `rgba(2, 132, 199, ${0.04 * mouse.hoverStrength})`);
+        radialGlow.addColorStop(1, 'transparent');
+
+        ctx.fillStyle = radialGlow;
+        ctx.beginPath();
+        ctx.arc(mouse.x, mouse.y, glowRadius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // 2. Interactive grid lines around mouse with highlighted edges
+      if (mouse.hoverStrength > 0.01) {
+        const maxDist = 220;
+        ctx.lineWidth = 1;
+
+        // Vertical lines near cursor
+        const startCol = Math.max(0, Math.floor((mouse.x - maxDist) / GRID_SIZE));
+        const endCol = Math.min(cols, Math.ceil((mouse.x + maxDist) / GRID_SIZE));
+
+        for (let c = startCol; c <= endCol; c++) {
+          const gx = c * GRID_SIZE;
+          const dx = Math.abs(gx - mouse.x);
+          if (dx < maxDist) {
+            const lineAlpha = (1 - dx / maxDist) * 0.18 * mouse.hoverStrength;
+            ctx.strokeStyle = `rgba(0, 31, 78, ${lineAlpha})`;
+            ctx.beginPath();
+            ctx.moveTo(gx, Math.max(0, mouse.y - maxDist));
+            ctx.lineTo(gx, Math.min(height, mouse.y + maxDist));
+            ctx.stroke();
+          }
+        }
+
+        // Horizontal lines near cursor
+        const startRow = Math.max(0, Math.floor((mouse.y - maxDist) / GRID_SIZE));
+        const endRow = Math.min(rows, Math.ceil((mouse.y + maxDist) / GRID_SIZE));
+
+        for (let r = startRow; r <= endRow; r++) {
+          const gy = r * GRID_SIZE;
+          const dy = Math.abs(gy - mouse.y);
+          if (dy < maxDist) {
+            const lineAlpha = (1 - dy / maxDist) * 0.18 * mouse.hoverStrength;
+            ctx.strokeStyle = `rgba(0, 31, 78, ${lineAlpha})`;
+            ctx.beginPath();
+            ctx.moveTo(Math.max(0, mouse.x - maxDist), gy);
+            ctx.lineTo(Math.min(width, mouse.x + maxDist), gy);
+            ctx.stroke();
+          }
+        }
+
+        // 3. Grid intersection nodes (Crosshair pips) near cursor
+        for (let c = startCol; c <= endCol; c++) {
+          for (let r = startRow; r <= endRow; r++) {
+            const gx = c * GRID_SIZE;
+            const gy = r * GRID_SIZE;
+            const dist = Math.hypot(gx - mouse.x, gy - mouse.y);
+            if (dist < 180) {
+              const nodeAlpha = (1 - dist / 180) * 0.55 * mouse.hoverStrength;
+              
+              // Elegant crosshair tick '+'
+              const tick = 3.5;
+              ctx.strokeStyle = `rgba(14, 165, 233, ${nodeAlpha})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(gx - tick, gy);
+              ctx.lineTo(gx + tick, gy);
+              ctx.moveTo(gx, gy - tick);
+              ctx.lineTo(gx, gy + tick);
+              ctx.stroke();
+
+              // Tiny glowing center
+              ctx.fillStyle = `rgba(2, 132, 199, ${nodeAlpha * 1.2})`;
+              ctx.beginPath();
+              ctx.arc(gx, gy, 1.2, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+        }
+      }
+
+      // 4. "Nechy sy edge aye" - Light Beams traveling upwards from bottom edge
+      maybeSpawnBeam(time);
+
+      for (let i = activeBeams.length - 1; i >= 0; i--) {
+        const beam = activeBeams[i];
+        beam.y -= beam.speed;
+
+        const tailY = Math.min(height, beam.y + beam.length);
+        const headY = Math.max(beam.targetY, beam.y);
+
+        if (tailY > headY) {
+          // Draw laser beam segment along the vertical grid line
+          const beamGrad = ctx.createLinearGradient(beam.x, tailY, beam.x, headY);
+          beamGrad.addColorStop(0, `${beam.color} 0)`);
+          beamGrad.addColorStop(0.6, `${beam.color} ${beam.alpha * 0.5})`);
+          beamGrad.addColorStop(1, `${beam.color} ${beam.alpha})`);
+
+          ctx.strokeStyle = beamGrad;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(beam.x, tailY);
+          ctx.lineTo(beam.x, headY);
+          ctx.stroke();
+
+          // Glowing head dot
+          ctx.fillStyle = `${beam.color} ${beam.alpha})`;
+          ctx.beginPath();
+          ctx.arc(beam.x, headY, 2.2, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Connect from beam head horizontally to mouse when near
+          if (mouse.hoverStrength > 0.05 && Math.abs(beam.y - mouse.y) < 60) {
+            const hDist = Math.abs(beam.x - mouse.x);
+            if (hDist < 200 && hDist > 10) {
+              const connectAlpha = (1 - hDist / 200) * 0.45 * mouse.hoverStrength;
+              const hGrad = ctx.createLinearGradient(beam.x, headY, mouse.x, mouse.y);
+              hGrad.addColorStop(0, `${beam.color} ${connectAlpha})`);
+              hGrad.addColorStop(1, `rgba(14, 165, 233, ${connectAlpha * 1.2})`);
+
+              ctx.strokeStyle = hGrad;
+              ctx.lineWidth = 1.2;
+              ctx.beginPath();
+              ctx.moveTo(beam.x, headY);
+              // Step connect: along grid then to mouse
+              ctx.lineTo(mouse.x, headY);
+              ctx.stroke();
+            }
+          }
+        }
+
+        // Remove beam once it finishes its upward path
+        if (beam.y <= beam.targetY) {
+          activeBeams.splice(i, 1);
+        }
+      }
+
+      // 5. "Nechy sy edge attract ho" - Magnetic Bottom Edge Beam
+      // A luminous light glide along the bottom edge that magnetically follows cursor X
+      if (mouse.hoverStrength > 0.01) {
+        const beamSpan = 220;
+        const leftX = Math.max(0, mouse.x - beamSpan);
+        const rightX = Math.min(width, mouse.x + beamSpan);
+
+        // Gradient along bottom line centered at mouse.x
+        const bottomGlow = ctx.createLinearGradient(leftX, height - 1, rightX, height - 1);
+        bottomGlow.addColorStop(0, 'rgba(14, 165, 233, 0)');
+        bottomGlow.addColorStop(0.5, `rgba(14, 165, 233, ${0.75 * mouse.hoverStrength})`);
+        bottomGlow.addColorStop(1, 'rgba(211, 145, 0, 0)');
+
+        ctx.strokeStyle = bottomGlow;
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(leftX, height - 1);
+        ctx.lineTo(rightX, height - 1);
+        ctx.stroke();
+
+        // Upward vertical connection ray from bottom edge to cursor
+        const bottomDistY = height - mouse.y;
+        if (bottomDistY < 420) {
+          const rayAlpha = Math.max(0, 1 - (bottomDistY / 420)) * 0.35 * mouse.hoverStrength;
+          
+          const rayGrad = ctx.createLinearGradient(mouse.x, height, mouse.x, mouse.y);
+          rayGrad.addColorStop(0, `rgba(14, 165, 233, ${rayAlpha * 1.4})`);
+          rayGrad.addColorStop(0.8, `rgba(2, 132, 199, ${rayAlpha * 0.6})`);
+          rayGrad.addColorStop(1, 'rgba(0, 31, 78, 0)');
+
+          ctx.strokeStyle = rayGrad;
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(mouse.x, height);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.stroke();
+
+          // Bottom anchor node
+          ctx.fillStyle = `rgba(14, 165, 233, ${rayAlpha * 1.8})`;
+          ctx.beginPath();
+          ctx.arc(mouse.x, height - 2, 3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      if (!prefersReducedMotion) {
+        animationFrameId = requestAnimationFrame(draw);
+      }
+    }
+
+    // IntersectionObserver to pause when hero is scrolled out of view
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isVisible = entry.isIntersecting;
+        });
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(hero);
+
+    resize();
+    window.addEventListener('resize', resize);
+    animationFrameId = requestAnimationFrame(draw);
+  })();
+</script>
