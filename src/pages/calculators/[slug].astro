@@ -51,22 +51,84 @@ const calculatorSchema = {
 };
 ---
 <BaseLayout title={calculator.metaTitle} description={calculator.metaDescription} jsonLd={calculatorSchema}>
-  <PageHero eyebrow={calculator.category} title={calculator.title} description={calculator.description}>
-    <Breadcrumbs
-      slot="breadcrumbs"
-      items={[
-        { label: 'Home', href: '/' },
-        { label: 'Calculators', href: '/calculators' },
-        { label: calculator.shortTitle },
-      ]}
-    />
-    <div class="course-detail-meta">
-      <span><Icon name="file-check" size={15} /> {calculator.law}</span>
-      <span><Icon name="clock" size={15} /> {calculator.taxYear}</span>
+  <PageHero
+    align="center"
+    withOrbs={true}
+    tone="sky"
+    description={calculator.description}
+  >
+    <div slot="breadcrumbs">
+      <Breadcrumbs
+        items={[
+          { label: 'Home', href: '/' },
+          { label: 'Calculators', href: '/calculators' },
+          { label: calculator.shortTitle },
+        ]}
+      />
+      <div class="about-eyebrow-pill">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        <span>{calculator.category} · GICT Tax &amp; Finance Engine</span>
+      </div>
+    </div>
+
+    <h1 slot="title" class="about-hero-title">
+      {calculator.title}
+    </h1>
+
+    <div class="about-hero-actions">
+      <a class="btn btn-primary" href="#calculator-app">
+        Use calculator
+        <Icon name="arrow-right" size={17} />
+      </a>
+      <a
+        class="btn btn-whatsapp"
+        href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(`Hello GICT, I have a query about the ${calculator.title}.`)}`}
+        target="_blank"
+        rel="noopener"
+      >
+        <Icon name="whatsapp" size={18} />
+        Consult Tax Expert
+      </a>
+      <a class="btn btn-outline" href="/calculators">
+        <span>All 8 calculators</span>
+        <Icon name="chevron-right" size={16} />
+      </a>
+    </div>
+
+    <div class="about-hero-badges">
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="file-check" size={20} /></span>
+        <div class="badge-text">
+          <strong>Statutory Basis</strong>
+          <span>{calculator.law}</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="calendar" size={20} /></span>
+        <div class="badge-text">
+          <strong>Tax Period</strong>
+          <span>FY {calculator.taxYear}</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="shield" size={20} /></span>
+        <div class="badge-text">
+          <strong>100% Client-Side</strong>
+          <span>Zero data stored · Instant math</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="graduation-cap" size={20} /></span>
+        <div class="badge-text">
+          <strong>Faculty Verified</strong>
+          <span>Practitioner cross-checked</span>
+        </div>
+      </div>
     </div>
   </PageHero>
 
-  <CalculatorShell calculator={calculator} courseSlug={content.courseSlug} related={content.related}>
+  <div id="calculator-app">
+    <CalculatorShell calculator={calculator} courseSlug={content.courseSlug} related={content.related}>
     <Calc />
     <div slot="explainer">
       <h2>{content.heading}</h2>
@@ -89,4 +151,5 @@ const calculatorSchema = {
       </div>
     </div>
   </CalculatorShell>
+  </div>
 </BaseLayout>
