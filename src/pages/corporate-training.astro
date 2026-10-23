@@ -6,20 +6,84 @@ import Icon from '../components/Icon.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import LeadForm from '../components/LeadForm.astro';
 import CTASection from '../components/CTASection.astro';
+import { site } from '../data/site';
 ---
 <BaseLayout
   title="Corporate Tax & Compliance Training | GICT"
   description="Private corporate training in taxation, sales tax, withholding and tax litigation awareness for finance, legal and audit teams in Pakistan."
 >
   <PageHero
-    eyebrow="Corporate training"
-    title="Build tax capability inside your team."
-    description="Private programmes for finance, tax, legal and audit teams. We assess the gap, build the scope and deliver practical sessions on your systems, documents and cases."
+    align="center"
+    withOrbs={true}
+    tone="sky"
+    description="Custom in-house executive programmes in Pakistan corporate tax, FBR IRIS e-filing, provincial sales tax, and dispute management tailored to your enterprise systems, actual files and industry."
   >
-    <Breadcrumbs slot="breadcrumbs" items={[{ label: 'Home', href: '/' }, { label: 'Corporate training' }]} />
+    <div slot="breadcrumbs">
+      <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Corporate training' }]} />
+      <div class="about-eyebrow-pill">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        <span>Enterprise Solutions · Executive Training for Companies</span>
+      </div>
+    </div>
+
+    <h1 slot="title" class="about-hero-title">
+      Build elite tax &amp; financial<br />
+      <span class="hero-gradient">capability inside your corporate team.</span>
+    </h1>
+
+    <div class="about-hero-actions">
+      <a class="btn btn-primary" href="#proposal-form">
+        Request corporate proposal
+        <Icon name="arrow-right" size={17} />
+      </a>
+      <a
+        class="btn btn-whatsapp"
+        href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent('Hello GICT, I am interested in private corporate training for our corporate team.')}`}
+        target="_blank"
+        rel="noopener"
+      >
+        <Icon name="whatsapp" size={18} />
+        Corporate Desk WhatsApp
+      </a>
+      <a class="btn btn-outline" href="#modules">
+        <span>Explore 6 modules</span>
+        <Icon name="chevron-down" size={16} />
+      </a>
+    </div>
+
+    <div class="about-hero-badges">
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="building" size={20} /></span>
+        <div class="badge-text">
+          <strong>Tailored Scope</strong>
+          <span>Built around your team's exact workflow</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="scale" size={20} /></span>
+        <div class="badge-text">
+          <strong>Practitioner Led</strong>
+          <span>High Court Advocates &amp; FCAs</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="shield" size={20} /></span>
+        <div class="badge-text">
+          <strong>Case Confidentiality</strong>
+          <span>Anonymized client files &amp; exercises</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="monitor" size={20} /></span>
+        <div class="badge-text">
+          <strong>Flexible Delivery</strong>
+          <span>On-premise, campus or live virtual</span>
+        </div>
+      </div>
+    </div>
   </PageHero>
 
-  <section class="section section--white">
+  <section class="section section--white" id="modules">
     <div class="container">
       <SectionHeading
         eyebrow="Where teams need depth"
@@ -125,7 +189,7 @@ import CTASection from '../components/CTASection.astro';
     </div>
   </section>
 
-  <section class="section section--white">
+  <section class="section section--white" id="proposal-form">
     <div class="container corporate-form-layout">
       <div class="corporate-form-intro">
         <p class="eyebrow">Request a proposal</p>
