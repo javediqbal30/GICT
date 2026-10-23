@@ -1,7 +1,40 @@
+# ==============================================================================
+# Global Institute of Corporate Training (GICT) - Official robots.txt
+# Canonical URL: https://www.gict.com.pk
+# Standard: RFC 9309 (Robots Exclusion Protocol) & Google Search Essentials
+# ==============================================================================
+
+# General Web Crawlers (Google, Bing, Yahoo, DuckDuckGo, etc.)
 User-agent: *
 Allow: /
 
+# Private, Confirmation & API Paths
 Disallow: /thank-you
+Disallow: /thank-you.html
 Disallow: /api/
+Disallow: /*.json$
 
+# Googlebot (Search & Rich Snippets)
+User-agent: Googlebot
+Allow: /
+Disallow: /thank-you
+Disallow: /thank-you.html
+
+# Googlebot-Image (Course covers, faculty photography & badges)
+User-agent: Googlebot-Image
+Allow: /assets/
+Allow: /assets/images/
+
+# Bingbot
+User-agent: Bingbot
+Allow: /
+Disallow: /thank-you
+Disallow: /thank-you.html
+
+# XML Sitemaps (Primary & Index)
+Sitemap: https://www.gict.com.pk/sitemap.xml
 Sitemap: https://www.gict.com.pk/sitemap-index.xml
+Sitemap: https://www.gict.com.pk/blog/rss.xml
+
+# Canonical Host
+Host: https://www.gict.com.pk
