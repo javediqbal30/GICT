@@ -2,11 +2,13 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Icon from '../../components/Icon.astro';
 import CTASection from '../../components/CTASection.astro';
 import BlogFilterBar from '../../components/blog/BlogFilterBar.astro';
 import BlogGrid from '../../components/blog/BlogGrid.astro';
 import BlogNewsletter from '../../components/blog/BlogNewsletter.astro';
 import { getAllArticles, getCategoryCounts } from '../../lib/blog/service';
+import { site } from '../../data/site';
 
 const articles = getAllArticles();
 const categoryCounts = getCategoryCounts();
@@ -18,17 +20,79 @@ const categories = categoryCounts.map((c) => c.name);
   description="Practical notes, legal analysis, FBR IRIS guides, and tax compliance articles written by practicing advocates and chartered accountants at GICT."
 >
   <PageHero
-    eyebrow="GICT Blog & Insights"
-    title="Practical intelligence for tax, corporate law & finance."
+    align="center"
+    withOrbs={true}
+    tone="sky"
     description="Clear, actionable explanations for filing, salary tax, sales tax, corporate compliance and litigation defence — written by practicing advocates and chartered accountants."
   >
-    <Breadcrumbs
-      slot="breadcrumbs"
-      items={[{ label: 'Home', href: '/' }, { label: 'Blog' }]}
-    />
+    <div slot="breadcrumbs">
+      <Breadcrumbs
+        items={[{ label: 'Home', href: '/' }, { label: 'Blog' }]}
+      />
+      <div class="about-eyebrow-pill">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        <span>GICT Blog &amp; Insights · FBR &amp; Corporate Advisory</span>
+      </div>
+    </div>
+
+    <h1 slot="title" class="about-hero-title">
+      Practical intelligence for<br />
+      <span class="hero-gradient">tax, corporate law &amp; finance.</span>
+    </h1>
+
+    <div class="about-hero-actions">
+      <a class="btn btn-primary" href="#blog-feed">
+        Browse articles ({articles.length})
+        <Icon name="arrow-right" size={17} />
+      </a>
+      <a class="btn btn-outline" href="/courses">
+        Explore practitioner courses
+        <Icon name="graduation-cap" size={17} />
+      </a>
+      <a
+        class="btn btn-whatsapp"
+        href={`https://wa.me/${site.whatsappNumber}?text=Hello%20GICT%2C%20I%20have%20a%20tax%20or%20legal%20query.`}
+        target="_blank"
+        rel="noopener"
+      >
+        <Icon name="whatsapp" size={18} />
+        Ask an advisor
+      </a>
+    </div>
+
+    <div class="about-hero-badges">
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="scale" size={20} /></span>
+        <div class="badge-text">
+          <strong>Practitioner Authored</strong>
+          <span>High Court advocates &amp; FCAs</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="file-check" size={20} /></span>
+        <div class="badge-text">
+          <strong>Finance Act 2024-25</strong>
+          <span>Updated statutory citations</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="target" size={20} /></span>
+        <div class="badge-text">
+          <strong>Real Case Studies</strong>
+          <span>Practical IRIS, PRA &amp; SRB walkthroughs</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="calendar" size={20} /></span>
+        <div class="badge-text">
+          <strong>Regular Dispatches</strong>
+          <span>Weekly commentary &amp; regulatory alerts</span>
+        </div>
+      </div>
+    </div>
   </PageHero>
 
-  <section class="section section--white">
+  <section class="section section--white" id="blog-feed">
     <div class="container">
       <!-- Modular Search & Category Filtering Bar -->
       <BlogFilterBar categories={categories} totalCount={articles.length} />
