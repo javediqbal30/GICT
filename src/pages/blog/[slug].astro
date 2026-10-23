@@ -50,13 +50,49 @@ const breadcrumbItems = [
     breadcrumbItems={breadcrumbItems}
   />
 
-  <PageHero eyebrow={article.category} title={article.title} description={article.excerpt}>
-    <Breadcrumbs slot="breadcrumbs" items={breadcrumbItems} />
+  <PageHero
+    align="center"
+    withOrbs={true}
+    tone="sky"
+    description={article.excerpt}
+  >
+    <div slot="breadcrumbs">
+      <Breadcrumbs items={breadcrumbItems} />
+      <div class="about-eyebrow-pill">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        <span>{article.category} · GICT Research &amp; Advisory</span>
+      </div>
+    </div>
+
+    <h1 slot="title" class="about-hero-title">
+      {article.title}
+    </h1>
+
+    <div class="about-hero-actions" style="margin-top: 24px; margin-bottom: 24px;">
+      <a class="btn btn-primary" href="#article-content">
+        Read full analysis
+        <Icon name="arrow-right" size={17} />
+      </a>
+      <a
+        class="btn btn-whatsapp"
+        href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(`Hello GICT, I have a question regarding: ${article.title}`)}`}
+        target="_blank"
+        rel="noopener"
+      >
+        <Icon name="whatsapp" size={18} />
+        Discuss on WhatsApp
+      </a>
+      <a class="btn btn-outline" href="/blog">
+        <span>All articles</span>
+        <Icon name="chevron-right" size={16} />
+      </a>
+    </div>
+
     <!-- Modular E-E-A-T Byline -->
     <BlogByline article={article} />
   </PageHero>
 
-  <section class="section section--white">
+  <section class="section section--white" id="article-content">
     <div class="container article-layout">
       <!-- Main Content Column -->
       <article class="article-content-wrapper">

@@ -34,16 +34,51 @@ const articleSchema = {
 };
 ---
 <BaseLayout title={article.metaTitle} description={article.metaDescription} type="article" jsonLd={articleSchema}>
-  <PageHero eyebrow={article.category} title={article.title} description={article.excerpt}>
-    <Breadcrumbs
-      slot="breadcrumbs"
-      items={[
-        { label: 'Home', href: '/' },
-        { label: 'Knowledge Hub', href: '/knowledge-hub' },
-        { label: article.title },
-      ]}
-    />
-    <div class="article-byline">
+  <PageHero
+    align="center"
+    withOrbs={true}
+    tone="sky"
+    description={article.excerpt}
+  >
+    <div slot="breadcrumbs">
+      <Breadcrumbs
+        items={[
+          { label: 'Home', href: '/' },
+          { label: 'Knowledge Hub', href: '/knowledge-hub' },
+          { label: article.title },
+        ]}
+      />
+      <div class="about-eyebrow-pill">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        <span>{article.category} · Knowledge Hub</span>
+      </div>
+    </div>
+
+    <h1 slot="title" class="about-hero-title">
+      {article.title}
+    </h1>
+
+    <div class="about-hero-actions" style="margin-top: 24px; margin-bottom: 24px;">
+      <a class="btn btn-primary" href="#article-content">
+        Read practical note
+        <Icon name="arrow-right" size={17} />
+      </a>
+      <a
+        class="btn btn-whatsapp"
+        href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(`Hello GICT, I have a question regarding: ${article.title}`)}`}
+        target="_blank"
+        rel="noopener"
+      >
+        <Icon name="whatsapp" size={18} />
+        Discuss on WhatsApp
+      </a>
+      <a class="btn btn-outline" href="/knowledge-hub">
+        <span>All notes</span>
+        <Icon name="chevron-right" size={16} />
+      </a>
+    </div>
+
+    <div class="article-byline" style="display:flex;justify-content:center;flex-wrap:wrap;gap:18px;">
       <span>By <strong>{article.author}</strong></span>
       <span>Reviewed by <strong>{article.reviewer}</strong></span>
       <span>Updated {formatDate(article.updated)}</span>
@@ -51,7 +86,7 @@ const articleSchema = {
     </div>
   </PageHero>
 
-  <section class="section section--white">
+  <section class="section section--white" id="article-content">
     <div class="container article-layout">
       <article>
         <div class="article-body" set:html={article.body} />
