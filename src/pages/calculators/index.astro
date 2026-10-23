@@ -40,14 +40,78 @@ const faqs = [
   description="Use free Pakistan tax and finance calculators for salary, property, sales tax, corporate tax, gratuity, loans and NPV. Estimates only."
 >
   <PageHero
-    eyebrow="Calculators"
-    title="Practical numbers, with the assumptions shown."
-    description="Free tools for tax, property, sales tax, corporate finance and project appraisal. Every calculator is transparent about the tax year, inputs and limits."
+    align="center"
+    withOrbs={true}
+    tone="sky"
+    description="Free browser-based tools for salary tax, property advance tax, provincial sales tax, corporate tax, gratuity, and loan schedules. 100% private with visible statutory assumptions."
   >
-    <Breadcrumbs slot="breadcrumbs" items={[{ label: 'Home', href: '/' }, { label: 'Calculators' }]} />
+    <div slot="breadcrumbs">
+      <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Calculators' }]} />
+      <div class="about-eyebrow-pill">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        <span>Free Pakistan Tax &amp; Finance Engine · GICT Rawalpindi</span>
+      </div>
+    </div>
+
+    <h1 slot="title" class="about-hero-title">
+      Run the practical numbers<br />
+      <span class="hero-gradient">before the meeting or filing.</span>
+    </h1>
+
+    <div class="about-hero-actions">
+      <a class="btn btn-primary" href="#calculators-grid">
+        Explore all 8 calculators
+        <Icon name="arrow-right" size={17} />
+      </a>
+      <a class="btn btn-outline" href="/courses">
+        Learn the filing method
+        <Icon name="graduation-cap" size={17} />
+      </a>
+      <a
+        class="btn btn-whatsapp"
+        href="https://wa.me/923390006854?text=Hello%20GICT%2C%20I%20have%20a%20tax%20calculation%20question."
+        target="_blank"
+        rel="noopener"
+      >
+        <Icon name="whatsapp" size={17} />
+        <span>Ask on WhatsApp</span>
+      </a>
+    </div>
+
+    <!-- Interactive 4-Item Calculators Capability Strip -->
+    <div class="about-hero-badges" aria-label="GICT Calculator Standards">
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="calculator" size={20} /></span>
+        <div class="badge-text">
+          <strong>Salary Tax Slabs</strong>
+          <span>Finance Act Progressive Rates &amp; Withholding</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="home" size={20} /></span>
+        <div class="badge-text">
+          <strong>Property Advance Tax</strong>
+          <span>Section 236C &amp; 236K Filer/Non-Filer Rates</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="receipt" size={20} /></span>
+        <div class="badge-text">
+          <strong>Sales Tax on Services</strong>
+          <span>PRA, SRB &amp; FBR Input-Output Tax Working</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="shield" size={20} /></span>
+        <div class="badge-text">
+          <strong>100% Browser Privacy</strong>
+          <span>Zero Server Storage · Instant Client Computation</span>
+        </div>
+      </div>
+    </div>
   </PageHero>
 
-  <section class="section section--white">
+  <section class="section section--white" id="calculators-grid">
     <div class="container">
       <div class="filter-bar">
         <div class="filter-chips" role="group" aria-label="Filter calculators by category">
