@@ -4,6 +4,7 @@ import PageHero from '../../components/PageHero.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
 import CTASection from '../../components/CTASection.astro';
+import Icon from '../../components/Icon.astro';
 import { articles } from '../../data/articles';
 
 const categories = ['All', ...Array.from(new Set(articles.map((article) => article.category)))];
@@ -13,14 +14,73 @@ const categories = ['All', ...Array.from(new Set(articles.map((article) => artic
   description="Practical notes on salary tax, FBR IRIS, sales tax, tax notices and corporate compliance from GICT in Rawalpindi, with sources and review dates."
 >
   <PageHero
-    eyebrow="Knowledge Hub"
-    title="Clear explanations for current problems."
-    description="Practical notes on filing, salary tax, sales tax and dispute response. Written for people who need to act, with sources and review dates."
+    align="center"
+    withOrbs={true}
+    tone="sky"
+    description="Practical notes on income tax filing, FBR IRIS portals, provincial sales tax, and assessment dispute response. Written and verified by practicing advocates and chartered accountants."
   >
-    <Breadcrumbs slot="breadcrumbs" items={[{ label: 'Home', href: '/' }, { label: 'Knowledge Hub' }]} />
+    <div slot="breadcrumbs">
+      <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Knowledge Hub' }]} />
+      <div class="about-eyebrow-pill">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        <span>Fiscal &amp; Legal Research Desk · Rawalpindi</span>
+      </div>
+    </div>
+
+    <h1 slot="title" class="about-hero-title">
+      Clear explanations for<br />
+      <span class="hero-gradient">current taxation &amp; corporate problems.</span>
+    </h1>
+
+    <div class="about-hero-actions">
+      <a class="btn btn-primary" href="#articles">
+        Browse research notes
+        <Icon name="arrow-right" size={17} />
+      </a>
+      <a class="btn btn-outline" href="/calculators">
+        Free tax calculators
+        <Icon name="calculator" size={17} />
+      </a>
+      <a class="btn btn-ghost" href="/courses">
+        Explore programmes
+        <Icon name="graduation-cap" size={17} />
+      </a>
+    </div>
+
+    <!-- Interactive 4-Item Knowledge Hub Capability Strip -->
+    <div class="about-hero-badges" aria-label="GICT Knowledge Hub Standards">
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="file-check" size={20} /></span>
+        <div class="badge-text">
+          <strong>FBR IRIS Workflows</strong>
+          <span>Practical Return &amp; Wealth Reconciliations</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="building" size={20} /></span>
+        <div class="badge-text">
+          <strong>Provincial Sales Tax</strong>
+          <span>PRA, SRB, KPRA &amp; BRA Invoicing Rules</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="scale" size={20} /></span>
+        <div class="badge-text">
+          <strong>Litigation &amp; Notices</strong>
+          <span>Section 121 &amp; 122 Defense Framework</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="shield" size={20} /></span>
+        <div class="badge-text">
+          <strong>Statutory Citations</strong>
+          <span>100% Cross-Checked Against Active SROs</span>
+        </div>
+      </div>
+    </div>
   </PageHero>
 
-  <section class="section section--white">
+  <section class="section section--white" id="articles">
     <div class="container">
       <div class="filter-bar">
         <div class="filter-chips" role="group" aria-label="Filter articles by category">
