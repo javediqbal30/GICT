@@ -31,21 +31,85 @@ const personSchema = {
 ---
 <BaseLayout title={member.metaTitle} description={member.metaDescription} jsonLd={personSchema}>
   <PageHero
-    eyebrow="Faculty profile"
-    title={displayName}
-    description={member.designation}
+    align="center"
+    withOrbs={true}
+    tone="sky"
+    description={member.bio}
   >
-    <Breadcrumbs
-      slot="breadcrumbs"
-      items={[
-        { label: 'Home', href: '/' },
-        { label: 'Faculty', href: '/faculty' },
-        { label: member.name },
-      ]}
-    />
+    <div slot="breadcrumbs">
+      <Breadcrumbs
+        items={[
+          { label: 'Home', href: '/' },
+          { label: 'Faculty', href: '/faculty' },
+          { label: member.name },
+        ]}
+      />
+      <div class="about-eyebrow-pill">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        <span>Senior Faculty Profile · GICT Rawalpindi</span>
+      </div>
+    </div>
+
+    <h1 slot="title" class="about-hero-title">
+      {displayName}
+      <span class="hero-gradient" style="display:block;font-size:clamp(18px,2.2vw,24px);font-weight:600;margin-top:8px;">
+        {member.designation}
+      </span>
+    </h1>
+
+    <div class="about-hero-actions">
+      <a class="btn btn-primary" href="#profile-details">
+        View profile &amp; courses
+        <Icon name="arrow-right" size={17} />
+      </a>
+      <a
+        class="btn btn-whatsapp"
+        href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(`Hello GICT, I want to learn more about classes taught by ${displayName}.`)}`}
+        target="_blank"
+        rel="noopener"
+      >
+        <Icon name="whatsapp" size={18} />
+        Consult on WhatsApp
+      </a>
+      <a class="btn btn-outline" href="/faculty">
+        <span>All faculty</span>
+        <Icon name="chevron-right" size={16} />
+      </a>
+    </div>
+
+    <div class="about-hero-badges">
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="award" size={20} /></span>
+        <div class="badge-text">
+          <strong>Primary Credential</strong>
+          <span>{member.qualifications[0]}</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="graduation-cap" size={20} /></span>
+        <div class="badge-text">
+          <strong>{taughtCourses.length} Active Programmes</strong>
+          <span>Weekend &amp; online cohorts</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="file-check" size={20} /></span>
+        <div class="badge-text">
+          <strong>Practitioner Training</strong>
+          <span>Hands-on case studies &amp; filing</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="map-pin" size={20} /></span>
+        <div class="badge-text">
+          <strong>Rawalpindi Campus</strong>
+          <span>Committee Chowk, Murree Road</span>
+        </div>
+      </div>
+    </div>
   </PageHero>
 
-  <section class="section section--white">
+  <section class="section section--white" id="profile-details">
     <div class="container profile-layout">
       <aside class="profile-aside">
         <div class="profile-photo">
