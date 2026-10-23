@@ -56,6 +56,17 @@ const year = new Date().getFullYear();
     </div>
   </div>
 
+  <div class="container footer-locations-bar">
+    <div class="locations-bar-inner">
+      <span class="locations-bar-title"><Icon name="map-pin" size={14} /> Training Hubs:</span>
+      <nav aria-label="Taxation Institute Locations" class="locations-nav">
+        {footerLinks.locations.map((link) => (
+          <a href={link.href}>{link.label}</a>
+        ))}
+      </nav>
+    </div>
+  </div>
+
   <div class="container footer-bottom">
     <p>© {year} {site.legalName}. All rights reserved.</p>
     <nav aria-label="Legal">
@@ -65,3 +76,59 @@ const year = new Date().getFullYear();
     </nav>
   </div>
 </footer>
+
+<style>
+  .footer-locations-bar {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-block: 16px;
+  }
+
+  .locations-bar-inner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 12.5px;
+  }
+
+  .locations-bar-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--gold, #d39100);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 11.5px;
+  }
+
+  .locations-nav {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+
+  .locations-nav a {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .locations-nav a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .locations-bar-inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .locations-nav {
+      gap: 10px 14px;
+    }
+  }
+</style>

@@ -1,0 +1,506 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Icon from '../components/Icon.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import FAQ from '../components/FAQ.astro';
+import CTASection from '../components/CTASection.astro';
+import { courses } from '../data/courses';
+import { site } from '../data/site';
+
+const feeFaqs = [
+  {
+    question: 'Can I pay my course fees in monthly installments?',
+    answer:
+      'Yes! GICT provides an easy, interest-free installment plan for all individual students and young professionals. You can pay an initial registration fee to reserve your seat, and clear the remaining balance in two equal monthly installments during the course duration.',
+  },
+  {
+    question: 'Are there any discounts for fresh commerce or law graduates?',
+    answer:
+      'Yes. Fresh graduates who completed their B.Com, BBA, BS Accounting & Finance, or LLB within the last 12 months are eligible for our Early-Career Scholarship discount (up to 15% concession) upon presenting their university transcript.',
+  },
+  {
+    question: 'Do you offer corporate discounts for companies nominating multiple employees?',
+    answer:
+      'Yes. For corporate entities, CA firms, or business organizations sponsoring 3 or more candidates, we offer group corporate packages with 15% to 25% discounts, alongside customized invoice invoicing and corporate progress reports.',
+  },
+  {
+    question: 'Are there any hidden charges for course materials or certificates?',
+    answer:
+      'Absolutely not. Your course fee is all-inclusive. It covers practical lab workstation usage, printed course binders, Excel financial templates, live IRIS return practice, examination evaluation, and the official verified Certificate of Completion.',
+  },
+  {
+    question: 'What payment methods are accepted?',
+    answer:
+      'We accept online bank transfers (IBFT), on-campus cash deposits at our Committee Chowk office, crossed cheques for corporate sponsors, and mobile wallets (Easypaisa / JazzCash). Official stamped payment receipts are issued immediately.',
+  },
+];
+
+const feeStructure = [
+  {
+    title: 'Tax Filing & IRIS Compliance',
+    slug: 'tax-filing-iris-compliance',
+    duration: '6 weeks',
+    format: 'Weekend (Sat & Sun) / Live Online',
+    investment: 'Rs 25,000',
+    installment: 'Rs 12,500 x 2 months',
+    highlight: 'Most Popular',
+  },
+  {
+    title: 'Corporate Taxation & Advisory',
+    slug: 'corporate-taxation-advisory',
+    duration: '8 weeks',
+    format: 'Weekend / Live Online',
+    investment: 'Rs 35,000',
+    installment: 'Rs 17,500 x 2 months',
+    highlight: 'Corporate Career',
+  },
+  {
+    title: 'Sales Tax & Provincial VAT (PRA / SRB)',
+    slug: 'sales-tax-provincial-vat',
+    duration: '6 weeks',
+    format: 'Weekend / Live Online',
+    investment: 'Rs 28,000',
+    installment: 'Rs 14,000 x 2 months',
+    highlight: 'Multi-Province',
+  },
+  {
+    title: 'Advanced Income Tax Litigation & Appeals',
+    slug: 'advanced-income-tax-litigation',
+    duration: '8 weeks',
+    format: 'Weekend / Live Online',
+    investment: 'Rs 40,000',
+    installment: 'Rs 20,000 x 2 months',
+    highlight: 'For Advocates & CAs',
+  },
+  {
+    title: 'Corporate Finance & Financial Modeling',
+    slug: 'corporate-finance-modeling',
+    duration: '8 weeks',
+    format: 'Weekend / Live Online',
+    investment: 'Rs 35,000',
+    installment: 'Rs 17,500 x 2 months',
+    highlight: 'Valuation & DCF',
+  },
+  {
+    title: 'Computerized Accounting & QuickBooks',
+    slug: 'computerized-accounting-quickbooks',
+    duration: '6 weeks',
+    format: 'Weekend / Live Online',
+    investment: 'Rs 22,000',
+    installment: 'Rs 11,000 x 2 months',
+    highlight: 'Practical Bookkeeping',
+  },
+];
+---
+
+<BaseLayout
+  title="Best Corporate Taxation Institute in Islamabad & Rawalpindi Fees"
+  description="Transparent taxation course fees in Islamabad & Rawalpindi for 2024-25. Review fee structures, monthly installment options, and scholarship discounts at GICT."
+>
+  <PageHero
+    align="center"
+    withOrbs={true}
+    tone="sky"
+    description="Transparent, all-inclusive pricing with zero hidden charges. Monthly installment plans, early-bird scholarships, and corporate packages for finance professionals across Islamabad and Rawalpindi."
+  >
+    <div slot="breadcrumbs">
+      <Breadcrumbs
+        items={[
+          { label: 'Home', href: '/' },
+          { label: 'Course Fee Structure' },
+        ]}
+      />
+      <div class="about-eyebrow-pill">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        <span>Twin Cities Corporate Training · 2024-25 Investment Schedule</span>
+      </div>
+    </div>
+
+    <h1 slot="title" class="about-hero-title">
+      Corporate Taxation Course Fee Structure<br />
+      <span class="hero-gradient">in Islamabad &amp; Rawalpindi.</span>
+    </h1>
+
+    <div class="about-hero-actions">
+      <a class="btn btn-primary" href="#fee-table">
+        View all course fees
+        <Icon name="arrow-right" size={17} />
+      </a>
+      <a
+        class="btn btn-whatsapp"
+        href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent('Hello GICT, I want to inquire about installment plans and fee discounts.')}`}
+        target="_blank"
+        rel="noopener"
+      >
+        <Icon name="whatsapp" size={18} />
+        Inquire on WhatsApp ({site.whatsappDisplay})
+      </a>
+      <a class="btn btn-outline" href="/contact">
+        <span>Request admission form</span>
+        <Icon name="chevron-right" size={16} />
+      </a>
+    </div>
+
+    <div class="about-hero-badges">
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="wallet" size={20} /></span>
+        <div class="badge-text">
+          <strong>Installment Options</strong>
+          <span>Easy 2-part monthly payments</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="gift" size={20} /></span>
+        <div class="badge-text">
+          <strong>Graduate Concession</strong>
+          <span>Up to 15% discount for commerce grads</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="building" size={20} /></span>
+        <div class="badge-text">
+          <strong>Corporate Group Rebate</strong>
+          <span>15%–25% off for 3+ team nominations</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="shield" size={20} /></span>
+        <div class="badge-text">
+          <strong>Zero Hidden Fees</strong>
+          <span>Books, lab &amp; certificate included</span>
+        </div>
+      </div>
+    </div>
+  </PageHero>
+
+  <!-- Section: Course Fee Table -->
+  <section class="section section--white" id="fee-table">
+    <div class="container">
+      <SectionHeading
+        eyebrow="2024-25 Schedule"
+        title="Complete Programme Investment & Installment Matrix."
+        description="Select the executive track that fits your career goals. All fees include laboratory workstations, course materials, templates, and verified certification."
+        align="center"
+      />
+
+      <div class="fee-table-wrap">
+        <table class="fee-table">
+          <thead>
+            <tr>
+              <th>Programme Track</th>
+              <th>Duration</th>
+              <th>Learning Format</th>
+              <th>Total Fee</th>
+              <th>Monthly Installment</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {feeStructure.map((row) => (
+              <tr>
+                <td>
+                  <strong>{row.title}</strong>
+                  <span class="fee-tag">{row.highlight}</span>
+                </td>
+                <td>{row.duration}</td>
+                <td>{row.format}</td>
+                <td><span class="fee-price">{row.investment}</span></td>
+                <td><span class="installment-price">{row.installment}</span></td>
+                <td>
+                  <a class="btn btn-gold btn-sm" href={`/courses/${row.slug}`}>
+                    Enroll Now
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="fee-note">
+        * Note: Above fees are indicative for self-financing individual applicants. Special corporate customized in-house training quotes are provided upon needs assessment.
+      </p>
+    </div>
+  </section>
+
+  <!-- Section: What's Included -->
+  <section class="section section--soft">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Comprehensive Value"
+        title="What is Included in Your GICT Admission Fee?"
+        description="We believe in total pricing transparency. Here is exactly what you receive when you join a GICT cohort."
+        align="center"
+      />
+
+      <div class="included-grid">
+        <div class="included-card">
+          <span class="included-icon"><Icon name="file-check" size={22} /></span>
+          <h3>Live IRIS &amp; Portal Hands-On</h3>
+          <p>Direct login practice inside live FBR e-filing systems, CPR generation, and provincial sales tax portals.</p>
+        </div>
+
+        <div class="included-card">
+          <span class="included-icon"><Icon name="book-open" size={22} /></span>
+          <h3>Complete Practical Toolkits</h3>
+          <p>Ready-to-use Excel templates for Wealth Reconciliation, Section 111 defence, withholding registers, and financial models.</p>
+        </div>
+
+        <div class="included-card">
+          <span class="included-icon"><Icon name="award" size={22} /></span>
+          <h3>Verified GICT Certification</h3>
+          <p>Official physical and digital Certificate of Completion recognized by employers and practicing tax consultancies.</p>
+        </div>
+
+        <div class="included-card">
+          <span class="included-icon"><Icon name="users" size={22} /></span>
+          <h3>Direct Faculty Mentorship</h3>
+          <p>Post-class guidance from High Court Advocates and Chartered Accountants for real-world client tax problems.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: ROI -->
+  <section class="section section--white">
+    <div class="container roi-box">
+      <div class="roi-copy">
+        <div class="about-eyebrow-pill">
+          <span class="eyebrow-dot" aria-hidden="true"></span>
+          <span>Career Return on Investment</span>
+        </div>
+        <h2>How This Course Pays for Itself in Less Than 60 Days</h2>
+        <p>
+          Unlike academic degrees that take years and cost hundreds of thousands of rupees without teaching practical skills, GICT’s practical taxation courses deliver immediate financial return:
+        </p>
+        <ul class="roi-list">
+          <li><strong>Freelance Tax Returns:</strong> Handling just 3 to 5 individual annual tax returns at Rs 5,000–10,000 per client fully recovers your entire course fee.</li>
+          <li><strong>Corporate Job Promotion:</strong> Certified corporate tax professionals earn Rs 30,000 to Rs 80,000 higher monthly salaries than non-specialized accountants in the Twin Cities.</li>
+          <li><strong>Penalty Avoidance:</strong> One single timely appeal or audit defence saving your employer millions in FBR penalties makes you indispensable.</li>
+        </ul>
+      </div>
+      <div class="roi-action-card">
+        <h3>Need Financial Guidance?</h3>
+        <p>Speak with our admissions counselor to find the most cost-effective programme for your background.</p>
+        <a class="btn btn-gold btn-block" href={`https://wa.me/${site.whatsappNumber}?text=Hello%20GICT%2C%20please%20guide%20me%20on%20course%20fees%20and%20scholarships.`} target="_blank" rel="noopener">
+          <Icon name="whatsapp" size={17} />
+          Discuss on WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: FAQs -->
+  <FAQ
+    eyebrow="Fee Structure FAQ"
+    title="Frequently Asked Questions About Fees &amp; Payments."
+    description="Everything you need to know about payment methods, deadlines, and discounts."
+    items={feeFaqs}
+  />
+
+  <!-- Final CTA -->
+  <CTASection
+    title="Invest in Skills That Directly Multiply Your Earning Potential."
+    text="Our weekend and evening cohorts have limited seats to guarantee individual workstation attention. Reserve your seat today."
+    primary={{ label: 'Apply for admission', href: '/contact' }}
+    secondary={{ label: 'Meet the faculty', href: '/faculty' }}
+  />
+</BaseLayout>
+
+<style>
+  .fee-table-wrap {
+    overflow-x: auto;
+    margin-top: 32px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px -10px rgba(0, 31, 78, 0.06);
+  }
+
+  .fee-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    min-width: 720px;
+  }
+
+  .fee-table th {
+    background: #f8fafc;
+    padding: 16px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--navy, #001f4e);
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid #e2e8f0;
+  }
+
+  .fee-table td {
+    padding: 18px 20px;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 14.5px;
+    color: #334155;
+    vertical-align: middle;
+  }
+
+  .fee-table tr:hover td {
+    background: #f8fafc;
+  }
+
+  .fee-tag {
+    display: inline-block;
+    font-size: 11px;
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+    padding: 2px 7px;
+    border-radius: 6px;
+    margin-left: 8px;
+    font-weight: 600;
+  }
+
+  .fee-price {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy, #001f4e);
+    font-family: var(--serif);
+  }
+
+  .installment-price {
+    font-size: 13.5px;
+    color: #0284c7;
+    font-weight: 600;
+  }
+
+  .btn-sm {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .fee-note {
+    font-size: 13px;
+    color: #64748b;
+    margin-top: 14px;
+    font-style: italic;
+  }
+
+  .included-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+    margin-top: 36px;
+  }
+
+  .included-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 8px 24px -6px rgba(0, 31, 78, 0.05);
+  }
+
+  .included-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #fef3c7;
+    color: #b45309;
+    display: grid;
+    place-items: center;
+    margin-bottom: 16px;
+  }
+
+  .included-card h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--navy, #001f4e);
+    margin-bottom: 8px;
+  }
+
+  .included-card p {
+    font-size: 13.5px;
+    color: #64748b;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ROI Box */
+  .roi-box {
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 40px;
+    align-items: center;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 24px;
+    padding: 40px;
+  }
+
+  .roi-copy h2 {
+    font-size: clamp(24px, 3vw, 34px);
+    font-weight: 800;
+    color: var(--navy, #001f4e);
+    margin-block: 10px 14px;
+    letter-spacing: -0.02em;
+  }
+
+  .roi-copy p {
+    font-size: 15px;
+    color: var(--body, #475569);
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .roi-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .roi-list li {
+    font-size: 14px;
+    color: #334155;
+    line-height: 1.55;
+  }
+
+  .roi-action-card {
+    background: linear-gradient(135deg, var(--navy, #001f4e) 0%, #0c2d5c 100%);
+    border-radius: 20px;
+    padding: 32px;
+    color: #ffffff;
+    box-shadow: 0 16px 36px -10px rgba(0, 31, 78, 0.3);
+  }
+
+  .roi-action-card h3 {
+    font-size: 20px;
+    color: #ffffff;
+    margin-bottom: 8px;
+  }
+
+  .roi-action-card p {
+    font-size: 13.5px;
+    color: #cbd5e1;
+    line-height: 1.6;
+    margin-bottom: 22px;
+  }
+
+  @media (max-width: 1024px) {
+    .included-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .roi-box {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .included-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

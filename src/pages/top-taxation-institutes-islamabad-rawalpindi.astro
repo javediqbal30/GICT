@@ -1,0 +1,375 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Icon from '../components/Icon.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import FAQ from '../components/FAQ.astro';
+import CTASection from '../components/CTASection.astro';
+import { site } from '../data/site';
+
+const comparisonFaqs = [
+  {
+    question: 'How does GICT compare to other institutions like the Institute of Business Leadership (IBL) or university diplomas?',
+    answer:
+      'General business institutions like IBL or universities traditionally deliver academic diplomas covering broad commercial topics through lecture slides. GICT is specifically focused as a specialized taxation and corporate law laboratory. Instead of purely theoretical textbooks, every GICT session is conducted around working documents: live FBR IRIS return filing, drafting Section 127 grounds of appeal, provincial sales tax reconciliations, and actual corporate audit files.',
+  },
+  {
+    question: 'Are short practical taxation courses better than a one-year university diploma?',
+    answer:
+      'For career professionals and commerce graduates, yes. Employers in Pakistan looking for tax associates and corporate accountants require candidates who know how to log into IRIS, file monthly PRA/SRB sales tax returns, and calculate withholding tax under Section 149/153. A 6-to-12-week intensive practical short course delivers exact operational competence in months, whereas academic diplomas rarely teach portal submission.',
+  },
+  {
+    question: 'What makes a taxation institute the best in Pakistan?',
+    answer:
+      'Three critical criteria define a top-tier taxation institute: (1) Faculty who actively practice before the High Court, Tax Bar, or in corporate advisory, (2) Direct hands-on portal practice with real client scenarios rather than fictional textbook examples, and (3) Immediate updates reflecting the latest Finance Act amendments.',
+  },
+  {
+    question: 'Can law graduates and junior advocates benefit from GICT litigation courses?',
+    answer:
+      'Yes. Adv. Abrar Ahmed Qazi’s Advanced Income Tax Litigation programme is specifically designed for junior advocates, tax consultants, and law graduates entering the Tax Bar. It focuses on the procedural code, notice replies under Section 122, drafting appeal petitions, and tribunal citation analysis.',
+  },
+];
+---
+
+<BaseLayout
+  title="Top Corporate & Taxation Institutes in Islamabad & Rawalpindi (2024-25)"
+  description="Objective guide to the best corporate and taxation training institutes in Islamabad & Rawalpindi. Compare GICT, IBL, university diplomas and short courses."
+>
+  <PageHero
+    align="center"
+    withOrbs={true}
+    tone="sky"
+    description="An objective, practitioner-led comparative review of corporate tax training options across Islamabad and Rawalpindi. Learn which institute delivers genuine career competence."
+  >
+    <div slot="breadcrumbs">
+      <Breadcrumbs
+        items={[
+          { label: 'Home', href: '/' },
+          { label: 'Top Taxation Institutes Guide' },
+        ]}
+      />
+      <div class="about-eyebrow-pill">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        <span>Independent Evaluation Guide · Twin Cities Corporate Training</span>
+      </div>
+    </div>
+
+    <h1 slot="title" class="about-hero-title">
+      Top Corporate &amp; Taxation Institutes<br />
+      <span class="hero-gradient">in Islamabad &amp; Rawalpindi.</span>
+    </h1>
+
+    <div class="about-hero-actions">
+      <a class="btn btn-primary" href="#comparison-matrix">
+        View benchmark comparison
+        <Icon name="arrow-right" size={17} />
+      </a>
+      <a
+        class="btn btn-whatsapp"
+        href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent('Hello GICT, I would like guidance on choosing the right corporate taxation course.')}`}
+        target="_blank"
+        rel="noopener"
+      >
+        <Icon name="whatsapp" size={18} />
+        Academic Counseling ({site.whatsappDisplay})
+      </a>
+      <a class="btn btn-outline" href="/taxation-course-fees-rawalpindi-islamabad">
+        <span>Compare course fees</span>
+        <Icon name="chevron-right" size={16} />
+      </a>
+    </div>
+
+    <div class="about-hero-badges">
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="scale" size={20} /></span>
+        <div class="badge-text">
+          <strong>Practitioner Rigour</strong>
+          <span>High Court advocates &amp; FCAs</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="monitor" size={20} /></span>
+        <div class="badge-text">
+          <strong>Live Portal Mastery</strong>
+          <span>FBR IRIS, PRA, SRB &amp; SECP</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="target" size={20} /></span>
+        <div class="badge-text">
+          <strong>Outcome-Focused</strong>
+          <span>Immediate job-readiness in 6–12 weeks</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="award" size={20} /></span>
+        <div class="badge-text">
+          <strong>Top Student Ratings</strong>
+          <span>4.9 / 5.0 Google Verified Score</span>
+        </div>
+      </div>
+    </div>
+  </PageHero>
+
+  <!-- Section: Comparison Matrix -->
+  <section class="section section--white" id="comparison-matrix">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Objective Benchmark"
+        title="Comparing Training Models in the Twin Cities."
+        description="Understanding the core differences between general business institutes, traditional academic diplomas, and specialized practitioner training."
+        align="center"
+      />
+
+      <div class="matrix-table-wrap">
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th>Evaluation Factor</th>
+              <th>GICT Academy</th>
+              <th>General Business Institutes (e.g. IBL)</th>
+              <th>University Academic Diplomas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Primary Curriculum Focus</strong></td>
+              <td><span class="badge-pill badge-pill--green">100% Tax, Law &amp; Finance</span></td>
+              <td>General management, HR &amp; basic accounting</td>
+              <td>Theoretical economic models &amp; statutes</td>
+            </tr>
+            <tr>
+              <td><strong>Faculty Qualifications</strong></td>
+              <td><span class="badge-pill badge-pill--green">High Court Advocates &amp; FCAs</span></td>
+              <td>Mixed corporate trainers &amp; freelancers</td>
+              <td>Academic lecturers without active Tax Bar practice</td>
+            </tr>
+            <tr>
+              <td><strong>Live Portal Training</strong></td>
+              <td><span class="badge-pill badge-pill--green">Yes (IRIS, PRA, SRB, SECP)</span></td>
+              <td>Limited or slide-based screenshots</td>
+              <td>Rarely or never taught</td>
+            </tr>
+            <tr>
+              <td><strong>Finance Act Updates</strong></td>
+              <td><span class="badge-pill badge-pill--green">100% FY 2024-25 Ready</span></td>
+              <td>Occasional updates</td>
+              <td>Often 2–3 years behind current law</td>
+            </tr>
+            <tr>
+              <td><strong>Time to Competence</strong></td>
+              <td><span class="badge-pill badge-pill--green">6 to 12 Weeks (Accelerated)</span></td>
+              <td>2 to 4 Months</td>
+              <td>1 to 2 Years</td>
+            </tr>
+            <tr>
+              <td><strong>Schedule for Working Staff</strong></td>
+              <td><span class="badge-pill badge-pill--green">Weekend Exec (Sat &amp; Sun)</span></td>
+              <td>Weekday evenings or mixed</td>
+              <td>Strict weekday morning/afternoon schedules</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: 5 Criteria to Evaluate Any Institute -->
+  <section class="section section--soft">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Student Checklist"
+        title="5 Questions to Ask Before Enrolling in Any Taxation Course."
+        description="Protect your time and money by asking these vital questions before paying fees anywhere in Islamabad or Rawalpindi."
+        align="center"
+      />
+
+      <div class="checklist-grid">
+        <div class="checklist-card">
+          <span class="check-number">01</span>
+          <h3>Who is teaching the sessions?</h3>
+          <p>Always verify if your instructor is an active member of the Punjab Bar Council, Tax Bar, or ICAP. Only active practitioners understand how tax authorities behave in reality.</p>
+        </div>
+
+        <div class="checklist-card">
+          <span class="check-number">02</span>
+          <h3>Will I file a real return on IRIS?</h3>
+          <p>If the course only shows presentation slides, you will still freeze when a real client or boss asks you to submit a return. Insist on live portal workstation practice.</p>
+        </div>
+
+        <div class="checklist-card">
+          <span class="check-number">03</span>
+          <h3>Are working paper templates included?</h3>
+          <p>Professional tax practice runs on repeatable Excel models: Wealth statements, Section 111 reconciliations, and withholding tax ledgers. Ensure you receive working files.</p>
+        </div>
+
+        <div class="checklist-card">
+          <span class="check-number">04</span>
+          <h3>Does it cover provincial sales taxes?</h3>
+          <p>Federal income tax is only half the battle. Corporate employers need staff who master PRA (Punjab), SRB (Sindh), and KPRA withholding and services tax rules.</p>
+        </div>
+
+        <div class="checklist-card">
+          <span class="check-number">05</span>
+          <h3>Is the certificate verified by employers?</h3>
+          <p>A certificate from a recognized specialized institute like GICT carries significant weight with twin-cities employers because they know the graduate has hands-on skills.</p>
+        </div>
+
+        <div class="checklist-card checklist-card--gold">
+          <span class="check-number">GICT</span>
+          <h3>Experience the Difference</h3>
+          <p>Attend an orientation session or speak with alumni to discover why GICT is rated the top corporate taxation institute in Islamabad and Rawalpindi.</p>
+          <a class="btn btn-navy btn-sm" href="/contact" style="margin-top: 12px;">Contact Admissions</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: FAQs -->
+  <FAQ
+    eyebrow="Comparison FAQ"
+    title="Frequently Asked Questions on Institute Rankings."
+    description="Clear guidance to help you choose the ideal training provider in Islamabad and Rawalpindi."
+    items={comparisonFaqs}
+  />
+
+  <!-- Final CTA -->
+  <CTASection
+    title="Choose the Institute Trusted by Senior Tax Practitioners."
+    text="Build genuine skills that set you apart in corporate interviews, tax bar practice, and client advisory. Join the next GICT cohort."
+    primary={{ label: 'Apply for admission', href: '/contact' }}
+    secondary={{ label: 'View 6 programmes', href: '/courses' }}
+  />
+</BaseLayout>
+
+<style>
+  .matrix-table-wrap {
+    overflow-x: auto;
+    margin-top: 36px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px -10px rgba(0, 31, 78, 0.06);
+  }
+
+  .matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    min-width: 760px;
+  }
+
+  .matrix-table th {
+    background: #f8fafc;
+    padding: 18px 22px;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--navy, #001f4e);
+    border-bottom: 2px solid #e2e8f0;
+  }
+
+  .matrix-table th:nth-child(2) {
+    background: #f0fdf4;
+    color: #166534;
+    border-bottom-color: #86efac;
+  }
+
+  .matrix-table td {
+    padding: 16px 22px;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 14px;
+    color: #334155;
+    vertical-align: middle;
+  }
+
+  .matrix-table td:nth-child(2) {
+    background: rgba(240, 253, 244, 0.4);
+    font-weight: 600;
+  }
+
+  .badge-pill {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .badge-pill--green {
+    background: #dcfce7;
+    color: #15803d;
+    border: 1px solid #86efac;
+  }
+
+  .btn-navy {
+    background: var(--navy, #001f4e);
+    color: #ffffff;
+  }
+
+  .btn-navy:hover {
+    background: #082857;
+  }
+
+  .btn-sm {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  /* Checklist Grid */
+  .checklist-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 36px;
+  }
+
+  .checklist-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 26px;
+    box-shadow: 0 8px 24px -6px rgba(0, 31, 78, 0.05);
+    position: relative;
+  }
+
+  .checklist-card--gold {
+    background: linear-gradient(135deg, #fef9c3 0%, #fef08a 100%);
+    border-color: #fde047;
+  }
+
+  .check-number {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--gold, #d39100);
+    font-family: var(--serif);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .checklist-card h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--navy, #001f4e);
+    margin-bottom: 8px;
+  }
+
+  .checklist-card p {
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: #475569;
+    margin: 0;
+  }
+
+  @media (max-width: 992px) {
+    .checklist-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .checklist-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

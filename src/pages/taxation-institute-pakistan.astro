@@ -1,0 +1,274 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Icon from '../components/Icon.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import CourseCard from '../components/CourseCard.astro';
+import FAQ from '../components/FAQ.astro';
+import CTASection from '../components/CTASection.astro';
+import { courses } from '../data/courses';
+import { site } from '../data/site';
+
+const pakFaqs = [
+  {
+    question: 'Why is GICT considered the best taxation institute in Pakistan?',
+    answer:
+      'GICT is Pakistan’s leading practitioner-first taxation academy. Rather than teaching outdated academic theory or passive video lectures, GICT connects students directly with practicing High Court Advocates and Chartered Accountants who train them on live FBR IRIS portal returns, wealth statements, Section 111 reconciliations, provincial sales tax (PRA/SRB/KPRA/BRA), and appellate litigation procedures.',
+  },
+  {
+    question: 'Can students outside the Twin Cities (e.g. Lahore, Karachi, Faisalabad, Multan, Peshawar) join?',
+    answer:
+      'Yes! Over 50% of our executive student body joins from across Pakistan via our interactive live online cohorts. Online students participate in real-time weekend classes with screen sharing, direct voice Q&A with instructors, complete practical Excel working papers, and access to recorded sessions for review.',
+  },
+  {
+    question: 'How do GICT courses cover provincial sales taxes across Pakistan?',
+    answer:
+      'Our dedicated Sales Tax & Provincial VAT programme covers both the federal sales tax under the Sales Tax Act 1990 and all provincial statutes: Punjab Revenue Authority (PRA), Sindh Revenue Board (SRB), Khyber Pakhtunkhwa Revenue Authority (KPRA), and Balochistan Revenue Authority (BRA), including input tax adjustments and withholding rules.',
+  },
+  {
+    question: 'What qualification do I receive after completing the course?',
+    answer:
+      'Upon satisfying practical case evaluations and return submissions, students receive an officially verified physical and digital Certificate of Completion from GICT, recognized across Pakistan by corporate employers, chartered accountancy firms, and tax bar members.',
+  },
+];
+
+const pakSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'EducationalOrganization',
+  name: 'Global Institute of Corporate Training (GICT) - Pakistan',
+  url: 'https://www.gict.com.pk/taxation-institute-pakistan',
+  logo: 'https://www.gict.com.pk/assets/images/gict-logo.png',
+  description:
+    'Best taxation institute in Pakistan. Practical corporate tax, FBR IRIS e-filing, provincial sales tax, and litigation training.',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Office-11, First Floor, Alfalah Askaria Plaza, Committee Chowk, Murree Road',
+    addressLocality: 'Rawalpindi',
+    addressRegion: 'Punjab',
+    postalCode: '46000',
+    addressCountry: 'PK',
+  },
+  areaServed: {
+    '@type': 'Country',
+    name: 'Pakistan',
+  },
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.9',
+    reviewCount: '150',
+    bestRating: '5',
+  },
+};
+---
+
+<BaseLayout
+  title="Best Taxation Institute in Pakistan | Practical Corporate Tax Training"
+  description="Rated #1 practical taxation institute in Pakistan. Master FBR IRIS, sales tax, corporate compliance and litigation with practicing advocates and FCAs."
+  jsonLd={pakSchema}
+>
+  <PageHero
+    align="center"
+    withOrbs={true}
+    tone="sky"
+    description="Pakistan’s premier institute for hands-on taxation, FBR IRIS e-filing, provincial sales taxes, and corporate law. Interactive live online cohorts and executive weekend on-campus sessions."
+  >
+    <div slot="breadcrumbs">
+      <Breadcrumbs
+        items={[
+          { label: 'Home', href: '/' },
+          { label: 'Taxation Institute in Pakistan' },
+        ]}
+      />
+      <div class="about-eyebrow-pill">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        <span>Nationwide Pakistan · Leading Corporate Taxation Institute</span>
+      </div>
+    </div>
+
+    <h1 slot="title" class="about-hero-title">
+      Best Taxation Institute in Pakistan<br />
+      <span class="hero-gradient">for Practical Corporate Training.</span>
+    </h1>
+
+    <div class="about-hero-actions">
+      <a class="btn btn-primary" href="#programmes">
+        View 6 professional tracks
+        <Icon name="arrow-right" size={17} />
+      </a>
+      <a
+        class="btn btn-whatsapp"
+        href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent('Hello GICT, I am inquiring about online taxation courses across Pakistan.')}`}
+        target="_blank"
+        rel="noopener"
+      >
+        <Icon name="whatsapp" size={18} />
+        Inquire on WhatsApp ({site.whatsappDisplay})
+      </a>
+      <a class="btn btn-outline" href="/taxation-course-fees-rawalpindi-islamabad">
+        <span>Fee structure &amp; installments</span>
+        <Icon name="chevron-right" size={16} />
+      </a>
+    </div>
+
+    <div class="about-hero-badges">
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="globe" size={20} /></span>
+        <div class="badge-text">
+          <strong>Nationwide Virtual Access</strong>
+          <span>Join from Karachi, Lahore &amp; anywhere</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="scale" size={20} /></span>
+        <div class="badge-text">
+          <strong>High Court &amp; FCA Faculty</strong>
+          <span>Practicing advocates &amp; tax mentors</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="monitor" size={20} /></span>
+        <div class="badge-text">
+          <strong>Live FBR IRIS &amp; VAT</strong>
+          <span>Hands-on portal submission practice</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="award" size={20} /></span>
+        <div class="badge-text">
+          <strong>Verified Certification</strong>
+          <span>Recognized by corporate employers</span>
+        </div>
+      </div>
+    </div>
+  </PageHero>
+
+  <!-- Section: Why Pakistan Professionals Trust GICT -->
+  <section class="section section--white">
+    <div class="container">
+      <SectionHeading
+        eyebrow="The Practitioner Difference"
+        title="Why Accountants &amp; Lawyers Across Pakistan Choose GICT."
+        description="Whether you are in Karachi handling multinational withholding, Lahore managing PRA service audits, or Islamabad drafting appellate briefs, GICT delivers real-world mastery."
+        align="center"
+      />
+
+      <div class="pak-features-grid">
+        <div class="pak-feature-card">
+          <span class="pak-feature-icon"><Icon name="monitor" size={24} /></span>
+          <h3>Live Interactive Online Cohorts</h3>
+          <p>Participate live every weekend with crystal-clear screen sharing, instructor audio Q&amp;A, and access to full class recordings for flexible revision.</p>
+        </div>
+
+        <div class="pak-feature-card">
+          <span class="pak-feature-icon"><Icon name="file-check" size={24} /></span>
+          <h3>All 4 Provincial Revenue Boards</h3>
+          <p>Comprehensive training on Punjab (PRA), Sindh (SRB), Khyber Pakhtunkhwa (KPRA), and Balochistan (BRA) services sales tax compliance.</p>
+        </div>
+
+        <div class="pak-feature-card">
+          <span class="pak-feature-icon"><Icon name="scale" size={24} /></span>
+          <h3>Appellate Litigation &amp; Dispute Defence</h3>
+          <p>Learn how to reply to Section 122 audit notices, draft stay applications, and prepare grounds of appeal before the Commissioner &amp; ATIR.</p>
+        </div>
+
+        <div class="pak-feature-card">
+          <span class="pak-feature-icon"><Icon name="building" size={24} /></span>
+          <h3>Corporate In-House Packages</h3>
+          <p>Custom private training modules for finance, audit, and legal teams of companies operating across Pakistan.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: Programmes Catalog -->
+  <section class="section section--soft" id="programmes">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Practical Catalog"
+        title="6 Professional Taxation &amp; Corporate Programmes."
+        description="Every track combines statutory citations from the Income Tax Ordinance 2001 and Sales Tax Act 1990 with hands-on working files."
+        align="center"
+      />
+      <div class="course-grid">
+        {courses.map((course) => <CourseCard course={course} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: FAQs -->
+  <FAQ
+    eyebrow="Pakistan Admissions FAQ"
+    title="Frequently Asked Questions by Candidates Across Pakistan."
+    description="Guidance on virtual learning, working materials, payments, and corporate recognition."
+    items={pakFaqs}
+  />
+
+  <!-- Final CTA -->
+  <CTASection
+    title="Transform Your Career with Pakistan’s Leading Tax Academy."
+    text="Join thousands of professionals across Pakistan who master the law and the portal at GICT. Enroll in the upcoming cohort today."
+    primary={{ label: 'Apply for admission', href: '/contact' }}
+    secondary={{ label: 'View fee structure', href: '/taxation-course-fees-rawalpindi-islamabad' }}
+  />
+</BaseLayout>
+
+<style>
+  .pak-features-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+    margin-top: 36px;
+  }
+
+  .pak-feature-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 26px;
+    box-shadow: 0 8px 24px -6px rgba(0, 31, 78, 0.05);
+    transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  }
+
+  .pak-feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px -10px rgba(0, 31, 78, 0.12);
+  }
+
+  .pak-feature-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: #e0f2fe;
+    color: #0369a1;
+    display: grid;
+    place-items: center;
+    margin-bottom: 18px;
+  }
+
+  .pak-feature-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--navy, #001f4e);
+    margin-bottom: 10px;
+  }
+
+  .pak-feature-card p {
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: #64748b;
+    margin: 0;
+  }
+
+  @media (max-width: 1024px) {
+    .pak-features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .pak-features-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

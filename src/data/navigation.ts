@@ -62,4 +62,11 @@ export const footerLinks = {
     { label: 'Disclaimer', href: '/disclaimer' },
     { label: 'Accessibility', href: '/accessibility' },
   ],
+  locations: [
+    { label: 'Taxation Institute in Islamabad', href: '/taxation-institute-islamabad' },
+    { label: 'Taxation Institute in Rawalpindi', href: '/taxation-institute-rawalpindi' },
+    { label: 'Taxation Institute in Pakistan', href: '/taxation-institute-pakistan' },
+    { label: 'Course Fee Structure', href: '/taxation-course-fees-rawalpindi-islamabad' },
+    { label: 'Top Institutes Benchmark Guide', href: '/top-taxation-institutes-islamabad-rawalpindi' },
+  ],
 };

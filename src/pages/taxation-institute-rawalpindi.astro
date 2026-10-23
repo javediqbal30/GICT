@@ -1,0 +1,387 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Icon from '../components/Icon.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import CourseCard from '../components/CourseCard.astro';
+import FAQ from '../components/FAQ.astro';
+import CTASection from '../components/CTASection.astro';
+import { courses } from '../data/courses';
+import { site } from '../data/site';
+
+const pindiFaqs = [
+  {
+    question: 'Where is the GICT campus located in Rawalpindi?',
+    answer:
+      'The GICT campus is located at Office-11, First Floor, Alfalah Askaria Plaza, Committee Chowk, Murree Road, Rawalpindi. It is situated right in the educational and commercial heart of Rawalpindi, directly opposite the Committee Chowk Metro station with easy transit access from Saddar, Raja Bazaar, Chandni Chowk, and Satellite Town.',
+  },
+  {
+    question: 'What short courses does GICT offer in Rawalpindi?',
+    answer:
+      'GICT specializes in professional short courses spanning 4 to 12 weeks: (1) Tax Filing & FBR IRIS Compliance, (2) Corporate Taxation & Advisory, (3) Sales Tax & Provincial VAT (PRA/SRB), (4) Advanced Income Tax Litigation & Appeals, (5) Corporate Financial Modeling, and (6) Computerized Accounting with QuickBooks.',
+  },
+  {
+    question: 'Who should enroll in these taxation courses in Rawalpindi?',
+    answer:
+      'Our programmes are built for fresh B.Com, BBA, and BS Accounting & Finance graduates seeking immediate jobs, practicing advocates wanting to enter the Tax Bar, corporate accountants aiming for senior roles, and business owners managing their own NTN and sales tax filings.',
+  },
+  {
+    question: 'Are computers and practice labs provided on campus?',
+    answer:
+      'Yes. The Rawalpindi campus features air-conditioned multimedia practical labs with high-speed internet. Every student practices return filing, withholding calculations, and challan generation on dedicated computer workstations.',
+  },
+  {
+    question: 'Can I visit the Rawalpindi campus before enrolling?',
+    answer:
+      'Yes, prospective students and corporate sponsors are encouraged to visit during office hours (Mon–Fri 9:00–18:00, Sat 10:00–16:00). You can inspect the facilities, review printed course outlines, and meet with our academic counselors.',
+  },
+];
+
+const pindiSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'EducationalOrganization',
+  name: 'Global Institute of Corporate Training (GICT) - Rawalpindi Campus',
+  url: 'https://www.gict.com.pk/taxation-institute-rawalpindi',
+  logo: 'https://www.gict.com.pk/assets/images/gict-logo.png',
+  description:
+    'Best taxation institute for short courses and corporate tax training in Rawalpindi. Located at Committee Chowk, Murree Road.',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Office-11, First Floor, Alfalah Askaria Plaza, Committee Chowk, Murree Road',
+    addressLocality: 'Rawalpindi',
+    addressRegion: 'Punjab',
+    postalCode: '46000',
+    addressCountry: 'PK',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 33.61386,
+    longitude: 73.06504,
+  },
+  hasMap: site.mapUrl,
+  areaServed: [
+    { '@type': 'City', name: 'Rawalpindi' },
+    { '@type': 'City', name: 'Islamabad' },
+  ],
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.9',
+    reviewCount: '150',
+    bestRating: '5',
+  },
+};
+---
+
+<BaseLayout
+  title="Best Taxation Institute in Rawalpindi | Short Courses & Corporate Tax"
+  description="Rated #1 taxation and short courses institute in Rawalpindi at Committee Chowk, Murree Road. Learn FBR IRIS, sales tax, corporate law and accounting from practitioners."
+  jsonLd={pindiSchema}
+>
+  <PageHero
+    align="center"
+    withOrbs={true}
+    tone="sky"
+    description="Located at Committee Chowk, Murree Road. Providing Rawalpindi students, legal apprentices, and accountants with practical workstations, live FBR IRIS filing, and direct mentorship from High Court Advocates."
+  >
+    <div slot="breadcrumbs">
+      <Breadcrumbs
+        items={[
+          { label: 'Home', href: '/' },
+          { label: 'Taxation Institute in Rawalpindi' },
+        ]}
+      />
+      <div class="about-eyebrow-pill">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        <span>Rawalpindi Campus · Best Institute for Short Courses</span>
+      </div>
+    </div>
+
+    <h1 slot="title" class="about-hero-title">
+      Best Taxation Institute in Rawalpindi<br />
+      <span class="hero-gradient">for Practical Corporate Training.</span>
+    </h1>
+
+    <div class="about-hero-actions">
+      <a class="btn btn-primary" href="#programmes">
+        Browse Rawalpindi short courses
+        <Icon name="arrow-right" size={17} />
+      </a>
+      <a
+        class="btn btn-whatsapp"
+        href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent('Hello GICT, I would like to visit the Rawalpindi campus at Committee Chowk.')}`}
+        target="_blank"
+        rel="noopener"
+      >
+        <Icon name="whatsapp" size={18} />
+        WhatsApp Campus Desk ({site.whatsappDisplay})
+      </a>
+      <a class="btn btn-outline" href={site.mapUrl} target="_blank" rel="noopener">
+        <span>Campus map directions</span>
+        <Icon name="map-pin" size={16} />
+      </a>
+    </div>
+
+    <div class="about-hero-badges">
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="map-pin" size={20} /></span>
+        <div class="badge-text">
+          <strong>Committee Chowk Campus</strong>
+          <span>Alfalah Askaria Plaza, Murree Road</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="graduation-cap" size={20} /></span>
+        <div class="badge-text">
+          <strong>Practical Short Courses</strong>
+          <span>4 to 12 weeks accelerated tracks</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="monitor" size={20} /></span>
+        <div class="badge-text">
+          <strong>Dedicated Computer Labs</strong>
+          <span>Individual workstations &amp; live IRIS</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="award" size={20} /></span>
+        <div class="badge-text">
+          <strong>RITBA Faculty</strong>
+          <span>Mentorship from Tax Bar members</span>
+        </div>
+      </div>
+    </div>
+  </PageHero>
+
+  <!-- Section: Rawalpindi Campus Highlights -->
+  <section class="section section--white">
+    <div class="container">
+      <SectionHeading
+        eyebrow="On-Campus Advantage"
+        title="Why Rawalpindi Chooses GICT for Professional Skill-Building."
+        description="Whether you are an aspiring tax practitioner preparing for the Rawalpindi Islamabad Tax Bar (RITBA) or an accountant looking for a high-paying corporate job, GICT bridges the practical gap."
+        align="center"
+      />
+
+      <div class="features-grid">
+        <div class="pindi-feature-card">
+          <span class="pindi-feature-icon"><Icon name="monitor" size={24} /></span>
+          <h3>Hands-On Computer Lab</h3>
+          <p>Practice filing real income tax returns, wealth statements, CPR generation, and PRA sales tax returns on high-speed multimedia workstations.</p>
+        </div>
+
+        <div class="pindi-feature-card">
+          <span class="pindi-feature-icon"><Icon name="scale" size={24} /></span>
+          <h3>Court &amp; Tax Bar Heritage</h3>
+          <p>Learn directly from senior High Court advocates who actively argue cases before the Commissioner Appeals and the Appellate Tribunal Inland Revenue (ATIR).</p>
+        </div>
+
+        <div class="pindi-feature-card">
+          <span class="pindi-feature-icon"><Icon name="file-check" size={24} /></span>
+          <h3>Real Client Case Studies</h3>
+          <p>Work with actual anonymized corporate files, statutory audit notices under Section 122, and PRA service tax withholding challenges.</p>
+        </div>
+
+        <div class="pindi-feature-card">
+          <span class="pindi-feature-icon"><Icon name="briefcase" size={24} /></span>
+          <h3>Career &amp; Placement Support</h3>
+          <p>Our alumni are recruited by top CA firms, chartered accounting practices, and corporate tax departments across Rawalpindi and Islamabad.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: Courses Grid -->
+  <section class="section section--soft" id="programmes">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Rawalpindi Short Courses Catalog"
+        title="Professional Taxation & Accounting Programmes."
+        description="Each track is structured for maximum job-market value in Pakistan’s evolving corporate and tax environment."
+        align="center"
+      />
+      <div class="course-grid">
+        {courses.map((course) => <CourseCard course={course} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: Location & Directions -->
+  <section class="section section--white">
+    <div class="container pindi-location-grid">
+      <div class="location-details">
+        <div class="about-eyebrow-pill">
+          <span class="eyebrow-dot" aria-hidden="true"></span>
+          <span>Central Rawalpindi Location</span>
+        </div>
+        <h2>Prime Murree Road Campus Access</h2>
+        <p>
+          Located at Committee Chowk, GICT is reachable within minutes from any neighborhood in Rawalpindi:
+        </p>
+        <ul class="pindi-landmarks">
+          <li><strong>From Saddar / Cantt:</strong> 7 minutes via Murree Road or 2 Metro stops.</li>
+          <li><strong>From Satellite Town / Commercial Market:</strong> 5 minutes via 6th Road / Murree Road.</li>
+          <li><strong>From Chandni Chowk &amp; Asghar Mall:</strong> 3 minutes direct approach.</li>
+          <li><strong>From Rawalpindi Courts:</strong> 8 minutes via Kachehri Road.</li>
+        </ul>
+        <div class="pindi-cta-group">
+          <a class="btn btn-primary" href="/contact">
+            Plan your visit
+            <Icon name="arrow-right" size={17} />
+          </a>
+          <a class="btn btn-outline" href="/taxation-course-fees-rawalpindi-islamabad">
+            Check fees &amp; discounts
+            <Icon name="chevron-right" size={16} />
+          </a>
+        </div>
+      </div>
+
+      <div class="location-map-wrap">
+        <iframe
+          src={site.mapEmbedUrl}
+          title="GICT Rawalpindi Campus Location"
+          width="100%"
+          height="380"
+          style="border:0; border-radius: 20px; box-shadow: 0 12px 32px rgba(0,31,78,0.1);"
+          loading="lazy"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: Local FAQs -->
+  <FAQ
+    eyebrow="Rawalpindi Short Courses FAQ"
+    title="Everything You Need to Know Before Enrolling."
+    description="Common questions about admission eligibility, timings, labs, and certification."
+    items={pindiFaqs}
+  />
+
+  <!-- Final CTA -->
+  <CTASection
+    title="Ready to Join Rawalpindi's Leading Tax Academy?"
+    text="Seats for weekend and evening batches fill up quickly. Secure your admission for the upcoming cohort today."
+    primary={{ label: 'Apply for admission', href: '/contact' }}
+    secondary={{ label: 'WhatsApp admissions', href: `https://wa.me/${site.whatsappNumber}` }}
+  />
+</BaseLayout>
+
+<style>
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+    margin-top: 36px;
+  }
+
+  .pindi-feature-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 26px;
+    box-shadow: 0 8px 24px -6px rgba(0, 31, 78, 0.05);
+    transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  }
+
+  .pindi-feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px -10px rgba(0, 31, 78, 0.12);
+  }
+
+  .pindi-feature-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: #e0f2fe;
+    color: #0369a1;
+    display: grid;
+    place-items: center;
+    margin-bottom: 18px;
+  }
+
+  .pindi-feature-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--navy, #001f4e);
+    margin-bottom: 10px;
+  }
+
+  .pindi-feature-card p {
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: #64748b;
+    margin: 0;
+  }
+
+  /* Location grid */
+  .pindi-location-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 44px;
+    align-items: center;
+  }
+
+  .location-details h2 {
+    font-size: clamp(26px, 3.2vw, 36px);
+    font-weight: 800;
+    color: var(--navy, #001f4e);
+    margin-block: 12px 14px;
+    letter-spacing: -0.02em;
+  }
+
+  .location-details > p {
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--body, #475569);
+    margin-bottom: 20px;
+  }
+
+  .pindi-landmarks {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .pindi-landmarks li {
+    font-size: 14.5px;
+    color: #334155;
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .pindi-landmarks li::before {
+    content: '•';
+    color: var(--gold, #d39100);
+    position: absolute;
+    left: 4px;
+    font-size: 18px;
+    top: -2px;
+  }
+
+  .pindi-cta-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 1024px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pindi-location-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

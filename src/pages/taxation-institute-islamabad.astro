@@ -1,0 +1,491 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Icon from '../components/Icon.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import CourseCard from '../components/CourseCard.astro';
+import FAQ from '../components/FAQ.astro';
+import CTASection from '../components/CTASection.astro';
+import { courses } from '../data/courses';
+import { site } from '../data/site';
+import { googleReviewsConfig } from '../data/reviews';
+
+const isbFaqs = [
+  {
+    question: 'Why is GICT considered the best corporate taxation institute for Islamabad professionals?',
+    answer:
+      'Unlike general academic universities in Islamabad that teach theoretical taxation from outdated textbooks, GICT provides 100% practitioner-led training. Students work directly inside the live FBR IRIS portal, draft actual grounds of appeal under Section 127, compute corporate minimum tax under Section 113, and resolve cross-provincial sales tax disputes under the guidance of practicing High Court Advocates and Chartered Accountants.',
+  },
+  {
+    question: 'How do Islamabad students travel to the GICT campus?',
+    answer:
+      'GICT is conveniently located at Alfalah Askaria Plaza, Committee Chowk, Murree Road, directly opposite the Committee Chowk Metro Bus station. Islamabad professionals from Blue Area, Pak Secretariat, Faizabad, I-8, or F-sectors can reach campus in 15 to 20 minutes via the Metro Bus without facing traffic or parking hassles.',
+  },
+  {
+    question: 'Can Islamabad residents attend classes live online?',
+    answer:
+      'Yes. All GICT professional taxation programmes are delivered in a hybrid executive format. Islamabad students can either attend on-campus weekend sessions or join live interactive virtual cohorts with full screen-sharing, live portal walkthroughs, instructor Q&A, and access to all working paper templates.',
+  },
+  {
+    question: 'What is the fee structure for corporate taxation courses in Islamabad & Rawalpindi?',
+    answer:
+      'GICT offers transparent, competitive fee packages with flexible monthly installment options. Course fees range from affordable practical short courses to comprehensive 12-week advanced corporate tax masterclasses. Full fee details, early-bird commerce graduate discounts, and installment schedules are available on our dedicated Fee Structure page.',
+  },
+  {
+    question: 'Will I receive a recognized certificate upon completion?',
+    answer:
+      'Yes. Students who successfully complete the required case-study assignments, IRIS return filings, and assessments receive a verified Certificate of Completion from the Global Institute of Corporate Training (GICT), recognized across corporate employers, audit firms, and tax bar practices.',
+  },
+];
+
+const geoSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'EducationalOrganization',
+  name: 'Global Institute of Corporate Training (GICT) - Islamabad & Rawalpindi',
+  alternateName: 'GICT Pakistan',
+  url: 'https://www.gict.com.pk/taxation-institute-islamabad',
+  logo: 'https://www.gict.com.pk/assets/images/gict-logo.png',
+  description:
+    'Best taxation and corporate law institute for Islamabad and Rawalpindi. Hands-on FBR IRIS, sales tax, corporate compliance, and litigation training.',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Office-11, First Floor, Alfalah Askaria Plaza, Committee Chowk, Murree Road',
+    addressLocality: 'Rawalpindi',
+    addressRegion: 'Punjab',
+    postalCode: '46000',
+    addressCountry: 'PK',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 33.61386,
+    longitude: 73.06504,
+  },
+  hasMap: site.mapUrl,
+  areaServed: [
+    { '@type': 'City', name: 'Islamabad' },
+    { '@type': 'City', name: 'Rawalpindi' },
+    { '@type': 'Country', name: 'Pakistan' },
+  ],
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.9',
+    reviewCount: '150',
+    bestRating: '5',
+  },
+};
+---
+
+<BaseLayout
+  title="Best Taxation Institute in Islamabad | Corporate Tax Training"
+  description="Rated #1 corporate taxation institute for Islamabad. Master FBR IRIS filing, corporate tax, sales tax and litigation with High Court advocates and FCAs."
+  jsonLd={geoSchema}
+>
+  <PageHero
+    align="center"
+    withOrbs={true}
+    tone="sky"
+    description="Designed for finance managers, tax associates, accountants, and advocates working across Blue Area, Islamabad Secretariat, and corporate headquarters. Weekend on-campus batches (18 mins via Metro) and live online cohorts."
+  >
+    <div slot="breadcrumbs">
+      <Breadcrumbs
+        items={[
+          { label: 'Home', href: '/' },
+          { label: 'Taxation Institute in Islamabad' },
+        ]}
+      />
+      <div class="about-eyebrow-pill">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        <span>Islamabad &amp; Twin Cities · Top Corporate Taxation Institute</span>
+      </div>
+    </div>
+
+    <h1 slot="title" class="about-hero-title">
+      Best Taxation Institute for<br />
+      <span class="hero-gradient">Islamabad Corporate Professionals.</span>
+    </h1>
+
+    <div class="about-hero-actions">
+      <a class="btn btn-primary" href="#programmes">
+        Explore 6 professional tracks
+        <Icon name="arrow-right" size={17} />
+      </a>
+      <a
+        class="btn btn-whatsapp"
+        href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent('Hello GICT, I am contacting from Islamabad and would like details about corporate taxation courses.')}`}
+        target="_blank"
+        rel="noopener"
+      >
+        <Icon name="whatsapp" size={18} />
+        Consult Admissions ({site.whatsappDisplay})
+      </a>
+      <a class="btn btn-outline" href="/taxation-course-fees-rawalpindi-islamabad">
+        <span>View fee structure</span>
+        <Icon name="chevron-right" size={16} />
+      </a>
+    </div>
+
+    <div class="about-hero-badges">
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="map-pin" size={20} /></span>
+        <div class="badge-text">
+          <strong>18 Mins from Islamabad</strong>
+          <span>Direct Metro Bus Committee Chowk stop</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="calendar" size={20} /></span>
+        <div class="badge-text">
+          <strong>Executive Weekend Schedule</strong>
+          <span>Saturdays &amp; Sundays for working staff</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="scale" size={20} /></span>
+        <div class="badge-text">
+          <strong>High Court &amp; CA Faculty</strong>
+          <span>Practicing advocates &amp; tax mentors</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="monitor" size={20} /></span>
+        <div class="badge-text">
+          <strong>Live Hybrid Options</strong>
+          <span>On-campus lab + live virtual access</span>
+        </div>
+      </div>
+    </div>
+  </PageHero>
+
+  <!-- Section: Strategic Comparison for Islamabad Professionals -->
+  <section class="section section--white">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Why Islamabad Teams Choose GICT"
+        title="Practitioner Competence vs Theoretical University Diplomas."
+        description="Most business schools in Islamabad teach taxation through textbook theory. GICT operates as a professional training laboratory where you handle real FBR returns, notices, and client reconciliations."
+        align="center"
+      />
+
+      <div class="comparison-grid">
+        <div class="comparison-card comparison-card--traditional">
+          <div class="card-header">
+            <h3>General Academic Institutes</h3>
+            <span class="badge badge--soft">Traditional Theory</span>
+          </div>
+          <ul>
+            <li>❌ Focus on rote memorization of tax sections without portal practice.</li>
+            <li>❌ Taught by academic lecturers with limited High Court or Tax Bar practice.</li>
+            <li>❌ Outdated slides that miss the latest Finance Act 2024-25 amendments.</li>
+            <li>❌ Inflexible weekday schedules that clash with corporate office hours.</li>
+            <li>❌ No practical exposure to IRIS, PRA, SRB, or SECP compliance portals.</li>
+          </ul>
+        </div>
+
+        <div class="comparison-card comparison-card--gict">
+          <div class="card-header">
+            <h3>GICT Professional Academy</h3>
+            <span class="badge badge--gold">100% Practical Mastery</span>
+          </div>
+          <ul>
+            <li>✅ Hands-on live filing directly inside the official FBR IRIS e-portal.</li>
+            <li>✅ Led by High Court Advocates, Punjab Bar Council members &amp; Chartered Accountants.</li>
+            <li>✅ 100% updated for the Finance Act 2024-25, new tax slabs &amp; withholding rules.</li>
+            <li>✅ Executive weekend cohorts custom-tailored for Islamabad professionals.</li>
+            <li>✅ Complete templates for Wealth Statements, Section 111 reconciliations &amp; Appeals.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: Courses Grid -->
+  <section class="section section--soft" id="programmes">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Targeted Tracks"
+        title="Top Taxation & Corporate Programmes for Islamabad Students."
+        description="Choose a specialized executive track designed to give you instant practical competence in corporate compliance, advisory, and litigation defence."
+        align="center"
+      />
+      <div class="course-grid">
+        {courses.map((course) => <CourseCard course={course} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: Commute & Metro Bus Access from Islamabad -->
+  <section class="section section--white">
+    <div class="container commute-container">
+      <div class="commute-text">
+        <div class="about-eyebrow-pill">
+          <span class="eyebrow-dot" aria-hidden="true"></span>
+          <span>Effortless Twin-Cities Connectivity</span>
+        </div>
+        <h2>Fast Commute from Islamabad Corporate Districts</h2>
+        <p>
+          Whether your office is located in <strong>Blue Area, the Federal Secretariat, G-8/G-9, or F-6/F-7</strong>, reaching GICT is simple and traffic-free.
+        </p>
+        <div class="commute-routes">
+          <div class="route-item">
+            <span class="route-icon"><Icon name="target" size={18} /></span>
+            <div>
+              <strong>Metro Bus Line (Recommended)</strong>
+              <p>Board at Pak Secretariat, Parade Ground, or Stock Exchange and alight at <strong>Committee Chowk station</strong>. Campus is 2 minutes walk.</p>
+            </div>
+          </div>
+          <div class="route-item">
+            <span class="route-icon"><Icon name="map-pin" size={18} /></span>
+            <div>
+              <strong>Islamabad Expressway / Murree Road</strong>
+              <p>15–20 minutes drive via Faizabad interchange directly into Committee Chowk, Murree Road.</p>
+            </div>
+          </div>
+          <div class="route-item">
+            <span class="route-icon"><Icon name="monitor" size={18} /></span>
+            <div>
+              <strong>Can't Commute? Join Live Online</strong>
+              <p>High-definition interactive streaming allows Islamabad residents to attend from their home with live voice Q&amp;A and screen-sharing.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="commute-card">
+        <div class="commute-card-inner">
+          <Icon name="building" size={32} />
+          <h3>Campus Location</h3>
+          <p>Office-11, First Floor, Alfalah Askaria Plaza, Committee Chowk, Murree Road, Rawalpindi</p>
+          <hr />
+          <div class="commute-stats">
+            <div>
+              <span>Metro Travel</span>
+              <strong>18 Mins</strong>
+            </div>
+            <div>
+              <span>Google Rating</span>
+              <strong>4.9 / 5.0 ★</strong>
+            </div>
+            <div>
+              <span>Batches</span>
+              <strong>Sat &amp; Sun</strong>
+            </div>
+          </div>
+          <a class="btn btn-gold btn-block" href={site.mapUrl} target="_blank" rel="noopener">
+            Open in Google Maps
+            <Icon name="external-link" size={15} />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: Local FAQs -->
+  <FAQ
+    eyebrow="Islamabad Admissions FAQ"
+    title="Frequently Asked Questions by Islamabad Applicants."
+    description="Clear answers regarding schedules, online alternatives, fees, and syllabus details."
+    items={isbFaqs}
+  />
+
+  <!-- Final CTA -->
+  <CTASection
+    title="Accelerate Your Taxation Career in Islamabad."
+    text="Join dozens of Islamabad tax associates and finance executives who enhanced their practice at GICT. Talk with our admissions desk today."
+    primary={{ label: 'Apply for admission', href: '/contact' }}
+    secondary={{ label: 'View fee structure', href: '/taxation-course-fees-rawalpindi-islamabad' }}
+  />
+</BaseLayout>
+
+<style>
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-top: 36px;
+  }
+
+  .comparison-card {
+    border-radius: 20px;
+    padding: 32px;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    box-shadow: 0 10px 30px -10px rgba(0, 31, 78, 0.06);
+  }
+
+  .comparison-card--traditional {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+  }
+
+  .comparison-card--gict {
+    background: #ffffff;
+    border: 2px solid #0284c7;
+    position: relative;
+    box-shadow: 0 16px 36px -10px rgba(2, 132, 199, 0.15);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .card-header h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy, #001f4e);
+    margin: 0;
+  }
+
+  .comparison-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .comparison-card li {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: #334155;
+  }
+
+  /* Commute section */
+  .commute-container {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .commute-text h2 {
+    font-size: clamp(26px, 3.2vw, 36px);
+    font-weight: 800;
+    color: var(--navy, #001f4e);
+    margin-block: 12px 14px;
+    letter-spacing: -0.02em;
+  }
+
+  .commute-text > p {
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--body, #475569);
+    margin-bottom: 24px;
+  }
+
+  .commute-routes {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .route-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 16px 20px;
+  }
+
+  .route-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: #e0f2fe;
+    color: #0369a1;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+
+  .route-item strong {
+    font-size: 14.5px;
+    color: var(--navy, #001f4e);
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  .route-item p {
+    font-size: 13px;
+    color: #64748b;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .commute-card {
+    background: linear-gradient(135deg, var(--navy, #001f4e) 0%, #082857 100%);
+    border-radius: 24px;
+    padding: 32px;
+    color: #ffffff;
+    box-shadow: 0 20px 48px -12px rgba(0, 31, 78, 0.35);
+  }
+
+  .commute-card-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .commute-card-inner h3 {
+    font-size: 22px;
+    color: #ffffff;
+    margin: 0;
+  }
+
+  .commute-card-inner p {
+    font-size: 14px;
+    color: #94a3b8;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .commute-card-inner hr {
+    border: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.12);
+    margin: 6px 0;
+  }
+
+  .commute-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 12px;
+  }
+
+  .commute-stats span {
+    font-size: 11px;
+    color: #94a3b8;
+    text-transform: uppercase;
+    display: block;
+  }
+
+  .commute-stats strong {
+    font-size: 15px;
+    color: #facc15;
+    margin-top: 2px;
+    display: block;
+  }
+
+  @media (max-width: 900px) {
+    .comparison-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .commute-container {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+</style>
