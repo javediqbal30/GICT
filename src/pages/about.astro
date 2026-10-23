@@ -12,11 +12,69 @@ import { site } from '../data/site';
   description="GICT is a practitioner-led taxation, corporate law and finance training institute in Rawalpindi, with weekend on-campus and live online programmes."
 >
   <PageHero
-    eyebrow="About GICT"
-    title="Training built for the work, not the certificate."
+    align="center"
+    withOrbs={true}
+    tone="sky"
     description="Global Institute of Corporate Training is a practitioner-led institute in Rawalpindi. We teach the documents, decisions and disputes that tax, corporate and finance professionals handle every week."
   >
-    <Breadcrumbs slot="breadcrumbs" items={[{ label: 'Home', href: '/' }, { label: 'About' }]} />
+    <div slot="breadcrumbs">
+      <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About' }]} />
+      <div class="about-eyebrow-pill">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        <span>Practitioner-Led Corporate Education · Rawalpindi</span>
+      </div>
+    </div>
+
+    <h1 slot="title" class="about-hero-title">
+      Training built for the work,<br />
+      <span class="hero-gradient">not the certificate.</span>
+    </h1>
+
+    <div class="about-hero-actions">
+      <a class="btn btn-primary" href="/courses">
+        Explore 6 programmes
+        <Icon name="arrow-right" size={17} />
+      </a>
+      <button type="button" class="btn btn-outline" data-open-admission>
+        Book a consultation
+        <Icon name="message-circle" size={17} />
+      </button>
+      <a class="btn btn-ghost" href="/faculty">
+        Meet our faculty
+        <Icon name="users" size={17} />
+      </a>
+    </div>
+
+    <div class="about-hero-badges" aria-label="GICT Core Strengths">
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="users" size={20} /></span>
+        <div class="badge-text">
+          <strong>Practitioner Faculty</strong>
+          <span>Advocates &amp; Chartered Accountants</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="file-check" size={20} /></span>
+        <div class="badge-text">
+          <strong>Live Portal Work</strong>
+          <span>IRIS, PRA &amp; SRB Working Files</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="calendar" size={20} /></span>
+        <div class="badge-text">
+          <strong>Executive Schedule</strong>
+          <span>Weekend On-Campus &amp; Online</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="map-pin" size={20} /></span>
+        <div class="badge-text">
+          <strong>Rawalpindi Campus</strong>
+          <span>Committee Chowk, Murree Road</span>
+        </div>
+      </div>
+    </div>
   </PageHero>
 
   <section class="section section--white">

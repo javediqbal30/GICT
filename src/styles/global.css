@@ -2649,6 +2649,189 @@ ol {
 .page-hero-inner--center {
   margin-inline: auto;
   text-align: center;
+  max-width: 960px;
+}
+
+.page-hero-inner--center .breadcrumbs ol {
+  justify-content: center;
+}
+
+.page-hero-inner--center .eyebrow {
+  display: inline-flex;
+  justify-content: center;
+  margin-inline: auto;
+}
+
+.page-hero-inner--center h1 {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.page-hero-inner--center .page-hero-actions {
+  justify-content: center;
+}
+
+.page-hero--with-orbs {
+  position: relative;
+  overflow: hidden;
+}
+
+.page-hero--with-orbs .page-hero-inner {
+  position: relative;
+  z-index: 2;
+}
+
+/* About Page Hero Refinements --------------------------------------------- */
+
+.about-eyebrow-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(14, 165, 233, 0.08);
+  border: 1px solid rgba(14, 165, 233, 0.28);
+  border-radius: 999px;
+  padding: 6px 18px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--navy);
+  box-shadow: 0 2px 8px rgba(0, 31, 78, 0.04);
+  margin-bottom: 18px;
+  transition: all 200ms ease;
+}
+
+.about-eyebrow-pill:hover {
+  background: rgba(14, 165, 233, 0.14);
+  border-color: rgba(14, 165, 233, 0.45);
+  transform: translateY(-1px);
+}
+
+.about-hero-title {
+  margin: 0 auto;
+  max-width: 920px;
+  font-size: clamp(2.7rem, 5.2vw, 4.3rem);
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.about-hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.about-hero-actions .btn {
+  padding: 13px 26px;
+  font-size: 14.5px;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: transform 200ms var(--ease), box-shadow 200ms var(--ease), border-color 200ms var(--ease);
+}
+
+.about-hero-actions .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px -6px rgba(0, 31, 78, 0.18);
+}
+
+.about-hero-badges {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 48px;
+  padding-top: 36px;
+  border-top: 1px solid rgba(0, 31, 78, 0.12);
+  text-align: left;
+}
+
+.hero-badge-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: 0 4px 14px rgba(0, 31, 78, 0.04);
+  transition:
+    transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 260ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 260ms cubic-bezier(0.16, 1, 0.3, 1),
+    background 260ms ease;
+  cursor: default;
+}
+
+.hero-badge-item:hover {
+  transform: translateY(-4px);
+  border-color: rgba(14, 165, 233, 0.5);
+  background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+  box-shadow:
+    0 14px 28px -8px rgba(0, 31, 78, 0.12),
+    0 0 0 1px rgba(14, 165, 233, 0.2);
+}
+
+.badge-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: rgba(2, 132, 199, 0.1);
+  color: var(--navy-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 260ms ease, background 260ms ease, color 260ms ease;
+}
+
+.hero-badge-item:hover .badge-icon {
+  transform: scale(1.1);
+  background: var(--navy);
+  color: var(--gold);
+}
+
+.badge-text strong {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+.badge-text span {
+  display: block;
+  font-size: 11.5px;
+  color: var(--muted);
+  line-height: 1.35;
+  margin-top: 2px;
+}
+
+@media (max-width: 992px) {
+  .about-hero-badges {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-top: 36px;
+    padding-top: 28px;
+  }
+}
+
+@media (max-width: 580px) {
+  .about-hero-badges {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .about-hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .about-hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 .page-hero h1 {

@@ -1,21 +1,31 @@
 ---
 export interface Props {
   eyebrow?: string;
-  title: string;
+  title?: string;
   description?: string;
   children?: unknown;
   align?: 'left' | 'center';
   tone?: 'sky' | 'white';
+  withOrbs?: boolean;
 }
-const { eyebrow, title, description, align = 'left', tone = 'sky' } = Astro.props;
+const { eyebrow, title, description, align = 'left', tone = 'sky', withOrbs = false } = Astro.props;
 ---
-<section class:list={['page-hero', `page-hero--${tone}`]}>
+<section class:list={['page-hero', `page-hero--${tone}`, { 'page-hero--with-orbs': withOrbs }]}>
+  {withOrbs && (
+    <div class="hero-decor" aria-hidden="true">
+      <span class="hero-orb hero-orb--blue"></span>
+      <span class="hero-orb hero-orb--gold"></span>
+      <span class="hero-orb hero-orb--sky"></span>
+    </div>
+  )}
   <div class="page-hero-pattern" aria-hidden="true"></div>
   <div class="container">
     <div class:list={['page-hero-inner', `page-hero-inner--${align}`]}>
       <slot name="breadcrumbs" />
       {eyebrow && <p class="eyebrow"><span class="eyebrow-dot"></span>{eyebrow}</p>}
-      <h1>{title}</h1>
+      <slot name="title">
+        {title && <h1>{title}</h1>}
+      </slot>
       {description && <p class="page-hero-lede">{description}</p>}
       <slot />
     </div>
