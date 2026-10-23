@@ -12,11 +12,70 @@ import { faculty } from '../data/faculty';
   description="Meet the advocates, chartered accountants and tax specialists who teach at GICT in Rawalpindi. See practice areas, programmes and verified profiles."
 >
   <PageHero
-    eyebrow="Faculty"
-    title="Practitioners who teach the work they do."
-    description="Our faculty bring together tax law, corporate advisory, compliance and litigation practice. Profiles are published with consent and credentials are verified before publication."
+    align="center"
+    withOrbs={true}
+    tone="sky"
+    description="Our faculty bring together tax law, corporate advisory, compliance and litigation practice. Every instructor is a practicing advocate or chartered accountant who teaches from active case files and working papers."
   >
-    <Breadcrumbs slot="breadcrumbs" items={[{ label: 'Home', href: '/' }, { label: 'Faculty' }]} />
+    <div slot="breadcrumbs">
+      <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Faculty' }]} />
+      <div class="about-eyebrow-pill">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        <span>Practitioner Faculty &amp; Legal Mentors · Rawalpindi</span>
+      </div>
+    </div>
+
+    <h1 slot="title" class="about-hero-title">
+      Practitioners who teach<br />
+      <span class="hero-gradient">the work they do every day.</span>
+    </h1>
+
+    <div class="about-hero-actions">
+      <a class="btn btn-primary" href="/courses">
+        Explore taught programmes
+        <Icon name="arrow-right" size={17} />
+      </a>
+      <button type="button" class="btn btn-outline" data-open-admission>
+        Book mentor consultation
+        <Icon name="message-circle" size={17} />
+      </button>
+      <a class="btn btn-ghost" href="/corporate-training">
+        Corporate cohorts
+        <Icon name="building" size={17} />
+      </a>
+    </div>
+
+    <!-- Interactive 4-Item Faculty Trust Strip -->
+    <div class="about-hero-badges" aria-label="GICT Faculty Standards">
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="scale" size={20} /></span>
+        <div class="badge-text">
+          <strong>High Court Advocates</strong>
+          <span>Appellate Tribunal &amp; Litigation Masters</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="shield" size={20} /></span>
+        <div class="badge-text">
+          <strong>Chartered Accountants</strong>
+          <span>Corporate Tax &amp; Advisory Specialists</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="file-check" size={20} /></span>
+        <div class="badge-text">
+          <strong>Real Case Files</strong>
+          <span>FBR IRIS, PRA, SRB &amp; SECP Portals</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="check" size={20} /></span>
+        <div class="badge-text">
+          <strong>Verified Credentials</strong>
+          <span>100% Bar &amp; Institute Certified Profiles</span>
+        </div>
+      </div>
+    </div>
   </PageHero>
 
   <section class="section section--white">
@@ -24,12 +83,10 @@ import { faculty } from '../data/faculty';
       <div class="faculty-grid">
         {faculty.map((member) => <FacultyCard member={member} />)}
       </div>
-      <div class="disclaimer-box" style="margin-top:30px;">
+      <div class="disclaimer-box" style="margin-top:36px;">
         <Icon name="shield" size={18} />
         <p>
-          Faculty profiles are published with consent. Designations and credentials are verified before
-          publication. If you need a specific faculty member for a corporate cohort, ask admissions about
-          availability.
+          <strong>Verified credentials:</strong> Faculty profiles are published with consent and verified designations. Instructors maintain active practice in their respective bars and institutes. To arrange private corporate workshops with specific faculty, contact admissions.
         </p>
       </div>
     </div>
