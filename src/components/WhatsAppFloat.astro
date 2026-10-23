@@ -4,11 +4,15 @@ import { site } from '../data/site';
 ---
 <a
   class="whatsapp-float"
-  href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent('Hello GICT, I would like to ask about admissions.')}`}
+  href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent('Hello GICT, I would like to ask about admissions and courses.')}`}
   target="_blank"
   rel="noopener"
   aria-label="Chat with GICT admissions on WhatsApp"
 >
-  <Icon name="whatsapp" size={25} />
-  <span class="whatsapp-tooltip">Ask admissions</span>
+  <span class="whatsapp-ping" aria-hidden="true"></span>
+  <Icon name="whatsapp" size={30} />
+  <span class="whatsapp-tooltip">
+    <span class="whatsapp-tooltip-status"></span>
+    Chat on WhatsApp
+  </span>
 </a>
