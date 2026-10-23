@@ -4,4 +4,4 @@ Allow: /
 Disallow: /thank-you
 Disallow: /api/
 
-Sitemap: https://www.gict.edu.pk/sitemap-index.xml
+Sitemap: https://www.gict.com.pk/sitemap-index.xml

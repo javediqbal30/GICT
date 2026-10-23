@@ -47,13 +47,13 @@ astro.config.mjs  site URL, sitemap and build settings
 ## SEO
 
 - Titles are clamped to 55 characters and descriptions to 155 characters in `src/lib/seo.ts`.
-- Canonical URLs use `https://www.gict.edu.pk`.
+- Canonical URLs use `https://www.gict.com.pk`.
 - `sitemap-index.xml` is generated at build time; `/thank-you` and `/404` are excluded.
 - Analytics/cookie copy is in the privacy page. No analytics script is included by default.
 
 ## Deployment
 
-Upload the contents of `dist/` to any static host with clean-URL support, or configure the host to serve `.html` files without the extension. The production site expects the canonical domain `https://www.gict.edu.pk`.
+Upload the contents of `dist/` to any static host with clean-URL support, or configure the host to serve `.html` files without the extension. The production site expects the canonical domain `https://www.gict.com.pk`.
 
 ## Important
 

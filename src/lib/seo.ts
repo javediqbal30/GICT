@@ -18,7 +18,7 @@ export function metaDescription(value: string): string {
 }
 
 export function canonicalUrl(pathname: string, site: URL | undefined): string {
-  const base = site ?? new URL('https://www.gict.edu.pk');
+  const base = site ?? new URL('https://www.gict.com.pk');
   const cleanPath =
     pathname
       .replace(/\/index\.html$/, '/')

@@ -4,7 +4,7 @@ export const site = {
   tagline: 'Practitioner-led taxation, corporate law and finance training.',
   description:
     'Practitioner-led taxation, FBR IRIS, sales tax, corporate law and finance training in Rawalpindi. Weekend on-campus and live online cohorts.',
-  url: 'https://www.gict.edu.pk',
+  url: 'https://www.gict.com.pk',
   phoneDisplay: '051 8442474',
   phoneHref: 'tel:+92518442474',
   whatsappDisplay: '0339 0006854',

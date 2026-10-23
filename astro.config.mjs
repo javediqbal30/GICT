@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://www.gict.edu.pk',
+  site: 'https://www.gict.com.pk',
   trailingSlash: 'never',
   build: {
     format: 'file',
