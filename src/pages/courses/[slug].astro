@@ -53,22 +53,83 @@ const courseSchema = {
   description={course.metaDescription}
   jsonLd={courseSchema}
 >
-  <PageHero eyebrow={course.category} title={course.title} description={course.summary}>
-    <Breadcrumbs
-      slot="breadcrumbs"
-      items={[
-        { label: 'Home', href: '/' },
-        { label: 'Courses', href: '/courses' },
-        { label: course.title },
-      ]}
-    />
-    <div class="course-detail-meta">
-      <span><Icon name="clock" size={15} /> {course.duration}</span>
-      <span><Icon name="monitor" size={15} /> {course.format}</span>
-      <span><Icon name="graduation-cap" size={15} /> {course.level}</span>
-      <span class:list={['status', { 'status--soon': closed }]}><span class="status-dot"></span>{course.status}</span>
+  <section class="course-hero">
+    <div class="course-hero-decor" aria-hidden="true">
+      <span class="hero-orb hero-orb--blue"></span>
+      <span class="hero-orb hero-orb--gold"></span>
     </div>
-  </PageHero>
+    <div class="page-hero-pattern" aria-hidden="true"></div>
+    <div class="container course-hero-grid">
+      <div class="course-hero-copy">
+        <Breadcrumbs
+          items={[
+            { label: 'Home', href: '/' },
+            { label: 'Courses', href: '/courses' },
+            { label: course.title },
+          ]}
+        />
+        <div class="course-eyebrow-row">
+          <span class="badge badge--gold">{course.category} Track</span>
+          <span class:list={['status', 'status--pill', { 'status--soon': closed }]}>
+            <span class="status-dot"></span>
+            {course.status}
+          </span>
+        </div>
+        <h1 class="course-hero-title">{course.title}</h1>
+        <p class="course-hero-summary">{course.summary}</p>
+
+        <div class="course-detail-meta">
+          <div class="meta-pill"><Icon name="clock" size={15} /> <span>{course.duration}</span></div>
+          <div class="meta-pill"><Icon name="monitor" size={15} /> <span>{course.format}</span></div>
+          <div class="meta-pill"><Icon name="graduation-cap" size={15} /> <span>{course.level}</span></div>
+          <div class="meta-pill"><Icon name="shield" size={15} /> <span>Verified Certificate</span></div>
+        </div>
+
+        <div class="course-hero-actions">
+          {closed ? (
+            <a class="btn btn-gold" href="/contact">
+              Register interest for next cohort
+              <Icon name="arrow-right" size={16} />
+            </a>
+          ) : (
+            <button type="button" class="btn btn-gold" data-open-admission data-programme={course.slug}>
+              Apply for this cohort
+              <Icon name="arrow-right" size={16} />
+            </button>
+          )}
+          <a
+            class="btn btn-whatsapp"
+            href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(`Hello GICT, I would like admission details about ${course.title}.`)}`}
+            target="_blank"
+            rel="noopener"
+          >
+            <Icon name="whatsapp" size={17} />
+            <span>Ask on WhatsApp</span>
+          </a>
+          <a class="btn btn-outline" href="#curriculum">
+            <span>View curriculum</span>
+            <Icon name="chevron-down" size={15} />
+          </a>
+        </div>
+      </div>
+
+      <div class="course-hero-visual">
+        <div class="course-visual-card">
+          <img
+            src={course.image}
+            alt={course.title}
+            loading="eager"
+            decoding="async"
+            class="course-visual-img"
+          />
+          <div class="course-visual-caption">
+            <span class="visual-tag"><Icon name="file-check" size={14} /> Practitioner Instruction</span>
+            <p>Live FBR IRIS &amp; Working File Practice</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section class="section section--white">
     <div class="container course-layout">
@@ -92,7 +153,7 @@ const courseSchema = {
           </ul>
         </div>
 
-        <div class="content-section">
+        <div class="content-section" id="curriculum">
           <h2>Curriculum</h2>
           <p>Each module connects the law to a practical task. The sequence below is indicative and may be adjusted to the cohort and current law.</p>
           <div class="curriculum">

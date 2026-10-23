@@ -40,11 +40,23 @@ const faqs = [
   description="Explore six practitioner-led courses in taxation, FBR IRIS, corporate law, sales tax and finance. Weekend on-campus and live online in Rawalpindi."
 >
   <PageHero
-    eyebrow="Programmes"
-    title="Six focused programmes. One practical standard."
+    align="center"
+    withOrbs={true}
+    tone="sky"
     description="Choose the track that matches the work you need to do — filing, corporate advisory, indirect tax, litigation, financial modelling or accounting software."
   >
-    <Breadcrumbs slot="breadcrumbs" items={[{ label: 'Home', href: '/' }, { label: 'Courses' }]} />
+    <div slot="breadcrumbs">
+      <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Courses' }]} />
+      <div class="about-eyebrow-pill">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        <span>Executive &amp; Professional Programmes · Rawalpindi</span>
+      </div>
+    </div>
+
+    <h1 slot="title" class="about-hero-title">
+      Six focused programmes.<br />
+      <span class="hero-gradient">One practical standard.</span>
+    </h1>
   </PageHero>
 
   <section class="section section--white">

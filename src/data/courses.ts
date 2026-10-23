@@ -28,6 +28,7 @@ export interface Course {
   icon: string;
   metaTitle: string;
   metaDescription: string;
+  image: string;
 }
 
 export const courses: Course[] = [
@@ -41,6 +42,7 @@ export const courses: Course[] = [
     level: 'Beginner to intermediate',
     status: 'Admissions open',
     featured: true,
+    image: '/assets/images/Tax_Filing_&_IRIS_Compliance.webp',
     summary:
       'A portal-first programme covering income tax filing, wealth reconciliation, withholding and the practical use of FBR IRIS.',
     description:
@@ -111,6 +113,7 @@ export const courses: Course[] = [
     format: 'On-campus · Live online',
     level: 'Intermediate',
     status: 'Admissions open',
+    image: '/assets/images/Corporate_Taxation_&_Advisory_Workspace.webp',
     summary:
       'Build the corporate tax computation from accounting profit to taxable profit, including minimum tax, ACT and super tax.',
     description:
@@ -157,6 +160,7 @@ export const courses: Course[] = [
     format: 'On-campus · Live online',
     level: 'Beginner to intermediate',
     status: 'Admissions open',
+    image: '/assets/images/Sales_Tax_&_Provincial_VAT_Seminar.webp',
     summary:
       'Understand federal sales tax and the provincial sales tax on services, from registration and invoicing to input adjustment and returns.',
     description:
@@ -201,6 +205,7 @@ export const courses: Course[] = [
     format: 'On-campus · Live online',
     level: 'Advanced',
     status: 'Admissions open',
+    image: '/assets/images/Advanced_Income_Tax_Litigation_Desk.webp',
     summary:
       'A drafting and advocacy programme for tax practitioners handling assessments, appeals, stay orders and tribunal work.',
     description:
@@ -247,6 +252,7 @@ export const courses: Course[] = [
     format: 'On-campus · Live online',
     level: 'Intermediate',
     status: 'Coming soon',
+    image: '/assets/images/Corporate_Finance_&_Financial_Modelling.webp',
     summary:
       'Build a three-statement model, value a business and present a clear investment case with defensible assumptions.',
     description:
@@ -293,6 +299,7 @@ export const courses: Course[] = [
     format: 'On-campus · Live online',
     level: 'Beginner',
     status: 'Coming soon',
+    image: '/assets/images/Computerized_Accounting_&_QuickBooks.webp',
     summary:
       'Set up a Pakistani business in QuickBooks, record transactions, reconcile banks and produce management reports.',
     description:
