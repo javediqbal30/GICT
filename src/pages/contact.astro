@@ -31,11 +31,74 @@ const faqs = [
   description="Contact GICT for admissions, campus visits and corporate training in Rawalpindi. Call, WhatsApp or send an enquiry to the admissions team."
 >
   <PageHero
-    eyebrow="Contact"
-    title="Talk to admissions."
-    description="Ask about a programme, the next schedule, fees or a campus visit. We usually respond within one working day."
+    align="center"
+    withOrbs={true}
+    tone="sky"
+    description="Ask about upcoming weekend cohorts, syllabus details, corporate packages, fee structures, or book an in-person campus visit at Committee Chowk, Rawalpindi. We usually respond within a few hours."
   >
-    <Breadcrumbs slot="breadcrumbs" items={[{ label: 'Home', href: '/' }, { label: 'Contact' }]} />
+    <div slot="breadcrumbs">
+      <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Contact' }]} />
+      <div class="about-eyebrow-pill">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        <span>Admissions &amp; Campus Office · Rawalpindi</span>
+      </div>
+    </div>
+
+    <h1 slot="title" class="about-hero-title">
+      Talk directly with<br />
+      <span class="hero-gradient">our admissions &amp; faculty team.</span>
+    </h1>
+
+    <div class="about-hero-actions">
+      <a class="btn btn-primary" href="#enquiry-form">
+        Send an enquiry
+        <Icon name="arrow-right" size={17} />
+      </a>
+      <a
+        class="btn btn-whatsapp"
+        href={`https://wa.me/${site.whatsappNumber}?text=Hello%20GICT%2C%20I%20want%20to%20enquire%20about%20admissions%20and%20courses.`}
+        target="_blank"
+        rel="noopener"
+      >
+        <Icon name="whatsapp" size={18} />
+        WhatsApp admissions ({site.whatsappDisplay})
+      </a>
+      <a class="btn btn-outline" href={site.phoneHref}>
+        <Icon name="phone" size={17} />
+        Call {site.phoneDisplay}
+      </a>
+    </div>
+
+    <div class="about-hero-badges">
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="clock" size={20} /></span>
+        <div class="badge-text">
+          <strong>Fast Response</strong>
+          <span>Within 1–2 hours during office hours</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="map-pin" size={20} /></span>
+        <div class="badge-text">
+          <strong>Rawalpindi Campus</strong>
+          <span>Committee Chowk, Murree Road</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="graduation-cap" size={20} /></span>
+        <div class="badge-text">
+          <strong>Weekend &amp; Live Online</strong>
+          <span>Flexible executive cohorts</span>
+        </div>
+      </div>
+      <div class="hero-badge-item">
+        <span class="badge-icon"><Icon name="users" size={20} /></span>
+        <div class="badge-text">
+          <strong>Practitioner Counseling</strong>
+          <span>Direct guidance from senior faculty</span>
+        </div>
+      </div>
+    </div>
   </PageHero>
 
   <section class="section section--white">
@@ -95,7 +158,7 @@ const faqs = [
         </div>
       </div>
 
-      <div>
+      <div id="enquiry-form">
         <p class="eyebrow">Send an enquiry</p>
         <h2 style="font-size:32px;margin-bottom:8px;">Tell us what you need.</h2>
         <p style="color:var(--body);font-size:13.5px;line-height:1.65;margin-bottom:20px;">
