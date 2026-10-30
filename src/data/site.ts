@@ -7,6 +7,8 @@ export const site = {
   url: 'https://www.gict.com.pk',
   phoneDisplay: '0339 0006853',
   phoneHref: 'tel:+923390006853',
+  ptclDisplay: '051 8442474',
+  ptclHref: 'tel:+92518442474',
   whatsappDisplay: '0339 0006853',
   whatsappNumber: '923390006853',
   email: 'admissions@gict.edu.pk',
