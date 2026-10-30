@@ -1,2 +1,4 @@
-# Cloudflare Pages SPA Routing for Sanity Studio
+# Cloudflare Pages / Static SPA Routing for Sanity Studio (both /studio and /Studio)
+/Studio      /studio/index.html    200
+/Studio/*    /studio/index.html    200
 /studio/*    /studio/index.html    200

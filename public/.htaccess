@@ -1,0 +1,13 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Handle uppercase /Studio and lowercase /studio
+  RewriteRule ^Studio/?$ /studio/index.html [L,NC]
+  RewriteRule ^Studio/(.*)$ /studio/$1 [L,NC]
+
+  # Sanity Studio SPA fallback
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^studio/.*$ /studio/index.html [L]
+</IfModule>
