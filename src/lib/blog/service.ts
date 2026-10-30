@@ -26,10 +26,26 @@ export async function getArticlesAsync(): Promise<BlogArticle[]> {
   if (isSanityConfigured()) {
     const sanityPosts = await sanityFetch<SanityPostDocument[]>(ALL_POSTS_QUERY);
     if (sanityPosts && sanityPosts.length > 0) {
-      return sanityPosts.map(adaptSanityPostToArticle);
+      const sanityArticles = sanityPosts.map(adaptSanityPostToArticle);
+      const sanitySlugs = new Set(sanityArticles.map((a) => a.slug));
+      const remainingLocal = getAllArticles().filter((a) => !sanitySlugs.has(a.slug));
+      return [...sanityArticles, ...remainingLocal];
     }
   }
   return getAllArticles();
+}
+
+export function getCategoryCountsFromArticles(articlesList: BlogArticle[]): CategoryCount[] {
+  const counts: Record<string, number> = {};
+  articlesList.forEach((item) => {
+    counts[item.category] = (counts[item.category] || 0) + 1;
+  });
+
+  return Object.entries(counts).map(([name, count]) => ({
+    name,
+    count,
+    slug: name.toLowerCase().replace(/\s+/g, '-'),
+  }));
 }
 
 export function getArticleBySlug(slug: string): BlogArticle | undefined {

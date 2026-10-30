@@ -13,10 +13,10 @@ import HeroSlider from '../components/HeroSlider.astro';
 import { courses } from '../data/courses';
 import { faculty } from '../data/faculty';
 import { calculators } from '../data/calculators';
-import { getRecentArticles } from '../lib/blog/service';
+import { getArticlesAsync } from '../lib/blog/service';
 
 const featuredCalculators = calculators.filter((calculator) => calculator.featured);
-const recentArticles = getRecentArticles(3);
+const recentArticles = (await getArticlesAsync()).slice(0, 3);
 ---
 
 <BaseLayout

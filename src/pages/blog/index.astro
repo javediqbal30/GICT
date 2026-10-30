@@ -7,11 +7,11 @@ import CTASection from '../../components/CTASection.astro';
 import BlogFilterBar from '../../components/blog/BlogFilterBar.astro';
 import BlogGrid from '../../components/blog/BlogGrid.astro';
 import BlogNewsletter from '../../components/blog/BlogNewsletter.astro';
-import { getAllArticles, getCategoryCounts } from '../../lib/blog/service';
+import { getArticlesAsync, getCategoryCountsFromArticles } from '../../lib/blog/service';
 import { site } from '../../data/site';
 
-const articles = getAllArticles();
-const categoryCounts = getCategoryCounts();
+const articles = await getArticlesAsync();
+const categoryCounts = getCategoryCountsFromArticles(articles);
 const categories = categoryCounts.map((c) => c.name);
 ---
 

@@ -11,15 +11,15 @@ import BlogSourcesList from '../../components/blog/BlogSourcesList.astro';
 import BlogLeadCapture from '../../components/blog/BlogLeadCapture.astro';
 import BlogRelatedPosts from '../../components/blog/BlogRelatedPosts.astro';
 import {
-  getAllArticles,
+  getArticlesAsync,
   getRelatedArticles,
   extractTableOfContents,
 } from '../../lib/blog/service';
 import { site } from '../../data/site';
 import type { BlogArticle } from '../../lib/blog/types';
 
-export function getStaticPaths() {
-  const allArticles = getAllArticles();
+export async function getStaticPaths() {
+  const allArticles = await getArticlesAsync();
   return allArticles.map((article) => ({
     params: { slug: article.slug },
     props: { article },

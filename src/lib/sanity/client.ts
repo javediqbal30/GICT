@@ -52,7 +52,7 @@ export async function sanityFetch<T = any>(
       'Content-Type': 'application/json',
     };
 
-    if (config.token) {
+    if (config.token && config.token.startsWith('sk')) {
       headers['Authorization'] = `Bearer ${config.token}`;
     }
 
