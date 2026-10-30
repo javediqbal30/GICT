@@ -383,9 +383,9 @@ Test at 320px, 375px, 390px, 768px, 1024px, 1280px, 1440px.
 
 - Address (short): “Office-11, Alfalah Askaria Plaza, Committee Chowk, Rawalpindi”
 - Hours: “Mon–Fri 9:00–18:00 · Sat 10:00–16:00”
-- Phone: `051-8442474`
+- Phone: `0339-0006853`
 - Email: `admissions@gict.edu.pk`
-- WhatsApp: `0339-0006854`
+- WhatsApp: `0339-0006853`
 - Icons monochrome, 16px.
 
 **Main navigation**
@@ -1282,7 +1282,7 @@ type CalculationResult = {
 **MVP:** click-to-chat deep links.
 
 ```
-https://wa.me/923390006854?text=<URL-encoded message>
+https://wa.me/923390006853?text=<URL-encoded message>
 ```
 
 - Message contains no sensitive data.
@@ -1921,7 +1921,7 @@ Server response: `201 { "ok": true, "leadId": "ld_..." }`.
   "alternateName": "GICT",
   "url": "https://www.gict.edu.pk",
   "logo": "https://www.gict.edu.pk/images/gict-logo.png",
-  "telephone": "+92-51-8442474",
+  "telephone": "+92-339-0006853",
   "email": "info@gict.edu.pk",
   "address": {
     "@type": "PostalAddress",

@@ -5,10 +5,10 @@ export const site = {
   description:
     'Practitioner-led taxation, FBR IRIS, sales tax, corporate law and finance training in Rawalpindi. Weekend on-campus and live online cohorts.',
   url: 'https://www.gict.com.pk',
-  phoneDisplay: '051 8442474',
-  phoneHref: 'tel:+92518442474',
-  whatsappDisplay: '0339 0006854',
-  whatsappNumber: '923390006854',
+  phoneDisplay: '0339 0006853',
+  phoneHref: 'tel:+923390006853',
+  whatsappDisplay: '0339 0006853',
+  whatsappNumber: '923390006853',
   email: 'admissions@gict.edu.pk',
   generalEmail: 'info@gict.edu.pk',
   address: {

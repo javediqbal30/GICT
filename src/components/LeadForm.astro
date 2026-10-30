@@ -172,7 +172,7 @@ const id = (name: string) => `${variant}-${name}`;
       if (value('format')) lines.push(`Format: ${value('format')}`);
       lines.push(`Message: ${message}`);
 
-      const url = `https://wa.me/923390006854?text=${encodeURIComponent(lines.join('\n'))}`;
+      const url = `https://wa.me/923390006853?text=${encodeURIComponent(lines.join('\n'))}`;
       if (fallback) fallback.href = url;
       window.open(url, '_blank', 'noopener,noreferrer');
       form.hidden = true;
